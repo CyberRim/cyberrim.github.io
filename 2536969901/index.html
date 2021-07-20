@@ -19,31 +19,31 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"liangziye.online","root":"/","images":"/images","scheme":"Pisces","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="上一篇写到二叉搜索树，它平均都是对数的时间复杂度都很优秀。现在考虑一种情况，我们将一组上升序列[1,2,3,……,98,88,100]一共100个值作为结点形成一个新的二叉搜索树，我们插入的第一个结点键为1，最后一个结点的键位100。  插入完之后我们发现这根本就是一个链表，对于这个二叉搜索树来说，插入查找和删除操作的时间复杂度都不是对数了，因为它是一个普通的链表。我们插入的数据一直都是升序的，对">
+<meta name="description" content="严格平衡的二叉搜索树接上篇二叉树的平衡，我们知道若平衡因子的绝对值越大，这个二叉搜索树就越不平衡，性能就越差，我们面对一些来源未知的数据时，随着不断的插入，一些子树可能会陷入严重不平衡的状态，造成二叉搜索树的效率降低。如果我们规定这样一种二叉搜索树，如果它能达到我们要求的一定平衡条件，那就能保证它的效率不会过于低，这样的二叉搜索树我们叫做平衡二叉树，它有着二叉搜索树的所有性质，你也可以叫它平衡二叉">
 <meta property="og:type" content="article">
-<meta property="og:title" content="二叉树的平衡">
-<meta property="og:url" content="https://liangziye.online/2750358315/index.html">
+<meta property="og:title" content="AVL树">
+<meta property="og:url" content="https://liangziye.online/2536969901/index.html">
 <meta property="og:site_name" content="Liangziye">
-<meta property="og:description" content="上一篇写到二叉搜索树，它平均都是对数的时间复杂度都很优秀。现在考虑一种情况，我们将一组上升序列[1,2,3,……,98,88,100]一共100个值作为结点形成一个新的二叉搜索树，我们插入的第一个结点键为1，最后一个结点的键位100。  插入完之后我们发现这根本就是一个链表，对于这个二叉搜索树来说，插入查找和删除操作的时间复杂度都不是对数了，因为它是一个普通的链表。我们插入的数据一直都是升序的，对">
+<meta property="og:description" content="严格平衡的二叉搜索树接上篇二叉树的平衡，我们知道若平衡因子的绝对值越大，这个二叉搜索树就越不平衡，性能就越差，我们面对一些来源未知的数据时，随着不断的插入，一些子树可能会陷入严重不平衡的状态，造成二叉搜索树的效率降低。如果我们规定这样一种二叉搜索树，如果它能达到我们要求的一定平衡条件，那就能保证它的效率不会过于低，这样的二叉搜索树我们叫做平衡二叉树，它有着二叉搜索树的所有性质，你也可以叫它平衡二叉">
 <meta property="og:locale">
-<meta property="og:image" content="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A11.png">
-<meta property="og:image" content="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A12.png">
-<meta property="article:published_time" content="2021-07-19T13:12:29.000Z">
-<meta property="article:modified_time" content="2021-07-19T14:05:24.318Z">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%911.png">
+<meta property="article:published_time" content="2021-07-19T14:19:34.000Z">
+<meta property="article:modified_time" content="2021-07-19T15:33:03.192Z">
 <meta property="article:author" content="Liangziye">
 <meta property="article:tag" content="tree">
+<meta property="article:tag" content="AVLTree">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A11.png">
+<meta name="twitter:image" content="https://assets.liangziye.online/image/AVL%E6%A0%911.png">
 
 
-<link rel="canonical" href="https://liangziye.online/2750358315/">
+<link rel="canonical" href="https://liangziye.online/2536969901/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://liangziye.online/2750358315/","path":"2750358315/","title":"二叉树的平衡"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://liangziye.online/2536969901/","path":"2536969901/","title":"AVL树"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>二叉树的平衡 | Liangziye</title>
+<title>AVL树 | Liangziye</title>
   
 
 
@@ -108,7 +108,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -121,6 +121,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%A5%E6%A0%BC%E5%B9%B3%E8%A1%A1%E7%9A%84%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91"><span class="nav-number">1.</span> <span class="nav-text">严格平衡的二叉搜索树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E4%B8%8D%E5%B9%B3%E8%A1%A1%E5%AD%90%E6%A0%91"><span class="nav-number">2.</span> <span class="nav-text">最小不平衡子树</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -187,7 +188,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://liangziye.online/2750358315/">
+    <link itemprop="mainEntityOfPage" href="https://liangziye.online/2536969901/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -200,7 +201,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          二叉树的平衡
+          AVL树
         </h1>
 
         <div class="post-meta-container">
@@ -212,7 +213,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-07-19 21:12:29 / 修改时间：22:05:24" itemprop="dateCreated datePublished" datetime="2021-07-19T21:12:29+08:00">2021-07-19</time>
+      <time title="创建时间：2021-07-19 22:19:34 / 修改时间：23:33:03" itemprop="dateCreated datePublished" datetime="2021-07-19T22:19:34+08:00">2021-07-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -234,12 +235,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p><a href="https://liangziye.online/218212257/">上一篇</a>写到二叉搜索树，它平均都是对数的时间复杂度都很优秀。现在考虑一种情况，我们将一组上升序列[1,2,3,……,98,88,100]一共100个值作为结点形成一个新的二叉搜索树，我们插入的第一个结点键为1，最后一个结点的键位100。</p>
-<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A11.png"></p>
-<p>插入完之后我们发现这根本就是一个链表，对于这个二叉搜索树来说，插入查找和删除操作的时间复杂度都不是对数了，因为它是一个普通的链表。我们插入的数据一直都是升序的，对于二叉搜索树的插入方法来看，最终的结果只能是这样的一个链表，完全丧失了二叉搜索树的特性。虽然这个例子很极端，但是说明了一个问题，插入的数据越有序，我们得到的二叉搜索树就越接近链表，时间复杂度就离对数越来越远，查找效率越来越差。</p>
-<p>这里就引入了一个问题，怎么样来衡量一个二叉树/二叉搜索树接近链表的程度？更普通来讲，二叉树有左子树和右子树，当二叉树的左右子树高度相差越大时，它就越接近链表，极端情况，当遍历的每一个结点的左右子树，其中一个子树的高度为0时，也就是只存在其中一个子树时，它就完全退化成了链表。所以这个问题变成了怎么样来表示一个二叉树左右子树高度差？显而易见，我们用一个结点的左子树高度减去右子树的高度，得到一个值，这个值越小，右子树比左子树越高，反之这个值越大，左子树比右子树越高，当这个值为0时，这个结点的左右子树达到了平衡。这个值我们称为这个结点的平衡因子，它就能衡量这个树是否平衡。下面我拿<a href="https://liangziye.online/218212257/#%E6%8F%92%E5%85%A5">上一篇二叉搜索树</a>的二叉树例子看看各个结点的平衡因子。</p>
-<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A12.png"></p>
-<p>可以看到除了结点4是不平衡的，左子树高度为1，右子树没有所以高度为0，它的平衡因子为1。再说说上面从1插到100的二叉树，根结点1的平衡因子为-100，因为左子树高度为0，右子树高度为100。</p>
+        <h2 id="严格平衡的二叉搜索树"><a href="#严格平衡的二叉搜索树" class="headerlink" title="严格平衡的二叉搜索树"></a>严格平衡的二叉搜索树</h2><p>接<a href="https://liangziye.online/2750358315/">上篇二叉树的平衡</a>，我们知道若平衡因子的绝对值越大，这个二叉搜索树就越不平衡，性能就越差，我们面对一些来源未知的数据时，随着不断的插入，一些子树可能会陷入严重不平衡的状态，造成二叉搜索树的效率降低。如果我们规定这样一种二叉搜索树，如果它能达到我们要求的一定平衡条件，那就能保证它的效率不会过于低，这样的二叉搜索树我们叫做平衡二叉树，它有着二叉搜索树的所有性质，你也可以叫它平衡二叉搜索树，平衡二叉树就是满足一些平衡条件的二叉搜索树。当我们设定平衡二叉树的平衡条件为树中的每一个结点的平衡因子的绝对值都不超过1时，我们就得到了AVL树。所以AVL树是平衡条件严格的平衡二叉树，树中每一个结点的平衡因子绝对值都是1或者是0，也就是每一个结点的左右子树高度差最多为1。<a href="https://liangziye.online/218212257/#%E6%8F%92%E5%85%A5">这篇二叉搜索树</a>中的二叉搜索树例子，它就是一个AVL树。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%911.png"></p>
+<p>所以在AVL树中，我们必须使用一些办法使得树搜着数据的插入也能保持着平衡条件。这时候我们可以使用一种方法，在每次插入新数据时都去检查这棵树是否平衡，如果不平衡我们将调整一下不平衡的结点，给它们互换下位置，重新让二叉搜索树平衡起来，满足AVL树的条件。</p>
+<h2 id="最小不平衡子树"><a href="#最小不平衡子树" class="headerlink" title="最小不平衡子树"></a>最小不平衡子树</h2><p>这里先分析一下，我们是每一次做插入操作就去检查一次平衡，若不平衡就调整到平衡，所以我们每次插入前，AVL树都是平衡的，满足AVL树条件的。若现在开始插入操作，插入后导致了不平衡，那从插入节点往父节点一直向上找，找到第一个平衡因子的绝对值大于1的结点，以这个结点为根的子树，我们称为最小不平衡子树。不平衡子树的根结点是一个离插入结点最近的，平衡因子绝对值大于1的结点。这个子树是不平衡的，如果恢复平衡，我们就要从这个子树入手。</p>
 
     </div>
 
@@ -250,19 +249,20 @@
     <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/tree/" rel="tag"># tree</a>
+              <a href="/tags/AVLTree/" rel="tag"># AVLTree</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/218212257/" rel="prev" title="二叉树及二叉搜索树">
-                  <i class="fa fa-chevron-left"></i> 二叉树及二叉搜索树
+                <a href="/2750358315/" rel="prev" title="二叉树的平衡">
+                  <i class="fa fa-chevron-left"></i> 二叉树的平衡
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2536969901/" rel="next" title="AVL树">
-                  AVL树 <i class="fa fa-chevron-right"></i>
+                <a href="/138867439/" rel="next" title="AVL树的旋转">
+                  AVL树的旋转 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>

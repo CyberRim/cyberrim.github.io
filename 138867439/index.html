@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/xiaobowenhao.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/xiaobowenhao.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/xiaobowenhao.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"liangziye.online","root":"/","images":"/images","scheme":"Pisces","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="特定例子现在我们开始解决AVL树中提到最小不平衡子树，使AVL树重新恢复平衡状态。 下图先举例一个最简单的平衡的AVL树在经过插入操作后变得不平衡的例子  如图所示插入结点5后，父结点7的平衡因子变为1,再往上的父节点10变为2，这个结点10就是我们要找的最小不平衡子树的根结点。我们把最小不平衡子树拿出来单独讨论。 这是最简单的情况，最小不平衡子树的根结点为结点10，新插入结点5是根结点10的左子">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AVL树的旋转">
+<meta property="og:url" content="https://liangziye.online/138867439/index.html">
+<meta property="og:site_name" content="Liangziye">
+<meta property="og:description" content="特定例子现在我们开始解决AVL树中提到最小不平衡子树，使AVL树重新恢复平衡状态。 下图先举例一个最简单的平衡的AVL树在经过插入操作后变得不平衡的例子  如图所示插入结点5后，父结点7的平衡因子变为1,再往上的父节点10变为2，这个结点10就是我们要找的最小不平衡子树的根结点。我们把最小不平衡子树拿出来单独讨论。 这是最简单的情况，最小不平衡子树的根结点为结点10，新插入结点5是根结点10的左子">
+<meta property="og:locale">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC1.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC2.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC3.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC4.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC5.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC6.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC7.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC8.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC9.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC10.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC11.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC12.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC13.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC14.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC15.png">
+<meta property="og:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC16.png">
+<meta property="article:published_time" content="2021-07-19T15:27:29.000Z">
+<meta property="article:modified_time" content="2021-07-20T10:52:59.372Z">
+<meta property="article:author" content="Liangziye">
+<meta property="article:tag" content="tree">
+<meta property="article:tag" content="AVLTree">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC1.png">
+
+
+<link rel="canonical" href="https://liangziye.online/138867439/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://liangziye.online/138867439/","path":"138867439/","title":"AVL树的旋转"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>AVL树的旋转 | Liangziye</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Liangziye</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">深入浅出不如不进不出</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%AE%9A%E4%BE%8B%E5%AD%90"><span class="nav-number">1.</span> <span class="nav-text">特定例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LL%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">LL型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LR%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">LR型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RR%E5%9E%8B%E5%92%8CRL%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">RR型和RL型</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Liangziye</p>
+  <div class="site-description" itemprop="description">深入浅出不如不进不出</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://liangziye.online/138867439/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Liangziye">
+      <meta itemprop="description" content="深入浅出不如不进不出">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liangziye">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AVL树的旋转
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-19 23:27:29" itemprop="dateCreated datePublished" datetime="2021-07-19T23:27:29+08:00">2021-07-19</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-07-20 18:52:59" itemprop="dateModified" datetime="2021-07-20T18:52:59+08:00">2021-07-20</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/datas-tructure/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="特定例子"><a href="#特定例子" class="headerlink" title="特定例子"></a>特定例子</h2><p>现在我们开始解决<a href="">AVL树</a>中提到最小不平衡子树，使AVL树重新恢复平衡状态。</p>
+<p>下图先举例一个最简单的平衡的AVL树在经过插入操作后变得不平衡的例子</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC1.png"></p>
+<p>如图所示插入结点5后，父结点7的平衡因子变为1,再往上的父节点10变为2，这个结点10就是我们要找的最小不平衡子树的根结点。我们把最小不平衡子树拿出来单独讨论。</p>
+<p>这是最简单的情况，最小不平衡子树的根结点为结点10，新插入结点5是根结点10的左子结点的左子结点，这种情况我们成为<strong>LL型</strong>（左左型）。在LL型中，根结点10比它的左子结点大，它的左子结点也比新插入的结点大，我们可以把这三个结点的位置转一转，把结点10转到结点7的右下方，也就是从结点7的父节点变成了结点7的右子结点，而结点7自己成了根结点</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC2.png"></p>
+<p>现在以结点7为根结点的子树平衡了，整个树也就重新达到AVL的平衡条件了。我们旋转的对象是根结点10，根据它的旋转方向我们称这种旋转为<strong>右旋</strong>。所以LL型我们只需要一次右旋就能重新回归平衡。因为结点10和结点7之间的大小关系，所以结点10既能做结点7的父结点，也能做结点7的右子结点，右旋操作就是将操作结点从父结点变为右子结点。</p>
+<p>这个LL型过于简单，再举个LL型的最小子树例子，下面这个例子的子树高度比上面那个例子要高，但同样只需要一次右旋就能回到平衡状态。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC3.png"></p>
+<p>完全对称的，我们也有<strong>RR型</strong>（右右型），所以对称地我们需要一次<strong>左旋</strong>来让RR型回归平衡，我现在把LL型的例子变成RR型，再看看示意图，完全是对称的操作。右旋操作就是将操作结点从父结点变为左子结点。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC4.png"></p>
+<h2 id="LL型"><a href="#LL型" class="headerlink" title="LL型"></a>LL型</h2><p>例子举完了，现在该分析一下所有可能存在的情况了。如下图，设想现在有一个子树的根结点t，子树处于平衡状态，它的左子树我们先记做ltree，右子树我们记做rtree。左子树和右子树中的结点数未知，但是它们的高度差因为平衡所以一定不大于1。现在我们插入一个新的结点n，假定我们插入新的结点之后，树将不再平衡，并且这个以结点t为根的子树是整个树的最小不平衡子树。那只有两种插入情况，一种是插入在左子树上，左子树比右子树高2，一种是插在右子树上，右子树比左子树高2，我们把比较矮的一边子树的高度记做h，则另一边比较高的子树的高度为h+2。当然h必须h≥0。可以想象到这两种情况是对称的，那他们解决平衡的操作也是对称的。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC5.png"></p>
+<p>我们现在拿情况1出来分析，把ltree又分为它的根结点tl和tl的左子树lltree和右子树lrtree，同样有两种情况，结点n要么是接在lltree上要么是接在lrtree上，根据上面的讨论，高度如下图所示，同时我也标注好了平衡因子。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC6.png"></p>
+<p>注意！以上的讨论都是建立在结点t构成的子树为最小不平衡子树下。因为这个子树为最小不平衡子树，所以必然的，情况1-1中lltree和lrtree还有rtree三个子树的高度都相等都是h，情况1-2中rltree和rrtree还有ltree三个子树的高度也相等也都是h。h要满足h≥0。反过来说lltree和lrtree还有rtree（或是rltree和rrtree还有ltree）它们的高度不可能不相等，如果不相等那结点t构成的子树就不是最小不平衡子树，记住我们所讨论的情况都是建立在结点t是最小不平衡子树的根结点上的。</p>
+<p>对于情况1-1我们可以继续分类讨论出情况1-1-1和1-1-2……但这样套娃已经完全没有必要了，因为我们现在就能针对情况1-1做出普适性的回归平衡方法。</p>
+<p>现在我们针对情况1-1来看，发现上文中右旋的两个例子就是情况1-1，情况1-1即是LL型。当lltree和lrtree还有rtree的高度为0时，就是上文右旋的第一个例子，而这三个子树高度为1时，就是上文右旋中第二个例子。可以继续推导的是，lltree和lrtree还有rtree的高度h只要满足h≥0，这种最小不平衡子树都是LL型，能都通过对根结点t一次右旋重新回归平衡，如下图。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC7.png"></p>
+<h2 id="LR型"><a href="#LR型" class="headerlink" title="LR型"></a>LR型</h2><p>接下来讨论情况1-2，我们发现这不再是LL型了，我们无法通过一次右旋来解决问题，如下图：</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC8.png"></p>
+<p>我们需要继续分析讨论情况1-2，分类讨论结点n插入的更准确的位置。我们把lrtree这个子树细分成结点tlr和其左右子树lrltree和lrrtree。我们对情况1-2分别得到以下两种情况1-2-a和1-2-b。1-2-a是结点n插在lrltree上，1-2-b是结点n插在lrrtree上。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC9.png"></p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC10.png"></p>
+<p>经过分析我们发现，虽然我们不能通过一次右旋来回归平衡，但是我们发现如果对情况1-2-a和1-2-b中的结点tl进行一次左旋，我们将把情况1-2-a和1-2-b转变了LL型，如下图</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC11.png"></p>
+<p>情况1-2-a和1-2-b进行了左旋之后，得到的LL型是有区别的，情况1-2-a左旋结果的结点tlr的平衡因子为2，最小不平衡子树变成了以结点tlr为根的最小不平衡子树，不是结点t。而情况1-2-b左旋结果的结点tlr的平衡因子为1，所以依然是以结点t为根结点的最小不平衡子树。对于情况1-2-a左旋结果，它的最小不平衡子树变了，虽然也是LL型，但是我们能对结点tlr做一次右旋让它回归平衡吗？答案是不能，这样又变回情况情况1-2-a了，左右旋本身就是互为反操作。那这样的话，我们依旧是把情况1-2-a左旋结果的最小不平衡子树当做没有变动，根结点依旧是结点t，所以对于情况1-2-a左旋结果和情况1-2-b左旋结果，这两个都是根为结点t的LL型，我们对结点t做一次右旋即可回归平衡。如下图。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC12.png"></p>
+<p>情况1-2细分的两种情况现在就已经解决了不平衡问题，方法都是先对结点tl做一次左旋，再对结点t做一次右旋，我们把情况1-2称作LR型。所以LR型的最小不平衡子树，我们先对根结点t的左子节点tl做左旋转换成LL型后，再对结点t做右旋，即可平衡。但LR型里面也是有区别的，虽然都是对结点一样的操作，可重新平衡之后结点t和结点tl的平衡因子是不一样的，在实现上要注意处理这个问题。</p>
+<h2 id="RR型和RL型"><a href="#RR型和RL型" class="headerlink" title="RR型和RL型"></a>RR型和RL型</h2><p>至此，其实我们已经解决掉AVL树的一半旋转方法了。LL型对根结点t做一次右旋，LR型对根结点t的左子节点tl做一次左旋再对结点t做一次右旋。对称地，我们可以得知，把LL型和LR型镜像翻转过来我们得到RR型，和RL型，重新平衡的操作也是对称的，对于RR型应当对根结点t做一次左旋，对于RL型应当对根结点t的右子结点tr做一次右旋，再对结点t做一次左旋。于是我们对于所有的不平衡情况都给出了平衡的旋转方法。下面示意图表示一下RR和RL的过程，就不从头分析一遍了。</p>
+<p>RR型：</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC13.png"></p>
+<p>RL型</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC14.png"></p>
+<p>RL型对结点tr右旋转换成RR型：</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC15.png"></p>
+<p>最后再对结点t左旋：</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC16.png"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/tree/" rel="tag"># tree</a>
+              <a href="/tags/AVLTree/" rel="tag"># AVLTree</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2536969901/" rel="prev" title="AVL树">
+                  <i class="fa fa-chevron-left"></i> AVL树
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liangziye</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
