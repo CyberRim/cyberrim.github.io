@@ -128,7 +128,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,78 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://liangziye.online/2920448857/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Liangziye">
+      <meta itemprop="description" content="深入浅出不如不进不出">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liangziye">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2920448857/" class="post-title-link" itemprop="url">AVL树的实现</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-07-20 23:40:02 / 修改时间：23:50:43" itemprop="dateCreated datePublished" datetime="2021-07-20T23:40:02+08:00">2021-07-20</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>前情提要：</p>
+<ul>
+<li><p><a href="https://liangziye.online/138867439/">AVL树的旋转</a></p>
+</li>
+<li><p>[<a href="https://liangziye.online/2536969901/">AVL树</a>]</p>
+</li>
+</ul>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入和二叉搜索树不一样的是，需要再数据被放入后回溯结点，向上更新每一个结点的<a href="">平衡因子</a>，判断是否有子树不平衡，找到最小不平衡子树，用<a href="">上篇</a>中讨论的旋转方式去让树回归平衡。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://liangziye.online/138867439/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -211,7 +283,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-20 18:52:59" itemprop="dateModified" datetime="2021-07-20T18:52:59+08:00">2021-07-20</time>
+        <time title="修改时间：2021-07-20 23:42:18" itemprop="dateModified" datetime="2021-07-20T23:42:18+08:00">2021-07-20</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -233,7 +305,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="特定例子"><a href="#特定例子" class="headerlink" title="特定例子"></a>特定例子</h2><p>现在我们开始解决<a href="">AVL树</a>中提到最小不平衡子树，使AVL树重新恢复平衡状态。</p>
+          <h2 id="特定例子"><a href="#特定例子" class="headerlink" title="特定例子"></a>特定例子</h2><p>现在我们开始解决<a href="https://liangziye.online/2536969901/">AVL树</a>中提到最小不平衡子树，使AVL树重新恢复平衡状态。</p>
 <p>下图先举例一个最简单的平衡的AVL树在经过插入操作后变得不平衡的例子</p>
 <p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC1.png"></p>
 <p>如图所示插入结点5后，父结点7的平衡因子变为1,再往上的父节点10变为2，这个结点10就是我们要找的最小不平衡子树的根结点。我们把最小不平衡子树拿出来单独讨论。</p>
@@ -320,10 +392,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2021-07-19 22:19:34 / 修改时间：23:33:03" itemprop="dateCreated datePublished" datetime="2021-07-19T22:19:34+08:00">2021-07-19</time>
+      <time title="创建时间：2021-07-19 22:19:34" itemprop="dateCreated datePublished" datetime="2021-07-19T22:19:34+08:00">2021-07-19</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-07-20 18:53:08" itemprop="dateModified" datetime="2021-07-20T18:53:08+08:00">2021-07-20</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -899,6 +977,10 @@
 <script src="/js/third-party/math/mathjax.js"></script>
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"CyberRim","repo":"CyberRim/cyberrim.github.io","client_id":"971707ebf89b3543b252","client_secret":"355c18f296fccbb4b0e2ddc0830dea1d7ea7cfc2","admin_user":"CyberRim","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"d1546d731a9f30cc80127d57142a482b"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>
 </html>
