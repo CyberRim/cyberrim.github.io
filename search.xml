@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>AVL树</title>
+    <url>/2536969901/</url>
+    <content><![CDATA[<h2 id="严格平衡的二叉搜索树"><a href="#严格平衡的二叉搜索树" class="headerlink" title="严格平衡的二叉搜索树"></a>严格平衡的二叉搜索树</h2><p>接<a href="https://liangziye.online/2750358315/">上篇二叉树的平衡</a>，我们知道若平衡因子的绝对值越大，这个二叉搜索树就越不平衡，性能就越差，我们面对一些来源未知的数据时，随着不断的插入，一些子树可能会陷入严重不平衡的状态，造成二叉搜索树的效率降低。如果我们规定这样一种二叉搜索树，如果它能达到我们要求的一定平衡条件，那就能保证它的效率不会过于低，这样的二叉搜索树我们叫做平衡二叉树，它有着二叉搜索树的所有性质，你也可以叫它平衡二叉搜索树，平衡二叉树就是满足一些平衡条件的二叉搜索树。当我们设定平衡二叉树的平衡条件为树中的每一个结点的平衡因子的绝对值都不超过1时，我们就得到了AVL树。所以AVL树是平衡条件严格的平衡二叉树，树中每一个结点的平衡因子绝对值都是1或者是0，也就是每一个结点的左右子树高度差最多为1。<a href="https://liangziye.online/218212257/#%E6%8F%92%E5%85%A5">这篇二叉搜索树</a>中的二叉搜索树例子，它就是一个AVL树。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%911.png"></p>
+<p>所以在AVL树中，我们必须使用一些办法使得树搜着数据的插入也能保持着平衡条件。这时候我们可以使用一种方法，在每次插入新数据时都去检查这棵树是否平衡，如果不平衡我们将调整一下不平衡的结点，给它们互换下位置，重新让二叉搜索树平衡起来，满足AVL树的条件。</p>
+<h2 id="最小不平衡子树"><a href="#最小不平衡子树" class="headerlink" title="最小不平衡子树"></a>最小不平衡子树</h2><p>这里先分析一下，我们是每一次做插入操作就去检查一次平衡，若不平衡就调整到平衡，所以我们每次插入前，AVL树都是平衡的，满足AVL树条件的。若现在开始插入操作，插入后导致了不平衡，那从插入节点往父节点一直向上找，找到第一个平衡因子的绝对值大于1的结点，以这个结点为根的子树，我们称为最小不平衡子树。不平衡子树的根结点是一个离插入结点最近的，平衡因子绝对值大于1的结点。这个子树是不平衡的，如果恢复平衡，我们就要从这个子树入手。</p>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>tree</tag>
+        <tag>AVLTree</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>AVL树的旋转</title>
+    <url>/138867439/</url>
+    <content><![CDATA[<h2 id="特定例子"><a href="#特定例子" class="headerlink" title="特定例子"></a>特定例子</h2><p>现在我们开始解决<a href="https://liangziye.online/2536969901/">AVL树</a>中提到最小不平衡子树，使AVL树重新恢复平衡状态。</p>
+<p>下图先举例一个最简单的平衡的AVL树在经过插入操作后变得不平衡的例子</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC1.png"></p>
+<p>如图所示插入结点5后，父结点7的平衡因子变为1,再往上的父节点10变为2，这个结点10就是我们要找的最小不平衡子树的根结点。我们把最小不平衡子树拿出来单独讨论。</p>
+<p>这是最简单的情况，最小不平衡子树的根结点为结点10，新插入结点5是根结点10的左子结点的左子结点，这种情况我们成为<strong>LL型</strong>（左左型）。在LL型中，根结点10比它的左子结点大，它的左子结点也比新插入的结点大，我们可以把这三个结点的位置转一转，把结点10转到结点7的右下方，也就是从结点7的父节点变成了结点7的右子结点，而结点7自己成了根结点</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC2.png"></p>
+<p>现在以结点7为根结点的子树平衡了，整个树也就重新达到AVL的平衡条件了。我们旋转的对象是根结点10，根据它的旋转方向我们称这种旋转为<strong>右旋</strong>。所以LL型我们只需要一次右旋就能重新回归平衡。因为结点10和结点7之间的大小关系，所以结点10既能做结点7的父结点，也能做结点7的右子结点，右旋操作就是将操作结点从父结点变为右子结点。</p>
+<p>这个LL型过于简单，再举个LL型的最小子树例子，下面这个例子的子树高度比上面那个例子要高，但同样只需要一次右旋就能回到平衡状态。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC3.png"></p>
+<p>完全对称的，我们也有<strong>RR型</strong>（右右型），所以对称地我们需要一次<strong>左旋</strong>来让RR型回归平衡，我现在把LL型的例子变成RR型，再看看示意图，完全是对称的操作。右旋操作就是将操作结点从父结点变为左子结点。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC4.png"></p>
+<h2 id="LL型"><a href="#LL型" class="headerlink" title="LL型"></a>LL型</h2><p>例子举完了，现在该分析一下所有可能存在的情况了。如下图，设想现在有一个子树的根结点t，子树处于平衡状态，它的左子树我们先记做ltree，右子树我们记做rtree。左子树和右子树中的结点数未知，但是它们的高度差因为平衡所以一定不大于1。现在我们插入一个新的结点n，假定我们插入新的结点之后，树将不再平衡，并且这个以结点t为根的子树是整个树的最小不平衡子树。那只有两种插入情况，一种是插入在左子树上，左子树比右子树高2，一种是插在右子树上，右子树比左子树高2，我们把比较矮的一边子树的高度记做h，则另一边比较高的子树的高度为h+2。当然h必须h≥0。可以想象到这两种情况是对称的，那他们解决平衡的操作也是对称的。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC5.png"></p>
+<p>我们现在拿情况1出来分析，把ltree又分为它的根结点tl和tl的左子树lltree和右子树lrtree，同样有两种情况，结点n要么是接在lltree上要么是接在lrtree上，根据上面的讨论，高度如下图所示，同时我也标注好了平衡因子。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC6.png"></p>
+<p>注意！以上的讨论都是建立在结点t构成的子树为最小不平衡子树下。因为这个子树为最小不平衡子树，所以必然的，情况1-1中lltree和lrtree还有rtree三个子树的高度都相等都是h，情况1-2中rltree和rrtree还有ltree三个子树的高度也相等也都是h。h要满足h≥0。反过来说lltree和lrtree还有rtree（或是rltree和rrtree还有ltree）它们的高度不可能不相等，如果不相等那结点t构成的子树就不是最小不平衡子树，记住我们所讨论的情况都是建立在结点t是最小不平衡子树的根结点上的。</p>
+<p>对于情况1-1我们可以继续分类讨论出情况1-1-1和1-1-2……但这样套娃已经完全没有必要了，因为我们现在就能针对情况1-1做出普适性的回归平衡方法。</p>
+<p>现在我们针对情况1-1来看，发现上文中右旋的两个例子就是情况1-1，情况1-1即是LL型。当lltree和lrtree还有rtree的高度为0时，就是上文右旋的第一个例子，而这三个子树高度为1时，就是上文右旋中第二个例子。可以继续推导的是，lltree和lrtree还有rtree的高度h只要满足h≥0，这种最小不平衡子树都是LL型，能都通过对根结点t一次右旋重新回归平衡，如下图。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC7.png"></p>
+<h2 id="LR型"><a href="#LR型" class="headerlink" title="LR型"></a>LR型</h2><p>接下来讨论情况1-2，我们发现这不再是LL型了，我们无法通过一次右旋来解决问题，如下图：</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC8.png"></p>
+<p>我们需要继续分析讨论情况1-2，分类讨论结点n插入的更准确的位置。我们把lrtree这个子树细分成结点tlr和其左右子树lrltree和lrrtree。我们对情况1-2分别得到以下两种情况1-2-a和1-2-b。1-2-a是结点n插在lrltree上，1-2-b是结点n插在lrrtree上。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC9.png"></p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC10.png"></p>
+<p>经过分析我们发现，虽然我们不能通过一次右旋来回归平衡，但是我们发现如果对情况1-2-a和1-2-b中的结点tl进行一次左旋，我们将把情况1-2-a和1-2-b转变了LL型，如下图</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC11.png"></p>
+<p>情况1-2-a和1-2-b进行了左旋之后，得到的LL型是有区别的，情况1-2-a左旋结果的结点tlr的平衡因子为2，最小不平衡子树变成了以结点tlr为根的最小不平衡子树，不是结点t。而情况1-2-b左旋结果的结点tlr的平衡因子为1，所以依然是以结点t为根结点的最小不平衡子树。对于情况1-2-a左旋结果，它的最小不平衡子树变了，虽然也是LL型，但是我们能对结点tlr做一次右旋让它回归平衡吗？答案是不能，这样又变回情况情况1-2-a了，左右旋本身就是互为反操作。那这样的话，我们依旧是把情况1-2-a左旋结果的最小不平衡子树当做没有变动，根结点依旧是结点t，所以对于情况1-2-a左旋结果和情况1-2-b左旋结果，这两个都是根为结点t的LL型，我们对结点t做一次右旋即可回归平衡。如下图。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC12.png"></p>
+<p>情况1-2细分的两种情况现在就已经解决了不平衡问题，方法都是先对结点tl做一次左旋，再对结点t做一次右旋，我们把情况1-2称作LR型。所以LR型的最小不平衡子树，我们先对根结点t的左子节点tl做左旋转换成LL型后，再对结点t做右旋，即可平衡。但LR型里面也是有区别的，虽然都是对结点一样的操作，可重新平衡之后结点t和结点tl的平衡因子是不一样的，在实现上要注意处理这个问题。</p>
+<h2 id="RR型和RL型"><a href="#RR型和RL型" class="headerlink" title="RR型和RL型"></a>RR型和RL型</h2><p>至此，其实我们已经解决掉AVL树的一半旋转方法了。LL型对根结点t做一次右旋，LR型对根结点t的左子节点tl做一次左旋再对结点t做一次右旋。对称地，我们可以得知，把LL型和LR型镜像翻转过来我们得到RR型，和RL型，重新平衡的操作也是对称的，对于RR型应当对根结点t做一次左旋，对于RL型应当对根结点t的右子结点tr做一次右旋，再对结点t做一次左旋。于是我们对于所有的不平衡情况都给出了平衡的旋转方法。下面示意图表示一下RR和RL的过程，就不从头分析一遍了。</p>
+<p>RR型：</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC13.png"></p>
+<p>RL型</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC14.png"></p>
+<p>RL型对结点tr右旋转换成RR型：</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC15.png"></p>
+<p>最后再对结点t左旋：</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC16.png"></p>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>tree</tag>
+        <tag>AVLTree</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>AVL树的实现</title>
+    <url>/2920448857/</url>
+    <content><![CDATA[<p>前情提要：</p>
+<ul>
+<li><p><a href="https://liangziye.online/138867439/">AVL树的旋转</a></p>
+</li>
+<li><p>[<a href="https://liangziye.online/2536969901/">AVL树</a>]</p>
+</li>
+</ul>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入和二叉搜索树不一样的是，需要再数据被放入后回溯结点，向上更新每一个结点的<a href="">平衡因子</a>，判断是否有子树不平衡，找到最小不平衡子树，用<a href="">上篇</a>中讨论的旋转方式去让树回归平衡。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>HashMap</title>
+    <url>/1029785637/</url>
+    <content><![CDATA[<h2 id="继承关系"><a href="#继承关系" class="headerlink" title="继承关系"></a>继承关系</h2><p><code>Map</code>以键值对（KV）储存数据，是java中的众多集合类中的一个接口，定义在包<code>java.util</code>中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>AbstractMap</code>是一个继承了接口<code>Map</code>的抽象类：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>AbstractMap</code>作为一个抽象类，其最常用的实现类就是<code>HashMap</code>,同时<code>HashMap</code>继承了接口<code>Cloneable</code>和<code>Serializable</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Cloneable</span>, <span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p><code>put</code>存键值对</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key, V value)</span></span></span><br></pre></td></tr></table></figure>
+
+<p><code>get</code>取键值对</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span></span></span><br></pre></td></tr></table></figure>
+
+<p><code>isEmpty</code>判断是否为空</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p>HashMap被使用得最多是因为为哈希表高效的性能，插入删除查找的时间复杂度都为$O(1)$，对比其他数据结构：</p>
+<table>
+<thead>
+<tr>
+<th>数据结构</th>
+<th>插入</th>
+<th>删除</th>
+<th>查找</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HashMap</td>
+<td>$O(1)$</td>
+<td>$O(1)$</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>ArrayList</td>
+<td>$O(N/2)$</td>
+<td>$O(N/2)$</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>LinkedList</td>
+<td>$O(N/4)$</td>
+<td>$O(N/4)$</td>
+<td>$O(N/4)$</td>
+</tr>
+<tr>
+<td>二叉树</td>
+<td>$(logN)$</td>
+<td>$(logN)$</td>
+<td>$(logN)$</td>
+</tr>
+</tbody></table>
+<h2 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h2><p><code>HashMap</code>由数组和链表构成。这个数组在源码中被称为<code>table</code>，<code>table</code>中存放的每一个元素都是一个被称作<code>bin</code>的容器，<code>bin</code>是一个由类<code>Node</code>构成的一个链表，其中类<code>Node</code>继承自<code>Map.Entry</code>。所以实质上，HashMap就是一个储存了<code>Node</code>的数组。数组中每个<code>Node</code>为所在bin的链表头，指向该<code>bin</code>中的下一个<code>Node</code>，这里的每一个<code>Node</code>就是我们键值对实际储存的地方，包含了<code>key</code>和<code>value</code>。（这是最开始的简单情况，后文将提到，当每个<code>bin</code>中的<code>Node</code>数量超过一定值时，为了提高效率这个链表将转换成二叉树）</p>
+<p>每次插入新包含键值对的<code>Node</code>,它要么落在数组空的位置，直接被放入，要么落在已经数组中已经存在<code>Node</code>的位置，这种情况的话将遍历这个占了位置的<code>Node</code>所连接的链表，将新的<code>Node</code>接这个链接的尾部。</p>
+<p>那如何知道这个新的<code>Node</code>插入在数组的什么位置呢，用什么样方式确认新的<code>Node</code>的数组下标呢？答案是对<code>Node</code>的<code>key</code>求哈希，将这个哈希值映射到数组的长度中。用这样的方法，每一个键值对根据它的键<code>key</code>的哈希值必然有一个唯一的确定的下标。</p>
+<p>我们每次做插入操作时，对要插入的<code>key</code>值求哈希，做一些处理使得这个哈希值映射到数组的一个下标值。现在已经有了确定的下标值了，如果下标志的位置没有<code>Node</code>，那就直接放入，如果有<code>Node</code>存在，插入到这个<code>Node</code>所在链表的尾部。查找操作也是一样的，求哈希，映射得到下标，遍历下标所在的位置的链表找到<code>key</code>值相等的<code>Node</code>，返回其<code>value</code>。</p>
+<h2 id="哈希碰撞"><a href="#哈希碰撞" class="headerlink" title="哈希碰撞"></a>哈希碰撞</h2><p>假设我们的数据运气很好，每次插入新的<code>Node</code>时，它都落在数组<code>table</code>空的位置，新的<code>Node</code>都是数组中的新元素，每个<code>Node</code>都是链表头并且没有下一个节点。这样插入的时间只有$O(1)$；这种情况每次查找时时间当然也只需要$O(1)$。这样的话HashMap效率非常可观。</p>
+<p>但事实情况超出了以上美好假设的范围，由于哈希值非常大，在<code>java</code>中调用本地的<code>hashcode()</code>得到的哈希值是一个int值，32位整型。由于哈希值是一个长度固定的值，它是有限的，而我们的<code>key</code>其可能值可以说是无限的，对无限可能值的<code>key</code>做一样的哈希算法得到的哈希值，会有不同的<code>key</code>得到相同的哈希值的情况，这种情况叫做<strong>哈希碰撞</strong>。加上我们<code>HashMap</code>的<code>table</code>数组一开始初始化容量只有16，当容量不够时将会扩容，即便扩容，大部分实际情况下<code>table</code>的大小也远远达不到32位这个数量级。当32位的哈希值映射到<code>table</code>小小的容量的范围时，会发生不同的哈希值映射到<code>table</code>相同的下标的情况，更加加剧了不同的<code>key</code>对应<code>table</code>同一个下标的情况发生，于是出现了上文说的需要将新的<code>Node</code>插入到链表尾部的操作。</p>
+<p>哈希碰撞发生比较频繁时，即不同<code>key</code>值映射到数组同一个下标的情况非常多时，会导致了数组<code>table</code>中不断插入的<code>Entry</code>分布不均匀，数组中一些位置是空的，一些位置的bin链表长度非常长。这样的话每次插入和查找的时间就完全做不到$O(1)$了，我们只有尽可能让这种情况发生次数减少，让<code>Entry</code>在<code>table</code>中均匀分布，让<code>HashMap</code>的操作时间接近$O(1)$。</p>
+<h2 id="哈希散列为下标"><a href="#哈希散列为下标" class="headerlink" title="哈希散列为下标"></a>哈希散列为下标</h2><p>为了将32位的哈希值映射到数组容量的大小中，并让这些哈希值的映射尽可能地在<code>table</code>的<code>0</code>到<code>length-1</code>间分布均匀，我们想到的最简单的方法就是将得到的<code>key</code>哈希值对<code>table</code>的长度<code>length</code>求模，这样32位的哈希值就映射在了<code>0</code>到<code>length-1</code>的范围中。</p>
+<p>这样解决了大范围映射到小范围的问题，但依然没有解决如何让哈希映射到下标更加均匀。阅读源码，我们发现源码中做了将哈希值的高16位和低16位进行异或运算的操作，之后再去求模。</p>
+<p>我们可以这样理解，当<code>table</code>容量不够大，远远比哈希值的32位小的时候，我们对哈希值取<code>table</code>长度的模，哈希值的高位往往对这个结果没有影响。</p>
+<p>举例以下两个哈希值取16的模：</p>
+<p><code>1111 1111 1111 1111 1111 1111 1111 0101​</code></p>
+<p><code>0000 0000 0000 0000 0000 0000 0000 0101</code>​</p>
+<p>虽然这两个值只有低4位相同，高28位完全不同，可它们取16的模结果却完全一样，因为影响这个结果只有低4位，因为16换成二进制的最高位数为只有5位。当我们将高16位与低16位做异或操作时，</p>
+<p>上面第一个数的低4位成了：<code>1111 ^ 0101</code> 为 <code>0101</code></p>
+<p>上面第而个数的低4位成了：<code>0000 ^ 0101</code> 为 <code>1010</code></p>
+<p>这时候他们取模16的结果将不一样了。这种做法本质上是将低位变成高位的信息特征与低位信息特征的融合。让低位的数据同时有了高位和原本低位的信息特征，为之后映射到数组<code>table</code>下标增加了均匀性。</p>
+<p>做完异或操作后将得到的新的哈希值对数组长度取模即可得到数组<code>table</code>的下标。</p>
+<p>为了优化取模的效率，在<code>HashMap</code>源码里面<code>table</code>的长度规定为<code>2</code>的整数幂，将取模操作转换成了位操作，因为当<code>length</code>为<code>2</code>的整数幂时，<code>hash % length</code>可以变换成<code>hash &amp; ( length -1 )</code>。位操作比取模操作更快。</p>
+<p>我们重头看一遍下标是如何获得，并且让大量的<code>key</code>更均匀的映射到<code>table</code>下标范围的：</p>
+<ol>
+<li><p><code>key</code>调用本地方法<code>hashCode()</code>得到自身的<code>int</code>类型哈希值。</p>
+</li>
+<li><p>将这个32位的哈希值高16位和低16位做异或操作得到新哈希值<code>hash</code>。</p>
+</li>
+<li><p>将新哈希值<code>hash</code>取<code>table</code>长度<code>length</code>的模，并优化成位运算<code>hash &amp; ( length -1 )</code>。</p>
+</li>
+</ol>
+<p>最后求得的模，即位操作的结果就是下标。</p>
+<h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p>当<code>HashMap</code>第一次存入键值对时，会执行一次方法<code>resize()</code>，<code>table</code>的容量，扩容临界值才被初始化。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="number">0.75f</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">newCap = DEFAULT_INITIAL_CAPACITY;</span><br><span class="line">newThr = (<span class="keyword">int</span>)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">threshold = newThr;</span><br></pre></td></tr></table></figure>
+
+<p>可见初始容量为16（1&lt;&lt;4），threshold为触发扩容操作的临界值，初始值为12（0.75*16），即当前容量的0.75。</p>
+<p>每次存入键值对时，若包含键值对的<code>Node</code>添加在<code>table</code>的空位置中而不是某位置所在的<code>Node</code>链表尾部，<code>table</code>数组的长度<code>size</code>加1后，进行检查，若<code>size</code>大于临界值<code>threshold</code>，执行方法<code>resize()</code>。也就是说**<code>HashMap</code>的扩容条件是数组<code>table</code>长度<code>szie</code>超过了容量的0.75**。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (++size &gt; threshold)</span><br><span class="line">    resize();</span><br></pre></td></tr></table></figure>
+
+<p>在<code>resize()</code>中，<code>table</code>的容量进行了翻倍，同样临界值<code>threshold</code>也翻倍，此时仍然是容量的0.75。</p>
+<p>接下来是非常重要的部分，我们新设置了一个容量为翻倍后的数组，遍历旧数组中的每一个<code>Node</code>，将其重新映射（散列）到新数组中。</p>
+<p>首先遍历数组，当数组中的元素为空时跳过</p>
+<p>当数组中的元素为单个<code>Node</code>时，重新用位操作来快速根据新容量的大小求模的到新数组的下标，直接将<code>Node</code>放入。</p>
+<p>当数组中的元素为红黑树时 （后面补充）</p>
+<p>当数组中的元素为<code>Node</code>的链表时，遍历链表求每一个<code>Node</code>在新数组中的下标。由于我们的扩容是翻倍扩容，新数组的容量为旧数组的2倍，所以新数组中每一个<code>Node</code>的位置（下标）必然是它在旧数组中的原位置或者原位置加上增加容量的偏移，换句话说，旧数组中的<code>Node</code>搬新数组，要么下标不变，要么往后移动一个增加的容量大小的距离。例如当旧数组的原容量为16时有哈希值分别为9,25,41,57的四个<code>Node</code>，把这四个<code>Node</code>搬去容量翻倍为32的新数组时，哈希值为9的<code>Node</code>原地不动，因为它求模32后依然下标为9，和旧容量16时求模结果一样；哈希值为25的在原数组中求模为9，跟哈希值为9的<code>Node</code>同属一个bin的链表中，但在新数组中求模为25，于是在新数组中搬去了下标为25（9+16）的位置，与它本来原位置9偏移了一个扩容的大小16（原数组的容量）；接着看哈希值为41的<code>Node</code>，它在旧数组和新数组中的求模都为9，所以是呆在原位置不需要移动；57与25同理。我们发现，像哈希值9,25,41,57在16容量搬去32容量的例子下，我们只需要判断它们被32求模了之后再求模16的结果是不是为0，也就是判断它们被32求模了之后的值是否“溢出”16？或者说比16大还是小？如果“溢出”16，则需要搬位置，往后位移16，否则原地不动。所以这样看来，我们不必对链表中每一个<code>Node</code>的哈希值去求模取得新下标，我们只需要判断它是否是呆在原地还是往后位移一个增加容量的距离即可。源码中判断“是否溢出16”用了效率比较高的做法，直接去判断哈希值的二进制在第5低位上是不是1即可，第5位即为16的最高位（二进制10000），如果这个位上为1，证明被32求模的结果大于等于16，如果为0则小于16。最终，我们只需要在操作上将哈希值和旧容量（最高位为1其他位都为0，如16的二进制10000）的值做与运算，判断结果是否为0。下一步来说，我们当前是在遍历一个链表，我们把需要位移的<code>Node</code>拿出来组成新链表，放去位移的位置，剩下原地不动的<code>Node</code>重新接成一个链表，留在原地。这样处理的明显好处是链表中<code>Node</code>之间的前后关系没有发生变化。</p>
+<p><img src="https://assets.liangziye.online/image/HashMap2.png"></p>
+<p><img src="https://assets.liangziye.online/image/HashMap3.png"></p>
+<p><img src="https://assets.liangziye.online/image/HashMap4.png"></p>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>HashMap</tag>
+        <tag>源码</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>No1.两数之和</title>
+    <url>/703273030/</url>
+    <content><![CDATA[<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>No1.两数之和 ——<a href="https://leetcode-cn.com/problems/two-sum/">中文站</a>，<a href="https://leetcode.com/problems/two-sum/">原站</a></p>
+<p>难度：简单[简书]: </p>
+<p>给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。</p>
+<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。</p>
+<p>你可以按任意顺序返回答案。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">2</span>,<span class="number">7</span>,<span class="number">11</span>,<span class="number">15</span>], target = <span class="number">9</span></span><br><span class="line">输出：[<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">解释：因为 nums[<span class="number">0</span>] + nums[<span class="number">1</span>] == <span class="number">9</span> ，返回 [<span class="number">0</span>, <span class="number">1</span>] 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">3</span>,<span class="number">2</span>,<span class="number">4</span>], target = <span class="number">6</span></span><br><span class="line">输出：[<span class="number">1</span>,<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">3</span>,<span class="number">3</span>], target = <span class="number">6</span></span><br><span class="line">输出：[<span class="number">0</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>2 &lt;= nums.length &lt;= 104</code></li>
+<li><code>-109 &lt;= nums[i] &lt;= 109</code></li>
+<li><code>-109 &lt;= target &lt;= 109</code></li>
+<li><strong>只会存在一个有效答案</strong></li>
+</ul>
+<p><strong>进阶：</strong>你可以想出一个时间复杂度小于 $O(n^2)$ 的算法吗？</p>
+<hr>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h4 id="暴力遍历"><a href="#暴力遍历" class="headerlink" title="暴力遍历"></a>暴力遍历</h4><p>一个数组找出2个满足一定条件的数，嵌套循环，遍历完所有的可能性，判断满足的条件。</p>
+<p>时间复杂度：$O(N^2)$，空间复杂度：$O(1)$</p>
+<h4 id="HashMap存值"><a href="#HashMap存值" class="headerlink" title="HashMap存值"></a><code>HashMap</code>存值</h4><p>上面的暴力解法，将大量的时间都用在遍历之前已经判断过的值上，要降低时间复杂度必然不能遍历无效结果。</p>
+<p>我们可以在只遍历一次数组，在遍历每一个值时，将值和其下标存在<code>HashMap</code>中，K为值，V为下标，并从之前已经储存在<code>HashMap</code>的值中寻找是否存在满足条件的值，即为<code>target</code>与当前值的差，如果没有，继续往下遍历，如果存在，取出它的下标和当前值的下标得到结果。</p>
+<p>leetcode上有评论提到了哈希碰撞会导致查找差值的时间复杂度不会是$O(1)$，当把相同的值放进</p>
+<p>由于<code>HashMap</code>的查找时间复杂度为$O(1)$，我们只遍历了数组一次，所以整个的时间复杂度为$O(N)$。如果我们使用数组，链表来存值，每次查找需要$O(N)$时间复杂度，最终同样是$O(N^2)$的时间复杂度。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        HashMap&lt;Integer,Integer&gt; hashMap = <span class="keyword">new</span> HashMap&lt;Integer,Integer&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target-nums[i];</span><br><span class="line">            <span class="keyword">if</span>(hashMap.containsKey(complement))&#123;</span><br><span class="line">                <span class="keyword">int</span> j = hashMap.get(complement);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;i,j&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            hashMap.put(nums[i],i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二叉树及二叉搜索树</title>
+    <url>/218212257/</url>
+    <content><![CDATA[<h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><p>首先我们来看一个普通的链表，头节点指向下一个结点，下一个结点再指向下一个结点，直到尾部最后一个结点。这个单向链表的一个特征：除了最后一个结点外，每一个结点都指向下一个结点。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%911.png"></p>
+<p>现在，那这个链表的中的结点，指向的结点不仅仅限定是一个，还允许是两个呢？</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%912.png"></p>
+<p>整理一下位置排版</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%913.png"></p>
+<p>于是它变成了一个<strong>二叉树</strong>。二叉树在<a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%8F%89%E6%A0%91">维基百科</a>中的定义：<strong>二叉树（英语：Binary tree）是每个节点最多只有两个分支（即不存在分支度大于2的节点）的树结构。</strong>你也可以说上面的链表，它是一个极端条件下的二叉树，一个特殊的二叉树。数据的组织结构从来都不会凭空产生，而是根据需求不断变化不断适应。</p>
+<p>每一个结点往下指的一个或两个结点，都称为它的<strong>子结点</strong>，而它被称作它们的<strong>父结点</strong>。相对左右的位置，它们分别被称为<strong>左子结点</strong>和<strong>右子结点</strong>，以左右子结点为根构成的子树被称为<strong>左子树</strong>和<strong>右子树</strong>。</p>
+<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h2><p>现在我们给二叉树新加一个限定规则，如果存在一个结点存在它的左右子树的话，它的左子树上每一个结点的键都比它的键小，它的右子树上每一个结点的键都比它的键大。添加了这一个规则后，它便不仅仅是是一个普通的二叉树，而成了<strong>二叉搜索树</strong>，很明显，加入了左右子树结点键的大小限定规则后，这个二叉树变得有序了起来。</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%85%83%E6%90%9C%E5%B0%8B%E6%A8%B9">维基百科</a>中二叉搜索树的性质定义：若任意节点的左子树不空，则左子树上所有节点的键均小于它的根节点的键；若任意节点的右子树不空，则右子树上所有节点的键均大于它的根节点的键；<br>任意节点的左、右子树也分别为二叉查找树。</p>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>我们现在通过将数组8,4,3,9,7]作为键不断插入来形成一个二叉搜索树。首先第一个键为6，现在树还不存在，6作为树的根放入成为结点6；第二个插入8，在经过和根部结点6后，8比6大，结点8插在了结点6的右边，成为了结点6的右子结点；接着插入4,4比8小， 成为了8个左子结点；继续插入3，3比6小，应该插入到结点6的左子树中，再和结点6的左子结点4比较，3比4小，插入到4的左子树中成为4的左子结点。以这种方式一直将数据插入进去。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%914.png"></p>
+<p>试着简单手动实现一下二叉搜索树的插入</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BSTree</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> TreeNode root;</span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">insert</span><span class="params">(TreeNode node)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(root == <span class="keyword">null</span>) &#123;</span><br><span class="line">			root = node;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		TreeNode parent = root;TreeNode nodeTmp = root;</span><br><span class="line">		<span class="keyword">while</span>(nodeTmp!= <span class="keyword">null</span>) &#123;</span><br><span class="line">			parent = nodeTmp;</span><br><span class="line">			<span class="keyword">if</span>(node.key == parent.key) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">			nodeTmp = node.key &lt; parent.key?parent.left:parent.right;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(node.key &lt; parent.key) &#123;</span><br><span class="line">			parent.left = node;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			parent.right = node;</span><br><span class="line">		&#125;</span><br><span class="line">		node.parent = parent;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，我们在讨论中默认二叉树的结点键不能有重复，如果有重复键需要额外讨论。</p>
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><p>我们接下来继续用上面插入好的二叉搜索树，试着从树里面查找出结点7。我们依然从根节点开始往下判断，判断当下结点和7的大小关系，若相等，即为要找的结点，若要查找的结点小于当下结点，意味着我们需要往当下结点的左子树中查询，把当下结点的左节点作为要判断的当下结点，反之我们需要往右子树中查询，把当下结点的右节点作为要判断的当下结点，循环步骤直到找到结点7，若当下结点一直往下直到为空，意味着树中不存在要找的结点。</p>
+<p>试着手动实现一下二叉搜索树的查找</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">search</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">    TreeNode nodeTmp = root;</span><br><span class="line">    <span class="keyword">while</span>(nodeTmp!=<span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(key &lt; nodeTmp.key) &#123;</span><br><span class="line">            nodeTmp = nodeTmp.left;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(key &gt; nodeTmp.key) &#123;</span><br><span class="line">            nodeTmp = nodeTmp.right;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> nodeTmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查找最大最小结点"><a href="#查找最大最小结点" class="headerlink" title="查找最大最小结点"></a>查找最大最小结点</h2><p>我们想一下二叉搜索树的插入方式，当要插入一个结点时，从根部往下，遇到这个结点比当下判断结点小的，我们往左子树走，反之我们往右子树走，就像一个岔路口，我们不停的找方向，直到走到尽头，再把结点插入。很明显，若是插入一个比树当前所有结点都小的结点时，我们每经过一个岔路口都是往左，反之则往右。所以最小值在树的最左下角，从根结点一直往左子树走，走到没有左子树的结点就是最小结点，最大值亦然。</p>
+<p>手动实现</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">findMin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    TreeNode node = root;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">while</span>(node.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">        node = node.left;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">findMax</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    TreeNode node = root;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">while</span>(node.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">        node = node.right;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><p>删除的情况相对于插入和查找，需要一点思考。假设我们删掉二叉搜索树最底部的结点，即没有子结点的结点（我们一般称为叶子结点），我们直接将其父节点的左子结点或右子结点设为空，将其本身也设为空，就直接删去了，非常简单，因为没有其他影响。如删去结点7。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%915.png"></p>
+<p>但如果删去结点6呢，或者结点8呢？结点6个结点8都有子结点/子树，这种情况下的删除操作需要考虑被删除结点的子树何去何从。其实，与其从处理被删除结点的子树的角度出发考虑，倒不如这样思考：用哪里的一个结点去替代这个被删除的结点？也就是说，拿去被删除的结点，用另一个结点换到这个位置上，保证二叉搜索树的限定条件依然成立。情况就变得非常简单了，拿掉一个结点之后，要找到一个比被删除结点的左子树都大又比被删除结点的右子树都小的结点，换去那个位置接上即可。而这个结点要满足条件，它只能是被删除结点的左子树中最大结点，或者是被删除结点右子树中最小结点。</p>
+<p>举例删除结点6来说，我们先看看删去结点6，并用结点6的右子树中的最小值去替换结点6的位置，过程是怎么样的。根据上文我们已经很清楚最大最小结点是在哪里，对于以结点8为根结点的右子树中，往左下角（左子树）一直找，得到这个子树的最小结点为结点7。结点7为叶子结点，我们拿掉它不会有其他影响，所以我们直接拿去替换到结点6所在的位置。现在我们看看，结点7由于是原树中结点6的右子树中的最小值，所以在现在的树中，结点7比它的整个右子树都要小；因为原树中结点7在结点6的右子树中，结点7当然会比现在的树中它的左子树都要大。二叉搜索树依然成立，删除完成。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%916.png"></p>
+<p>以上删除没有遇到什么问题，因为结点7是叶子结点。现在我们再重新来删除结点6，并用结点6的左子树中的最大值去替换结点6的位置，看看有什么不一样。我们找到结点6的左子树中的最大结点，是结点4，但这次找到后发现结点4并不是叶子结点，它还有一个左子结点，结点4并不在最下层。我们再继续思考，左子树中的最大结点，当它不是叶子结点的时候，它会不会有右子结点呢？显而易见是不会有的，如果有的话应该继续往右子树找，最大结点肯定不是它。所以总结下，在左子树中要么最大的结点是叶子结点，要么最大的结点只有左子结点没有右子结点。放到右子树中也一样，右子树中要么最小结点是叶子结点，要么最小结点只有右子结点没有左子节点。有点绕，但结论是非常简单显而易见的。那回到例子，把不是叶子结点的结点4换去到结点6的位置该怎么做呢？答案很明显，结点4带着它的左子树换到结点6的位置上，并接上结点6的右子树。结点4的左子树依然是结点4的左子树，结点4新的右子树曾经是结点6的右子树，一定比结点4大。二叉搜索树依然成立，删除完成。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%917.png"></p>
+<p>手动实现</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">remove</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">    TreeNode node = root;</span><br><span class="line">    <span class="keyword">while</span>(node != <span class="keyword">null</span> &amp;&amp; node.key!=key) &#123;</span><br><span class="line">        <span class="keyword">if</span>(key&lt;node.key) &#123;</span><br><span class="line">            node = node.left;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(key&gt;node.key)&#123;</span><br><span class="line">            node = node.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(node==<span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    TreeNode parent = node.parent;</span><br><span class="line">    <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; parent.left == node) &#123;</span><br><span class="line">        parent.left = <span class="keyword">null</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; parent.right == node)&#123;</span><br><span class="line">        parent.right = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(node.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">        TreeNode maxOfLeftTree = node.left;</span><br><span class="line">        <span class="keyword">while</span>(maxOfLeftTree.right!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            maxOfLeftTree = maxOfLeftTree.right;				</span><br><span class="line">        &#125;</span><br><span class="line">        maxOfLeftTree.parent = parent;</span><br><span class="line">        maxOfLeftTree.right = node.right;</span><br><span class="line">        <span class="keyword">if</span>(node.right!=<span class="keyword">null</span>) node.right.parent = maxOfLeftTree;</span><br><span class="line">        <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; maxOfLeftTree.key&lt;parent.key) &#123;</span><br><span class="line">            parent.left = maxOfLeftTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; maxOfLeftTree.key&gt;parent.key)&#123;</span><br><span class="line">            parent.right = maxOfLeftTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            root = maxOfLeftTree;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(node.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">        TreeNode minOfRightTree = node.right;</span><br><span class="line">        <span class="keyword">while</span>(minOfRightTree.left!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            minOfRightTree = minOfRightTree.left;				</span><br><span class="line">        &#125;</span><br><span class="line">        minOfRightTree.parent = parent;</span><br><span class="line">        minOfRightTree.left = node.left;</span><br><span class="line">        <span class="keyword">if</span>(node.left!=<span class="keyword">null</span>) node.left.parent = minOfRightTree;</span><br><span class="line">        <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; minOfRightTree.key&lt;parent.key) &#123;</span><br><span class="line">            parent.left = minOfRightTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; minOfRightTree.key&gt;parent.key)&#123;</span><br><span class="line">            parent.right = minOfRightTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            root = minOfRightTree;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    node.parent = <span class="keyword">null</span>;</span><br><span class="line">    node.left = <span class="keyword">null</span>;</span><br><span class="line">    node.right = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>tree</tag>
+        <tag>BSTree</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二叉树的平衡</title>
+    <url>/2750358315/</url>
+    <content><![CDATA[<p><a href="https://liangziye.online/218212257/">上一篇</a>写到二叉搜索树，它平均都是对数的时间复杂度都很优秀。现在考虑一种情况，我们将一组上升序列[1,2,3,……,98,88,100]一共100个值作为结点形成一个新的二叉搜索树，我们插入的第一个结点键为1，最后一个结点的键位100。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A11.png"></p>
+<p>插入完之后我们发现这根本就是一个链表，对于这个二叉搜索树来说，插入查找和删除操作的时间复杂度都不是对数了，因为它是一个普通的链表。我们插入的数据一直都是升序的，对于二叉搜索树的插入方法来看，最终的结果只能是这样的一个链表，完全丧失了二叉搜索树的特性。虽然这个例子很极端，但是说明了一个问题，插入的数据越有序，我们得到的二叉搜索树就越接近链表，时间复杂度就离对数越来越远，查找效率越来越差。</p>
+<p>这里就引入了一个问题，怎么样来衡量一个二叉树/二叉搜索树接近链表的程度？更普通来讲，二叉树有左子树和右子树，当二叉树的左右子树高度相差越大时，它就越接近链表，极端情况，当遍历的每一个结点的左右子树，其中一个子树的高度为0时，也就是只存在其中一个子树时，它就完全退化成了链表。所以这个问题变成了怎么样来表示一个二叉树左右子树高度差？显而易见，我们用一个结点的左子树高度减去右子树的高度，得到一个值，这个值越小，右子树比左子树越高，反之这个值越大，左子树比右子树越高，当这个值为0时，这个结点的左右子树达到了平衡。这个值我们称为这个结点的平衡因子，它就能衡量这个树是否平衡。下面我拿<a href="https://liangziye.online/218212257/#%E6%8F%92%E5%85%A5">上一篇二叉搜索树</a>的二叉树例子看看各个结点的平衡因子。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A12.png"></p>
+<p>可以看到除了结点4是不平衡的，左子树高度为1，右子树没有所以高度为0，它的平衡因子为1。再说说上面从1插到100的二叉树，根结点1的平衡因子为-100，因为左子树高度为0，右子树高度为100。</p>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>tree</tag>
+      </tags>
+  </entry>
+</search>
