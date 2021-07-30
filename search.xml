@@ -7,7 +7,7 @@
 <p><img src="https://assets.liangziye.online/image/AVL%E6%A0%911.png"></p>
 <p>所以在AVL树中，我们必须使用一些办法使得树搜着数据的插入也能保持着平衡条件。这时候我们可以使用一种方法，在每次插入新数据时都去检查这棵树是否平衡，如果不平衡我们将调整一下不平衡的结点，给它们互换下位置，重新让二叉搜索树平衡起来，满足AVL树的条件。</p>
 <h2 id="最小不平衡子树"><a href="#最小不平衡子树" class="headerlink" title="最小不平衡子树"></a>最小不平衡子树</h2><p>这里先分析一下，我们是每一次做插入操作就去检查一次平衡，若不平衡就调整到平衡，所以我们每次插入前，AVL树都是平衡的，满足AVL树条件的。若现在开始插入操作，插入后导致了不平衡，那从插入节点往父节点一直向上找，找到第一个平衡因子的绝对值大于1的结点，以这个结点为根的子树，我们称为最小不平衡子树。不平衡子树的根结点是一个离插入结点最近的，平衡因子绝对值大于1的结点。这个子树是不平衡的，如果恢复平衡，我们就要从这个子树入手。</p>
-]]></content>
+<script>var relatedPosts = [{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"}]</script>]]></content>
       <categories>
         <category>数据结构</category>
       </categories>
@@ -57,7 +57,7 @@
 <p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC15.png"></p>
 <p>最后再对结点t左旋：</p>
 <p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC16.png"></p>
-]]></content>
+<script>var relatedPosts = [{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"}]</script>]]></content>
       <categories>
         <category>数据结构</category>
       </categories>
@@ -77,7 +77,55 @@
 </li>
 </ul>
 <h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入和二叉搜索树不一样的是，需要再数据被放入后回溯结点，向上更新每一个结点的<a href="">平衡因子</a>，判断是否有子树不平衡，找到最小不平衡子树，用<a href="">上篇</a>中讨论的旋转方式去让树回归平衡。</p>
-]]></content>
+<script>var relatedPosts = [{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"}]</script>]]></content>
+  </entry>
+  <entry>
+    <title>No1.两数之和</title>
+    <url>/703273030/</url>
+    <content><![CDATA[<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>No1.两数之和 ——<a href="https://leetcode-cn.com/problems/two-sum/">中文站</a>，<a href="https://leetcode.com/problems/two-sum/">原站</a></p>
+<p>难度：简单 </p>
+<p>给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。</p>
+<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。</p>
+<p>你可以按任意顺序返回答案。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">2</span>,<span class="number">7</span>,<span class="number">11</span>,<span class="number">15</span>], target = <span class="number">9</span></span><br><span class="line">输出：[<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">解释：因为 nums[<span class="number">0</span>] + nums[<span class="number">1</span>] == <span class="number">9</span> ，返回 [<span class="number">0</span>, <span class="number">1</span>] 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">3</span>,<span class="number">2</span>,<span class="number">4</span>], target = <span class="number">6</span></span><br><span class="line">输出：[<span class="number">1</span>,<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">3</span>,<span class="number">3</span>], target = <span class="number">6</span></span><br><span class="line">输出：[<span class="number">0</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>2 &lt;= nums.length &lt;= 104</code></li>
+<li><code>-109 &lt;= nums[i] &lt;= 109</code></li>
+<li><code>-109 &lt;= target &lt;= 109</code></li>
+<li><strong>只会存在一个有效答案</strong></li>
+</ul>
+<p><strong>进阶：</strong>你可以想出一个时间复杂度小于 $O(n^2)$ 的算法吗？</p>
+<hr>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h4 id="暴力遍历"><a href="#暴力遍历" class="headerlink" title="暴力遍历"></a>暴力遍历</h4><p>一个数组找出2个满足一定条件的数，嵌套循环，遍历完所有的可能性，判断满足的条件。</p>
+<p>时间复杂度：$O(N^2)$，空间复杂度：$O(1)$</p>
+<h4 id="HashMap存值"><a href="#HashMap存值" class="headerlink" title="HashMap存值"></a><code>HashMap</code>存值</h4><p>上面的暴力解法，将大量的时间都用在遍历之前已经判断过的值上，要降低时间复杂度必然不能遍历无效结果。</p>
+<p>我们可以在只遍历一次数组，在遍历每一个值时，将值和其下标存在<code>HashMap</code>中，K为值，V为下标，并从之前已经储存在<code>HashMap</code>的值中寻找是否存在满足条件的值，即为<code>target</code>与当前值的差，如果没有，继续往下遍历，如果存在，取出它的下标和当前值的下标得到结果。</p>
+<p>leetcode上有评论提到了哈希碰撞会导致查找差值的时间复杂度不会是$O(1)$，当把相同的值放进</p>
+<p>由于<code>HashMap</code>的查找时间复杂度为$O(1)$，我们只遍历了数组一次，所以整个的时间复杂度为$O(N)$。如果我们使用数组，链表来存值，每次查找需要$O(N)$时间复杂度，最终同样是$O(N^2)$的时间复杂度。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        HashMap&lt;Integer,Integer&gt; hashMap = <span class="keyword">new</span> HashMap&lt;Integer,Integer&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target-nums[i];</span><br><span class="line">            <span class="keyword">if</span>(hashMap.containsKey(complement))&#123;</span><br><span class="line">                <span class="keyword">int</span> j = hashMap.get(complement);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;i,j&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            hashMap.put(nums[i],i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<script>var relatedPosts = [{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"}]</script>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
   </entry>
   <entry>
     <title>HashMap</title>
@@ -186,7 +234,7 @@
 <p><img src="https://assets.liangziye.online/image/HashMap2.png"></p>
 <p><img src="https://assets.liangziye.online/image/HashMap3.png"></p>
 <p><img src="https://assets.liangziye.online/image/HashMap4.png"></p>
-]]></content>
+<script>var relatedPosts = [{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"}]</script>]]></content>
       <categories>
         <category>数据结构</category>
       </categories>
@@ -197,51 +245,20 @@
       </tags>
   </entry>
   <entry>
-    <title>No1.两数之和</title>
-    <url>/703273030/</url>
-    <content><![CDATA[<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>No1.两数之和 ——<a href="https://leetcode-cn.com/problems/two-sum/">中文站</a>，<a href="https://leetcode.com/problems/two-sum/">原站</a></p>
-<p>难度：简单[简书]: </p>
-<p>给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。</p>
-<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。</p>
-<p>你可以按任意顺序返回答案。</p>
-<p><strong>示例 1：</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">2</span>,<span class="number">7</span>,<span class="number">11</span>,<span class="number">15</span>], target = <span class="number">9</span></span><br><span class="line">输出：[<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">解释：因为 nums[<span class="number">0</span>] + nums[<span class="number">1</span>] == <span class="number">9</span> ，返回 [<span class="number">0</span>, <span class="number">1</span>] 。</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 2：</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">3</span>,<span class="number">2</span>,<span class="number">4</span>], target = <span class="number">6</span></span><br><span class="line">输出：[<span class="number">1</span>,<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 2：</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">3</span>,<span class="number">3</span>], target = <span class="number">6</span></span><br><span class="line">输出：[<span class="number">0</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
-
-<p><strong>提示：</strong></p>
-<ul>
-<li><code>2 &lt;= nums.length &lt;= 104</code></li>
-<li><code>-109 &lt;= nums[i] &lt;= 109</code></li>
-<li><code>-109 &lt;= target &lt;= 109</code></li>
-<li><strong>只会存在一个有效答案</strong></li>
-</ul>
-<p><strong>进阶：</strong>你可以想出一个时间复杂度小于 $O(n^2)$ 的算法吗？</p>
-<hr>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h4 id="暴力遍历"><a href="#暴力遍历" class="headerlink" title="暴力遍历"></a>暴力遍历</h4><p>一个数组找出2个满足一定条件的数，嵌套循环，遍历完所有的可能性，判断满足的条件。</p>
-<p>时间复杂度：$O(N^2)$，空间复杂度：$O(1)$</p>
-<h4 id="HashMap存值"><a href="#HashMap存值" class="headerlink" title="HashMap存值"></a><code>HashMap</code>存值</h4><p>上面的暴力解法，将大量的时间都用在遍历之前已经判断过的值上，要降低时间复杂度必然不能遍历无效结果。</p>
-<p>我们可以在只遍历一次数组，在遍历每一个值时，将值和其下标存在<code>HashMap</code>中，K为值，V为下标，并从之前已经储存在<code>HashMap</code>的值中寻找是否存在满足条件的值，即为<code>target</code>与当前值的差，如果没有，继续往下遍历，如果存在，取出它的下标和当前值的下标得到结果。</p>
-<p>leetcode上有评论提到了哈希碰撞会导致查找差值的时间复杂度不会是$O(1)$，当把相同的值放进</p>
-<p>由于<code>HashMap</code>的查找时间复杂度为$O(1)$，我们只遍历了数组一次，所以整个的时间复杂度为$O(N)$。如果我们使用数组，链表来存值，每次查找需要$O(N)$时间复杂度，最终同样是$O(N^2)$的时间复杂度。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        HashMap&lt;Integer,Integer&gt; hashMap = <span class="keyword">new</span> HashMap&lt;Integer,Integer&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target-nums[i];</span><br><span class="line">            <span class="keyword">if</span>(hashMap.containsKey(complement))&#123;</span><br><span class="line">                <span class="keyword">int</span> j = hashMap.get(complement);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;i,j&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            hashMap.put(nums[i],i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-]]></content>
+    <title>二叉树的平衡</title>
+    <url>/2750358315/</url>
+    <content><![CDATA[<p><a href="https://liangziye.online/218212257/">上一篇</a>写到二叉搜索树，它平均都是对数的时间复杂度都很优秀。现在考虑一种情况，我们将一组上升序列[1,2,3,……,98,88,100]一共100个值作为结点形成一个新的二叉搜索树，我们插入的第一个结点键为1，最后一个结点的键位100。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A11.png"></p>
+<p>插入完之后我们发现这根本就是一个链表，对于这个二叉搜索树来说，插入查找和删除操作的时间复杂度都不是对数了，因为它是一个普通的链表。我们插入的数据一直都是升序的，对于二叉搜索树的插入方法来看，最终的结果只能是这样的一个链表，完全丧失了二叉搜索树的特性。虽然这个例子很极端，但是说明了一个问题，插入的数据越有序，我们得到的二叉搜索树就越接近链表，时间复杂度就离对数越来越远，查找效率越来越差。</p>
+<p>这里就引入了一个问题，怎么样来衡量一个二叉树/二叉搜索树接近链表的程度？更普通来讲，二叉树有左子树和右子树，当二叉树的左右子树高度相差越大时，它就越接近链表，极端情况，当遍历的每一个结点的左右子树，其中一个子树的高度为0时，也就是只存在其中一个子树时，它就完全退化成了链表。所以这个问题变成了怎么样来表示一个二叉树左右子树高度差？显而易见，我们用一个结点的左子树高度减去右子树的高度，得到一个值，这个值越小，右子树比左子树越高，反之这个值越大，左子树比右子树越高，当这个值为0时，这个结点的左右子树达到了平衡。这个值我们称为这个结点的平衡因子，它就能衡量这个树是否平衡。下面我拿<a href="https://liangziye.online/218212257/#%E6%8F%92%E5%85%A5">上一篇二叉搜索树</a>的二叉树例子看看各个结点的平衡因子。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A12.png"></p>
+<p>可以看到除了结点4是不平衡的，左子树高度为1，右子树没有所以高度为0，它的平衡因子为1。再说说上面从1插到100的二叉树，根结点1的平衡因子为-100，因为左子树高度为0，右子树高度为100。</p>
+<script>var relatedPosts = [{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"}]</script>]]></content>
       <categories>
-        <category>算法</category>
+        <category>数据结构</category>
       </categories>
       <tags>
-        <tag>leetcode</tag>
+        <tag>tree</tag>
       </tags>
   </entry>
   <entry>
@@ -281,30 +298,13 @@
 <p>手动实现</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">remove</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">    TreeNode node = root;</span><br><span class="line">    <span class="keyword">while</span>(node != <span class="keyword">null</span> &amp;&amp; node.key!=key) &#123;</span><br><span class="line">        <span class="keyword">if</span>(key&lt;node.key) &#123;</span><br><span class="line">            node = node.left;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(key&gt;node.key)&#123;</span><br><span class="line">            node = node.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(node==<span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    TreeNode parent = node.parent;</span><br><span class="line">    <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; parent.left == node) &#123;</span><br><span class="line">        parent.left = <span class="keyword">null</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; parent.right == node)&#123;</span><br><span class="line">        parent.right = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(node.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">        TreeNode maxOfLeftTree = node.left;</span><br><span class="line">        <span class="keyword">while</span>(maxOfLeftTree.right!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            maxOfLeftTree = maxOfLeftTree.right;				</span><br><span class="line">        &#125;</span><br><span class="line">        maxOfLeftTree.parent = parent;</span><br><span class="line">        maxOfLeftTree.right = node.right;</span><br><span class="line">        <span class="keyword">if</span>(node.right!=<span class="keyword">null</span>) node.right.parent = maxOfLeftTree;</span><br><span class="line">        <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; maxOfLeftTree.key&lt;parent.key) &#123;</span><br><span class="line">            parent.left = maxOfLeftTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; maxOfLeftTree.key&gt;parent.key)&#123;</span><br><span class="line">            parent.right = maxOfLeftTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            root = maxOfLeftTree;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(node.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">        TreeNode minOfRightTree = node.right;</span><br><span class="line">        <span class="keyword">while</span>(minOfRightTree.left!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            minOfRightTree = minOfRightTree.left;				</span><br><span class="line">        &#125;</span><br><span class="line">        minOfRightTree.parent = parent;</span><br><span class="line">        minOfRightTree.left = node.left;</span><br><span class="line">        <span class="keyword">if</span>(node.left!=<span class="keyword">null</span>) node.left.parent = minOfRightTree;</span><br><span class="line">        <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; minOfRightTree.key&lt;parent.key) &#123;</span><br><span class="line">            parent.left = minOfRightTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; minOfRightTree.key&gt;parent.key)&#123;</span><br><span class="line">            parent.right = minOfRightTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            root = minOfRightTree;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    node.parent = <span class="keyword">null</span>;</span><br><span class="line">    node.left = <span class="keyword">null</span>;</span><br><span class="line">    node.right = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-]]></content>
+<script>var relatedPosts = [{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"}]</script>]]></content>
       <categories>
         <category>数据结构</category>
       </categories>
       <tags>
         <tag>tree</tag>
         <tag>BSTree</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>二叉树的平衡</title>
-    <url>/2750358315/</url>
-    <content><![CDATA[<p><a href="https://liangziye.online/218212257/">上一篇</a>写到二叉搜索树，它平均都是对数的时间复杂度都很优秀。现在考虑一种情况，我们将一组上升序列[1,2,3,……,98,88,100]一共100个值作为结点形成一个新的二叉搜索树，我们插入的第一个结点键为1，最后一个结点的键位100。</p>
-<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A11.png"></p>
-<p>插入完之后我们发现这根本就是一个链表，对于这个二叉搜索树来说，插入查找和删除操作的时间复杂度都不是对数了，因为它是一个普通的链表。我们插入的数据一直都是升序的，对于二叉搜索树的插入方法来看，最终的结果只能是这样的一个链表，完全丧失了二叉搜索树的特性。虽然这个例子很极端，但是说明了一个问题，插入的数据越有序，我们得到的二叉搜索树就越接近链表，时间复杂度就离对数越来越远，查找效率越来越差。</p>
-<p>这里就引入了一个问题，怎么样来衡量一个二叉树/二叉搜索树接近链表的程度？更普通来讲，二叉树有左子树和右子树，当二叉树的左右子树高度相差越大时，它就越接近链表，极端情况，当遍历的每一个结点的左右子树，其中一个子树的高度为0时，也就是只存在其中一个子树时，它就完全退化成了链表。所以这个问题变成了怎么样来表示一个二叉树左右子树高度差？显而易见，我们用一个结点的左子树高度减去右子树的高度，得到一个值，这个值越小，右子树比左子树越高，反之这个值越大，左子树比右子树越高，当这个值为0时，这个结点的左右子树达到了平衡。这个值我们称为这个结点的平衡因子，它就能衡量这个树是否平衡。下面我拿<a href="https://liangziye.online/218212257/#%E6%8F%92%E5%85%A5">上一篇二叉搜索树</a>的二叉树例子看看各个结点的平衡因子。</p>
-<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A12.png"></p>
-<p>可以看到除了结点4是不平衡的，左子树高度为1，右子树没有所以高度为0，它的平衡因子为1。再说说上面从1插到100的二叉树，根结点1的平衡因子为-100，因为左子树高度为0，右子树高度为100。</p>
-]]></content>
-      <categories>
-        <category>数据结构</category>
-      </categories>
-      <tags>
-        <tag>tree</tag>
       </tags>
   </entry>
 </search>
