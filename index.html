@@ -155,7 +155,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -207,6 +207,236 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://liangziye.online/1426945054/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Liangziye">
+      <meta itemprop="description" content="深入浅出不如不进不出">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liangziye">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/1426945054/" class="post-title-link" itemprop="url">奇怪的广播</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-16 00:20:44 / 修改时间：00:22:43" itemprop="dateCreated datePublished" datetime="2022-05-16T00:20:44+08:00">2022-05-16</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>起因是抓IPTV，移动光猫 接 交换机8口，本机电脑 接 交换机7口，本机开wireshark，捕获过滤器用mac过滤掉移动光猫、本机和交换机的所有报文：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!ether host 00:D8:61:xx:xx:xx &amp;&amp; !ether host CC:ED:21:xx:xx:xx &amp;&amp; !ether host 58:41:20:xx:xx:xx</span><br></pre></td></tr></table></figure>
+
+<p>发现怎么还有东西一直在广播，mac是00:00:00:00:00:12。wireshark每隔约5s抓到一个broadcast：</p>
+<table>
+<thead>
+<tr>
+<th>No.</th>
+<th>Source</th>
+<th>Destination</th>
+<th>Protocal</th>
+<th>Length</th>
+<th>Info</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>00:00:00_00:00:12</td>
+<td>Broadcast</td>
+<td>0xfffa</td>
+<td>72</td>
+<td>Ethernet II</td>
+</tr>
+<tr>
+<td>2</td>
+<td>00:00:00_00:00:12</td>
+<td>Broadcast</td>
+<td>0xfffa</td>
+<td>72</td>
+<td>Ethernet II</td>
+</tr>
+<tr>
+<td>3</td>
+<td>00:00:00_00:00:12</td>
+<td>Broadcast</td>
+<td>0xfffa</td>
+<td>72</td>
+<td>Ethernet II</td>
+</tr>
+<tr>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+</tr>
+</tbody></table>
+<p>看一个完整报文：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">0000   ff ff ff ff ff ff 00 00 00 00 00 12 ff fa 00 00   ................</span><br><span class="line">0010   00 03 cc ed 21 c0 dc e8 49 6e 20 74 68 65 20 67   ....!...In the g</span><br><span class="line">0020   61 70 20 61 20 6e 65 77 20 74 6f 6f 74 68 20 67   ap a new tooth g</span><br><span class="line">0030   72 65 77 2c 00 00 00 00 00 00 00 00 00 00 00 00   rew,............</span><br><span class="line">0040   00 00 00 00 00 00 00 00                           ........</span><br></pre></td></tr></table></figure>
+
+<p>其中广播带有58个bytes的data：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">......!...In the gap a new tooth grew,....................</span><br></pre></td></tr></table></figure>
+
+<p>我抓了100个之后在wireshark存为unknown_broadcast.txt，用sed提取出data的文本内容并拼接起来：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -n &#x27;/^00[012]0[ ]*/p&#x27; unknown_broadcast.txt | sed -n &#x27;s/^.*\(.\&#123;17\&#125;$\)/\1/p&#x27;| sed &#x27;s/^\(\.*!\.*\)*\([^.]*\)\(\.*\)*/\2/&#x27;| sed &#x27;:a;N;s/\r\n//;t a&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>(ps：sed的正则怎么用不了非贪婪)</p>
+<p>(ps：sed的正则怎么匹配不了行尾$)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">In the gap a new tooth grew,And now it makes me wonder,If people are like teeth tooThe day I lost my very first tooth,Was halfway through grade four,I&#x27;d run my tongue along the gap,Where my tooth had been before,I remember I went home crying,And showed it to my mum,She told me that a brand new tooth,Would grow up in my gum,In a while the gap would stop feeling I wouldn&#x27;t notice the tooth was gone,The only reason I missed it now,Was because it was there for so long,Then slowly but surely over the weeks,In the gap a new tooth grew,And now it makes me wonder,If people are like teeth tooThe day I lost my very first tooth,Was halfway through grade four,I&#x27;d run my tongue along the gap,Where my tooth had been before,I remember I went home crying,And showed it to my mum,She told me that a brand new tooth,Would grow up in my gum,In a while the gap would stop feeling I wouldn&#x27;t notice the tooth was gone,The only reason I missed it now,Was because it was there for so long,Then slowly but surely over the weeks,In the gap a new tooth grew,And now it makes me wonder,If people are like teeth tooThe day I lost my very first tooth,Was halfway through grade four,I&#x27;d run my tongue along the gap,Where my tooth had been before,I remember I went home crying,And showed it to my mum,She told me that a brand new tooth,Would grow up in my gum,In a while the gap would stop feeling I wouldn&#x27;t notice the tooth was gone,The only reason I missed it now,Was because it was there for so long,Then slowly but surely over the weeks,In the gap a new tooth grew,And now it makes me wonder,If people are like teeth tooThe day I lost my very first tooth,Was halfway through grade four,I&#x27;d run my tongue along the gap,Where my tooth had been before,I remember I went home crying,And showed it to my mum,She told me that a brand new tooth,Would grow up in my gum,In a while the gap would stop feeling I wouldn&#x27;t notice the tooth was gone,The only reason I missed it now,Was because it was there for so long,Then slowly but surely over the weeks,In the gap a new tooth grew,And now it makes me wonder,If people are like teeth tooThe day I lost my very first tooth,Was halfway through grade four,I&#x27;d run my tongue along the gap,Where my tooth had been before,I remember I went home crying,And showed it to my mum,She told me that a brand new tooth,Would grow up in my gum,In a while the gap would stop feeling I wouldn&#x27;t notice the tooth was gone,The only reason I missed it now,Was because it was there for so long,Then slowly but surely over the weeks,In the gap a new tooth grew,And now it makes me wonder,If people are like teeth tooThe day I lost my very first tooth,Was halfway through grade four,I&#x27;d run my tongue along the gap,Where my tooth had been before,I remember I went home crying,And showed it to my mum,She told me that a brand new tooth,Would grow up in my gum,In a while the gap would stop feeling I wouldn&#x27;t notice the tooth was gone,The only reason I missed it now,Was because it was there for so long,Then slowly but surely over the weeks,In the gap a new tooth grew,And now it makes me wonder,If people are like teeth tooThe day I lost my very first tooth,</span><br></pre></td></tr></table></figure>
+
+<p>手动去掉重复片段整理：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The day I lost my very first tooth,Was halfway through grade four,I&#x27;d run my tongue along the gap,Where my tooth had been before,I remember I went home crying,And showed it to my mum,She told me that a brand new tooth,Would grow up in my gum,In a while the gap would stop feeling I wouldn&#x27;t notice the tooth was gone,The only reason I missed it now,Was because it was there for so long,Then slowly but surely over the weeks,In the gap a new tooth grew,And now it makes me wonder,If people are like teeth too. </span><br></pre></td></tr></table></figure>
+
+<p>拿上面这小作文一搜，发现是首诗。。。。。换下行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">The day I lost my very first tooth,</span><br><span class="line">Was halfway through grade four,</span><br><span class="line">I&#x27;d run my tongue along the gap,</span><br><span class="line">Where my tooth had been before,</span><br><span class="line">I remember I went home crying,</span><br><span class="line">And showed it to my mum,</span><br><span class="line">She told me that a brand new tooth,</span><br><span class="line">Would grow up in my gum,</span><br><span class="line">In a while the gap would stop feeling </span><br><span class="line">I wouldn&#x27;t notice the tooth was gone,</span><br><span class="line">The only reason I missed it now,</span><br><span class="line">Was because it was there for so long,</span><br><span class="line">Then slowly but surely over the weeks,</span><br><span class="line">In the gap a new tooth grew,</span><br><span class="line">And now it makes me wonder,</span><br><span class="line">If people are like teeth too</span><br></pre></td></tr></table></figure>
+
+<p>怎么我抓出来的跟搜出来的差一个词，In a while the gap would stop feeling strange这句，我的怎么没有strange，手动去翻了一下unknown_broadcast.txt，发现是有strange的，检查发现是sed写错了，改为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -n &#x27;s/^00[0123]0[ ]\&#123;2,\&#125;.*[ ]\&#123;2,\&#125;\([\.]*\)/\1/p&#x27; unknown_broadcast.txt | sed &#x27;s/^\(\.*!\.*\)*\([^.]*\)\(\.*\)*/\2/&#x27; | sed &#x27;/^[ ]\&#123;3,\&#125;/d&#x27; | sed &#x27;:a;N;s/\r\n//;t a&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>谷歌翻译下这首诗：</p>
+<blockquote>
+<p>在我失去第一颗牙齿的那天，<br>四年级上到一半，<br>我会沿着缝隙伸出舌头，<br>我以前的牙齿在哪里，<br>我记得我哭着回家，<br>并把它展示给我妈妈，<br>她告诉我，一颗崭新的牙齿，<br>会在我的口香糖里长大，<br>过一会儿，差距就不再奇怪了，<br>我不会注意到牙齿掉了，<br>我现在错过的唯一原因，<br>是因为它存在了那么久，<br>然后在几周内缓慢但肯定地，<br>缝隙里长出了一颗新牙，<br>现在它让我想知道，<br>如果人也像牙齿</p>
+</blockquote>
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"}];</script>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://liangziye.online/1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Liangziye">
+      <meta itemprop="description" content="深入浅出不如不进不出">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liangziye">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/1/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-31 22:53:16" itemprop="dateCreated datePublished" datetime="2021-07-31T22:53:16+08:00">2021-07-31</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-05-16 00:16:50" itemprop="dateModified" datetime="2022-05-16T00:16:50+08:00">2022-05-16</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>现在我们开始解决AVL树中提到最小不平衡子树，使AVL树重新恢复平衡状态。</p>
+<p>下图先举例一个最简单的平衡的AVL树在经过插入操作后变得不平衡的例子</p>
+<p>如图所示插入结点5后，父结点7的平衡因子变为1,再往上的父节点10变为2，这个结点10就是我们要找的最小不平衡子树的根结点。我们把最小不平衡子树拿出来单独讨论。</p>
+<p>这是最简单的情况，最小不平衡子树的根结点为结点10，新插入结点5是根结点10的左子结点的左子结点，这种情况我们成为LL型（左左型）。在LL型中，根结点10比它的左子结点大，它的左子结点也比新插入的结点大，我们可以把这三个结点的位置转一转，把结点10转到结点7的右下方，也就是从结点7的父节点变成了结点7的右子结点，而结点7自己成了根结点</p>
+<p>现在以结点7为根结点的子树平衡了，整个树也就重新达到AVL的平衡条件了。我们旋转的对象是根结点10，根据它的旋转方向我们称这种旋转为右旋。所以LL型我们只需要一次右旋就能重新回归平衡。因为结点10和结点7之间的大小关系，所以结点10既能做结点7的父结点，也能做结点7的右子结点，右旋操作就是将操作结点从父结点变为右子结点。</p>
+<p>这个LL型过于简单，再举个LL型的最小子树例子，下面这个例子的子树高度比上面那个例子要高，但同样只需要一次右旋就能回到平衡状态。</p>
+<p>完全对称的，我们也有RR型（右右型），所以对称地我们需要一次左旋来让RR型回归平衡，我现在把LL型的例子变成RR型，再看看示意图，完全是对称的操作。右旋操作就是将操作结点从父结点变为左子结点。</p>
+<p>例子举完了，现在该分析一下所有可能存在的情况了。如下图，设想现在有一个子树的根结点t，子树处于平衡状态，它的左子树我们先记做ltree，右子树我们记做rtree。左子树和右子树中的结点数未知，但是它们的高度差因为平衡所以一定不大于1。现在我们插入一个新的结点n，假定我们插入新的结点之后，树将不再平衡，并且这个以结点t为根的子树是整个树的最小不平衡子树。那只有两种插入情况，一种是插入在左子树上，左子树比右子树高2，一种是插在右子树上，右子树比左子树高2，我们把比较矮的一边子树的高度记做h，则另一边比较高的子树的高度为h+2。当然h必须h≥0。可以想象到这两种情况是对称的，那他们解决平衡的操作也是对称的。</p>
+<p>我们现在拿情况1出来分析，把ltree又分为它的根结点tl和tl的左子树lltree和右子树lrtree，同样有两种情况，结点n要么是接在lltree上要么是接在lrtree上，根据上面的讨论，高度如下图所示，同时我也标注好了平衡因子。</p>
+<p>注意！以上的讨论都是建立在结点t构成的子树为最小不平衡子树下。因为这个子树为最小不平衡子树，所以必然的，情况1-1中lltree和lrtree还有rtree三个子树的高度都相等都是h，情况1-2中rltree和rrtree还有ltree三个子树的高度也相等也都是h。h要满足h≥0。反过来说lltree和lrtree还有rtree（或是rltree和rrtree还有ltree）它们的高度不可能不相等，如果不相等那结点t构成的子树就不是最小不平衡子树，记住我们所讨论的情况都是建立在结点t是最小不平衡子树的根结点上的。</p>
+<p>对于情况1-1我们可以继续分类讨论出情况1-1-1和1-1-2……但这样套娃已经完全没有必要了，因为我们现在就能针对情况1-1做出普适性的回归平衡方法。</p>
+<p>现在我们针对情况1-1来看，发现上文中右旋的两个例子就是情况1-1，情况1-1即是LL型。当lltree和lrtree还有rtree的高度为0时，就是上文右旋的第一个例子，而这三个子树高度为1时，就是上文右旋中第二个例子。可以继续推导的是，lltree和lrtree还有rtree的高度h只要满足h≥0，这种最小不平衡子树都是LL型，能都通过对根结点t一次右旋重新回归平衡，如下图。</p>
+<p>接下来讨论情况1-2，我们发现这不再是LL型了，我们无法通过一次右旋来解决问题，如下图：</p>
+<p>我们需要继续分析讨论情况1-2，分类讨论结点n插入的更准确的位置。我们把lrtree这个子树细分成结点tlr和其左右子树lrltree和lrrtree。我们对情况1-2分别得到以下两种情况1-2-a和1-2-b。1-2-a是结点n插在lrltree上，1-2-b是结点n插在lrrtree上。</p>
+<p>经过分析我们发现，虽然我们不能通过一次右旋来回归平衡，但是我们发现如果对情况1-2-a和1-2-b中的结点tl进行一次左旋，我们将把情况1-2-a和1-2-b转变了LL型，如下图</p>
+<p>情况1-2-a和1-2-b进行了左旋之后，得到的LL型是有区别的，情况1-2-a左旋结果的结点tlr的平衡因子为2，最小不平衡子树变成了以结点tlr为根的最小不平衡子树，不是结点t。而情况1-2-b左旋结果的结点tlr的平衡因子为1，所以依然是以结点t为根结点的最小不平衡子树。对于情况1-2-a左旋结果，它的最小不平衡子树变了，虽然也是LL型，但是我们能对结点tlr做一次右旋让它回归平衡吗？答案是不能，这样又变回情况情况1-2-a了，左右旋本身就是互为反操作。那这样的话，我们依旧是把情况1-2-a左旋结果的最小不平衡子树当做没有变动，根结点依旧是结点t，所以对于情况1-2-a左旋结果和情况1-2-b左旋结果，这两个都是根为结点t的LL型，我们对结点t做一次右旋即可回归平衡。如下图。</p>
+<p>情况1-2细分的两种情况现在就已经解决了不平衡问题，方法都是先对结点tl做一次左旋，再对结点t做一次右旋，我们把情况1-2称作LR型。所以LR型的最小不平衡子树，我们先对根结点t的左子节点tl做左旋转换成LL型后，再对结点t做右旋，即可平衡。但LR型里面也是有区别的，虽然都是对结点一样的操作，可重新平衡之后结点t和结点tl的平衡因子是不一样的，在实现上要注意处理这个问题。</p>
+<p>至此，其实我们已经解决掉AVL树的一半旋转方法了。LL型对根结点t做一次右旋，LR型对根结点t的左子节点tl做一次左旋再对结点t做一次右旋。对称地，我们可以得知，把LL型和LR型镜像翻转过来我们得到RR型，和RL型，重新平衡的操作也是对称的，对于RR型应当对根结点t做一次左旋，对于RL型应当对根结点t的右子结点tr做一次右旋，再对结点t做一次左旋。于是我们对于所有的不平衡情况都给出了平衡的旋转方法。下面示意图表示一下RR和RL的过程，就不从头分析一遍了。</p>
+<p>RR型：</p>
+<p>RL型</p>
+<p>RL型对结点tr右旋转换成RR型：</p>
+<p>最后再对结点t左旋：</p>
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"}];</script>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://liangziye.online/2920448857/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -238,7 +468,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-31 02:50:55" itemprop="dateModified" datetime="2021-07-31T02:50:55+08:00">2021-07-31</time>
+        <time title="修改时间：2021-08-04 00:11:49" itemprop="dateModified" datetime="2021-08-04T00:11:49+08:00">2021-08-04</time>
       </span>
 
   
@@ -259,7 +489,7 @@
 </li>
 </ul>
 <h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入和二叉搜索树不一样的是，需要再数据被放入后回溯结点，向上更新每一个结点的<a href="">平衡因子</a>，判断是否有子树不平衡，找到最小不平衡子树，用<a href="">上篇</a>中讨论的旋转方式去让树回归平衡。</p>
-<script>var relatedPosts = [{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"}]</script>
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"}];</script>
       
     </div>
 
@@ -316,7 +546,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-31 02:50:55" itemprop="dateModified" datetime="2021-07-31T02:50:55+08:00">2021-07-31</time>
+        <time title="修改时间：2021-08-04 00:11:57" itemprop="dateModified" datetime="2021-08-04T00:11:57+08:00">2021-08-04</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -376,7 +606,7 @@
 <p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC15.png"></p>
 <p>最后再对结点t左旋：</p>
 <p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC16.png"></p>
-<script>var relatedPosts = [{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"}]</script>
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"}];</script>
       
     </div>
 
@@ -433,7 +663,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-31 02:50:55" itemprop="dateModified" datetime="2021-07-31T02:50:55+08:00">2021-07-31</time>
+        <time title="修改时间：2021-08-04 00:11:39" itemprop="dateModified" datetime="2021-08-04T00:11:39+08:00">2021-08-04</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -459,7 +689,7 @@
 <p><img src="https://assets.liangziye.online/image/AVL%E6%A0%911.png"></p>
 <p>所以在AVL树中，我们必须使用一些办法使得树搜着数据的插入也能保持着平衡条件。这时候我们可以使用一种方法，在每次插入新数据时都去检查这棵树是否平衡，如果不平衡我们将调整一下不平衡的结点，给它们互换下位置，重新让二叉搜索树平衡起来，满足AVL树的条件。</p>
 <h2 id="最小不平衡子树"><a href="#最小不平衡子树" class="headerlink" title="最小不平衡子树"></a>最小不平衡子树</h2><p>这里先分析一下，我们是每一次做插入操作就去检查一次平衡，若不平衡就调整到平衡，所以我们每次插入前，AVL树都是平衡的，满足AVL树条件的。若现在开始插入操作，插入后导致了不平衡，那从插入节点往父节点一直向上找，找到第一个平衡因子的绝对值大于1的结点，以这个结点为根的子树，我们称为最小不平衡子树。不平衡子树的根结点是一个离插入结点最近的，平衡因子绝对值大于1的结点。这个子树是不平衡的，如果恢复平衡，我们就要从这个子树入手。</p>
-<script>var relatedPosts = [{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"}]</script>
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"}];</script>
       
     </div>
 
@@ -516,7 +746,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-31 02:50:55" itemprop="dateModified" datetime="2021-07-31T02:50:55+08:00">2021-07-31</time>
+        <time title="修改时间：2021-08-04 00:12:18" itemprop="dateModified" datetime="2021-08-04T00:12:18+08:00">2021-08-04</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -544,7 +774,7 @@
 <p>这里就引入了一个问题，怎么样来衡量一个二叉树/二叉搜索树接近链表的程度？更普通来讲，二叉树有左子树和右子树，当二叉树的左右子树高度相差越大时，它就越接近链表，极端情况，当遍历的每一个结点的左右子树，其中一个子树的高度为0时，也就是只存在其中一个子树时，它就完全退化成了链表。所以这个问题变成了怎么样来表示一个二叉树左右子树高度差？显而易见，我们用一个结点的左子树高度减去右子树的高度，得到一个值，这个值越小，右子树比左子树越高，反之这个值越大，左子树比右子树越高，当这个值为0时，这个结点的左右子树达到了平衡。这个值我们称为这个结点的平衡因子，它就能衡量这个树是否平衡。下面我拿<a href="https://liangziye.online/218212257/#%E6%8F%92%E5%85%A5">上一篇二叉搜索树</a>的二叉树例子看看各个结点的平衡因子。</p>
 <p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A12.png"></p>
 <p>可以看到除了结点4是不平衡的，左子树高度为1，右子树没有所以高度为0，它的平衡因子为1。再说说上面从1插到100的二叉树，根结点1的平衡因子为-100，因为左子树高度为0，右子树高度为100。</p>
-<script>var relatedPosts = [{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"}]</script>
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"}];</script>
       
     </div>
 
@@ -601,7 +831,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-31 02:50:55" itemprop="dateModified" datetime="2021-07-31T02:50:55+08:00">2021-07-31</time>
+        <time title="修改时间：2021-08-04 00:12:26" itemprop="dateModified" datetime="2021-08-04T00:12:26+08:00">2021-08-04</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -657,7 +887,7 @@
 <p>手动实现</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">remove</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">    TreeNode node = root;</span><br><span class="line">    <span class="keyword">while</span>(node != <span class="keyword">null</span> &amp;&amp; node.key!=key) &#123;</span><br><span class="line">        <span class="keyword">if</span>(key&lt;node.key) &#123;</span><br><span class="line">            node = node.left;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(key&gt;node.key)&#123;</span><br><span class="line">            node = node.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(node==<span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    TreeNode parent = node.parent;</span><br><span class="line">    <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; parent.left == node) &#123;</span><br><span class="line">        parent.left = <span class="keyword">null</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; parent.right == node)&#123;</span><br><span class="line">        parent.right = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(node.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">        TreeNode maxOfLeftTree = node.left;</span><br><span class="line">        <span class="keyword">while</span>(maxOfLeftTree.right!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            maxOfLeftTree = maxOfLeftTree.right;				</span><br><span class="line">        &#125;</span><br><span class="line">        maxOfLeftTree.parent = parent;</span><br><span class="line">        maxOfLeftTree.right = node.right;</span><br><span class="line">        <span class="keyword">if</span>(node.right!=<span class="keyword">null</span>) node.right.parent = maxOfLeftTree;</span><br><span class="line">        <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; maxOfLeftTree.key&lt;parent.key) &#123;</span><br><span class="line">            parent.left = maxOfLeftTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; maxOfLeftTree.key&gt;parent.key)&#123;</span><br><span class="line">            parent.right = maxOfLeftTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            root = maxOfLeftTree;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(node.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">        TreeNode minOfRightTree = node.right;</span><br><span class="line">        <span class="keyword">while</span>(minOfRightTree.left!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            minOfRightTree = minOfRightTree.left;				</span><br><span class="line">        &#125;</span><br><span class="line">        minOfRightTree.parent = parent;</span><br><span class="line">        minOfRightTree.left = node.left;</span><br><span class="line">        <span class="keyword">if</span>(node.left!=<span class="keyword">null</span>) node.left.parent = minOfRightTree;</span><br><span class="line">        <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; minOfRightTree.key&lt;parent.key) &#123;</span><br><span class="line">            parent.left = minOfRightTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; minOfRightTree.key&gt;parent.key)&#123;</span><br><span class="line">            parent.right = minOfRightTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            root = minOfRightTree;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    node.parent = <span class="keyword">null</span>;</span><br><span class="line">    node.left = <span class="keyword">null</span>;</span><br><span class="line">    node.right = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<script>var relatedPosts = [{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"}]</script>
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"}];</script>
       
     </div>
 
@@ -714,7 +944,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-31 02:52:34" itemprop="dateModified" datetime="2021-07-31T02:52:34+08:00">2021-07-31</time>
+        <time title="修改时间：2021-08-04 00:12:05" itemprop="dateModified" datetime="2021-08-04T00:12:05+08:00">2021-08-04</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -840,7 +1070,7 @@
 <p><img src="https://assets.liangziye.online/image/HashMap2.png"></p>
 <p><img src="https://assets.liangziye.online/image/HashMap3.png"></p>
 <p><img src="https://assets.liangziye.online/image/HashMap4.png"></p>
-<script>var relatedPosts = [{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"}]</script>
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"}];</script>
       
     </div>
 
@@ -897,7 +1127,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-31 02:52:34" itemprop="dateModified" datetime="2021-07-31T02:52:34+08:00">2021-07-31</time>
+        <time title="修改时间：2021-08-04 00:12:11" itemprop="dateModified" datetime="2021-08-04T00:12:11+08:00">2021-08-04</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -956,7 +1186,7 @@
 
 
 
-<script>var relatedPosts = [{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"}]</script>
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"}];</script>
       
     </div>
 
@@ -983,8 +1213,8 @@
 
 
 <div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
