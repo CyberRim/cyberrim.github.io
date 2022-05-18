@@ -162,7 +162,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -272,7 +272,7 @@
 <p><img src="https://assets.liangziye.online/image/AVL%E6%A0%911.png"></p>
 <p>所以在AVL树中，我们必须使用一些办法使得树搜着数据的插入也能保持着平衡条件。这时候我们可以使用一种方法，在每次插入新数据时都去检查这棵树是否平衡，如果不平衡我们将调整一下不平衡的结点，给它们互换下位置，重新让二叉搜索树平衡起来，满足AVL树的条件。</p>
 <h2 id="最小不平衡子树"><a href="#最小不平衡子树" class="headerlink" title="最小不平衡子树"></a>最小不平衡子树</h2><p>这里先分析一下，我们是每一次做插入操作就去检查一次平衡，若不平衡就调整到平衡，所以我们每次插入前，AVL树都是平衡的，满足AVL树条件的。若现在开始插入操作，插入后导致了不平衡，那从插入节点往父节点一直向上找，找到第一个平衡因子的绝对值大于1的结点，以这个结点为根的子树，我们称为最小不平衡子树。不平衡子树的根结点是一个离插入结点最近的，平衡因子绝对值大于1的结点。这个子树是不平衡的，如果恢复平衡，我们就要从这个子树入手。</p>
-<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"}];</script>
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"}];</script>
     </div>
 
     
