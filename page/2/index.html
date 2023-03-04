@@ -155,7 +155,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -168,7 +168,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -198,6 +198,302 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://liangziye.online/218212257/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Liangziye">
+      <meta itemprop="description" content="深入浅出不如不进不出">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liangziye">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/218212257/" class="post-title-link" itemprop="url">二叉树及二叉搜索树</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-18 17:50:42" itemprop="dateCreated datePublished" datetime="2021-07-18T17:50:42+08:00">2021-07-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-04 00:12:26" itemprop="dateModified" datetime="2021-08-04T00:12:26+08:00">2021-08-04</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/datas-tructure/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><p>首先我们来看一个普通的链表，头节点指向下一个结点，下一个结点再指向下一个结点，直到尾部最后一个结点。这个单向链表的一个特征：除了最后一个结点外，每一个结点都指向下一个结点。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%911.png"></p>
+<p>现在，那这个链表的中的结点，指向的结点不仅仅限定是一个，还允许是两个呢？</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%912.png"></p>
+<p>整理一下位置排版</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%913.png"></p>
+<p>于是它变成了一个<strong>二叉树</strong>。二叉树在<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%8F%89%E6%A0%91">维基百科</a>中的定义：<strong>二叉树（英语：Binary tree）是每个节点最多只有两个分支（即不存在分支度大于2的节点）的树结构。</strong>你也可以说上面的链表，它是一个极端条件下的二叉树，一个特殊的二叉树。数据的组织结构从来都不会凭空产生，而是根据需求不断变化不断适应。</p>
+<p>每一个结点往下指的一个或两个结点，都称为它的<strong>子结点</strong>，而它被称作它们的<strong>父结点</strong>。相对左右的位置，它们分别被称为<strong>左子结点</strong>和<strong>右子结点</strong>，以左右子结点为根构成的子树被称为<strong>左子树</strong>和<strong>右子树</strong>。</p>
+<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h2><p>现在我们给二叉树新加一个限定规则，如果存在一个结点存在它的左右子树的话，它的左子树上每一个结点的键都比它的键小，它的右子树上每一个结点的键都比它的键大。添加了这一个规则后，它便不仅仅是是一个普通的二叉树，而成了<strong>二叉搜索树</strong>，很明显，加入了左右子树结点键的大小限定规则后，这个二叉树变得有序了起来。</p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%85%83%E6%90%9C%E5%B0%8B%E6%A8%B9">维基百科</a>中二叉搜索树的性质定义：若任意节点的左子树不空，则左子树上所有节点的键均小于它的根节点的键；若任意节点的右子树不空，则右子树上所有节点的键均大于它的根节点的键；<br>任意节点的左、右子树也分别为二叉查找树。</p>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>我们现在通过将数组8,4,3,9,7]作为键不断插入来形成一个二叉搜索树。首先第一个键为6，现在树还不存在，6作为树的根放入成为结点6；第二个插入8，在经过和根部结点6后，8比6大，结点8插在了结点6的右边，成为了结点6的右子结点；接着插入4,4比8小， 成为了8个左子结点；继续插入3，3比6小，应该插入到结点6的左子树中，再和结点6的左子结点4比较，3比4小，插入到4的左子树中成为4的左子结点。以这种方式一直将数据插入进去。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%914.png"></p>
+<p>试着简单手动实现一下二叉搜索树的插入</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BSTree</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> TreeNode root;</span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">insert</span><span class="params">(TreeNode node)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(root == <span class="keyword">null</span>) &#123;</span><br><span class="line">			root = node;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		TreeNode parent = root;TreeNode nodeTmp = root;</span><br><span class="line">		<span class="keyword">while</span>(nodeTmp!= <span class="keyword">null</span>) &#123;</span><br><span class="line">			parent = nodeTmp;</span><br><span class="line">			<span class="keyword">if</span>(node.key == parent.key) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">			nodeTmp = node.key &lt; parent.key?parent.left:parent.right;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(node.key &lt; parent.key) &#123;</span><br><span class="line">			parent.left = node;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			parent.right = node;</span><br><span class="line">		&#125;</span><br><span class="line">		node.parent = parent;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，我们在讨论中默认二叉树的结点键不能有重复，如果有重复键需要额外讨论。</p>
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><p>我们接下来继续用上面插入好的二叉搜索树，试着从树里面查找出结点7。我们依然从根节点开始往下判断，判断当下结点和7的大小关系，若相等，即为要找的结点，若要查找的结点小于当下结点，意味着我们需要往当下结点的左子树中查询，把当下结点的左节点作为要判断的当下结点，反之我们需要往右子树中查询，把当下结点的右节点作为要判断的当下结点，循环步骤直到找到结点7，若当下结点一直往下直到为空，意味着树中不存在要找的结点。</p>
+<p>试着手动实现一下二叉搜索树的查找</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">search</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">    TreeNode nodeTmp = root;</span><br><span class="line">    <span class="keyword">while</span>(nodeTmp!=<span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(key &lt; nodeTmp.key) &#123;</span><br><span class="line">            nodeTmp = nodeTmp.left;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(key &gt; nodeTmp.key) &#123;</span><br><span class="line">            nodeTmp = nodeTmp.right;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> nodeTmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查找最大最小结点"><a href="#查找最大最小结点" class="headerlink" title="查找最大最小结点"></a>查找最大最小结点</h2><p>我们想一下二叉搜索树的插入方式，当要插入一个结点时，从根部往下，遇到这个结点比当下判断结点小的，我们往左子树走，反之我们往右子树走，就像一个岔路口，我们不停的找方向，直到走到尽头，再把结点插入。很明显，若是插入一个比树当前所有结点都小的结点时，我们每经过一个岔路口都是往左，反之则往右。所以最小值在树的最左下角，从根结点一直往左子树走，走到没有左子树的结点就是最小结点，最大值亦然。</p>
+<p>手动实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">findMin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    TreeNode node = root;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">while</span>(node.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">        node = node.left;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">findMax</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    TreeNode node = root;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">while</span>(node.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">        node = node.right;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><p>删除的情况相对于插入和查找，需要一点思考。假设我们删掉二叉搜索树最底部的结点，即没有子结点的结点（我们一般称为叶子结点），我们直接将其父节点的左子结点或右子结点设为空，将其本身也设为空，就直接删去了，非常简单，因为没有其他影响。如删去结点7。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%915.png"></p>
+<p>但如果删去结点6呢，或者结点8呢？结点6个结点8都有子结点/子树，这种情况下的删除操作需要考虑被删除结点的子树何去何从。其实，与其从处理被删除结点的子树的角度出发考虑，倒不如这样思考：用哪里的一个结点去替代这个被删除的结点？也就是说，拿去被删除的结点，用另一个结点换到这个位置上，保证二叉搜索树的限定条件依然成立。情况就变得非常简单了，拿掉一个结点之后，要找到一个比被删除结点的左子树都大又比被删除结点的右子树都小的结点，换去那个位置接上即可。而这个结点要满足条件，它只能是被删除结点的左子树中最大结点，或者是被删除结点右子树中最小结点。</p>
+<p>举例删除结点6来说，我们先看看删去结点6，并用结点6的右子树中的最小值去替换结点6的位置，过程是怎么样的。根据上文我们已经很清楚最大最小结点是在哪里，对于以结点8为根结点的右子树中，往左下角（左子树）一直找，得到这个子树的最小结点为结点7。结点7为叶子结点，我们拿掉它不会有其他影响，所以我们直接拿去替换到结点6所在的位置。现在我们看看，结点7由于是原树中结点6的右子树中的最小值，所以在现在的树中，结点7比它的整个右子树都要小；因为原树中结点7在结点6的右子树中，结点7当然会比现在的树中它的左子树都要大。二叉搜索树依然成立，删除完成。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%916.png"></p>
+<p>以上删除没有遇到什么问题，因为结点7是叶子结点。现在我们再重新来删除结点6，并用结点6的左子树中的最大值去替换结点6的位置，看看有什么不一样。我们找到结点6的左子树中的最大结点，是结点4，但这次找到后发现结点4并不是叶子结点，它还有一个左子结点，结点4并不在最下层。我们再继续思考，左子树中的最大结点，当它不是叶子结点的时候，它会不会有右子结点呢？显而易见是不会有的，如果有的话应该继续往右子树找，最大结点肯定不是它。所以总结下，在左子树中要么最大的结点是叶子结点，要么最大的结点只有左子结点没有右子结点。放到右子树中也一样，右子树中要么最小结点是叶子结点，要么最小结点只有右子结点没有左子节点。有点绕，但结论是非常简单显而易见的。那回到例子，把不是叶子结点的结点4换去到结点6的位置该怎么做呢？答案很明显，结点4带着它的左子树换到结点6的位置上，并接上结点6的右子树。结点4的左子树依然是结点4的左子树，结点4新的右子树曾经是结点6的右子树，一定比结点4大。二叉搜索树依然成立，删除完成。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8F%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%917.png"></p>
+<p>手动实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">remove</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">    TreeNode node = root;</span><br><span class="line">    <span class="keyword">while</span>(node != <span class="keyword">null</span> &amp;&amp; node.key!=key) &#123;</span><br><span class="line">        <span class="keyword">if</span>(key&lt;node.key) &#123;</span><br><span class="line">            node = node.left;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(key&gt;node.key)&#123;</span><br><span class="line">            node = node.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(node==<span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    TreeNode parent = node.parent;</span><br><span class="line">    <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; parent.left == node) &#123;</span><br><span class="line">        parent.left = <span class="keyword">null</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; parent.right == node)&#123;</span><br><span class="line">        parent.right = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(node.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">        TreeNode maxOfLeftTree = node.left;</span><br><span class="line">        <span class="keyword">while</span>(maxOfLeftTree.right!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            maxOfLeftTree = maxOfLeftTree.right;				</span><br><span class="line">        &#125;</span><br><span class="line">        maxOfLeftTree.parent = parent;</span><br><span class="line">        maxOfLeftTree.right = node.right;</span><br><span class="line">        <span class="keyword">if</span>(node.right!=<span class="keyword">null</span>) node.right.parent = maxOfLeftTree;</span><br><span class="line">        <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; maxOfLeftTree.key&lt;parent.key) &#123;</span><br><span class="line">            parent.left = maxOfLeftTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; maxOfLeftTree.key&gt;parent.key)&#123;</span><br><span class="line">            parent.right = maxOfLeftTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            root = maxOfLeftTree;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(node.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">        TreeNode minOfRightTree = node.right;</span><br><span class="line">        <span class="keyword">while</span>(minOfRightTree.left!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            minOfRightTree = minOfRightTree.left;				</span><br><span class="line">        &#125;</span><br><span class="line">        minOfRightTree.parent = parent;</span><br><span class="line">        minOfRightTree.left = node.left;</span><br><span class="line">        <span class="keyword">if</span>(node.left!=<span class="keyword">null</span>) node.left.parent = minOfRightTree;</span><br><span class="line">        <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; minOfRightTree.key&lt;parent.key) &#123;</span><br><span class="line">            parent.left = minOfRightTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(parent!=<span class="keyword">null</span> &amp;&amp; minOfRightTree.key&gt;parent.key)&#123;</span><br><span class="line">            parent.right = minOfRightTree;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            root = minOfRightTree;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    node.parent = <span class="keyword">null</span>;</span><br><span class="line">    node.left = <span class="keyword">null</span>;</span><br><span class="line">    node.right = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"},{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"}];</script>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://liangziye.online/1029785637/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Liangziye">
+      <meta itemprop="description" content="深入浅出不如不进不出">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liangziye">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/1029785637/" class="post-title-link" itemprop="url">HashMap</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-12 20:14:48" itemprop="dateCreated datePublished" datetime="2021-07-12T20:14:48+08:00">2021-07-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-04 00:12:05" itemprop="dateModified" datetime="2021-08-04T00:12:05+08:00">2021-08-04</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/datas-tructure/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="继承关系"><a href="#继承关系" class="headerlink" title="继承关系"></a>继承关系</h2><p><code>Map</code>以键值对（KV）储存数据，是java中的众多集合类中的一个接口，定义在包<code>java.util</code>中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>AbstractMap</code>是一个继承了接口<code>Map</code>的抽象类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>AbstractMap</code>作为一个抽象类，其最常用的实现类就是<code>HashMap</code>,同时<code>HashMap</code>继承了接口<code>Cloneable</code>和<code>Serializable</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Cloneable</span>, <span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p><code>put</code>存键值对</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key, V value)</span></span></span><br></pre></td></tr></table></figure>
+
+<p><code>get</code>取键值对</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span></span></span><br></pre></td></tr></table></figure>
+
+<p><code>isEmpty</code>判断是否为空</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p>HashMap被使用得最多是因为为哈希表高效的性能，插入删除查找的时间复杂度都为$O(1)$，对比其他数据结构：</p>
+<table>
+<thead>
+<tr>
+<th>数据结构</th>
+<th>插入</th>
+<th>删除</th>
+<th>查找</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HashMap</td>
+<td>$O(1)$</td>
+<td>$O(1)$</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>ArrayList</td>
+<td>$O(N/2)$</td>
+<td>$O(N/2)$</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>LinkedList</td>
+<td>$O(N/4)$</td>
+<td>$O(N/4)$</td>
+<td>$O(N/4)$</td>
+</tr>
+<tr>
+<td>二叉树</td>
+<td>$(logN)$</td>
+<td>$(logN)$</td>
+<td>$(logN)$</td>
+</tr>
+</tbody></table>
+<h2 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h2><p><code>HashMap</code>由数组和链表构成。这个数组在源码中被称为<code>table</code>，<code>table</code>中存放的每一个元素都是一个被称作<code>bin</code>的容器，<code>bin</code>是一个由类<code>Node</code>构成的一个链表，其中类<code>Node</code>继承自<code>Map.Entry</code>。所以实质上，HashMap就是一个储存了<code>Node</code>的数组。数组中每个<code>Node</code>为所在bin的链表头，指向该<code>bin</code>中的下一个<code>Node</code>，这里的每一个<code>Node</code>就是我们键值对实际储存的地方，包含了<code>key</code>和<code>value</code>。（这是最开始的简单情况，后文将提到，当每个<code>bin</code>中的<code>Node</code>数量超过一定值时，为了提高效率这个链表将转换成二叉树）</p>
+<p>每次插入新包含键值对的<code>Node</code>,它要么落在数组空的位置，直接被放入，要么落在已经数组中已经存在<code>Node</code>的位置，这种情况的话将遍历这个占了位置的<code>Node</code>所连接的链表，将新的<code>Node</code>接这个链接的尾部。</p>
+<p>那如何知道这个新的<code>Node</code>插入在数组的什么位置呢，用什么样方式确认新的<code>Node</code>的数组下标呢？答案是对<code>Node</code>的<code>key</code>求哈希，将这个哈希值映射到数组的长度中。用这样的方法，每一个键值对根据它的键<code>key</code>的哈希值必然有一个唯一的确定的下标。</p>
+<p>我们每次做插入操作时，对要插入的<code>key</code>值求哈希，做一些处理使得这个哈希值映射到数组的一个下标值。现在已经有了确定的下标值了，如果下标志的位置没有<code>Node</code>，那就直接放入，如果有<code>Node</code>存在，插入到这个<code>Node</code>所在链表的尾部。查找操作也是一样的，求哈希，映射得到下标，遍历下标所在的位置的链表找到<code>key</code>值相等的<code>Node</code>，返回其<code>value</code>。</p>
+<h2 id="哈希碰撞"><a href="#哈希碰撞" class="headerlink" title="哈希碰撞"></a>哈希碰撞</h2><p>假设我们的数据运气很好，每次插入新的<code>Node</code>时，它都落在数组<code>table</code>空的位置，新的<code>Node</code>都是数组中的新元素，每个<code>Node</code>都是链表头并且没有下一个节点。这样插入的时间只有$O(1)$；这种情况每次查找时时间当然也只需要$O(1)$。这样的话HashMap效率非常可观。</p>
+<p>但事实情况超出了以上美好假设的范围，由于哈希值非常大，在<code>java</code>中调用本地的<code>hashcode()</code>得到的哈希值是一个int值，32位整型。由于哈希值是一个长度固定的值，它是有限的，而我们的<code>key</code>其可能值可以说是无限的，对无限可能值的<code>key</code>做一样的哈希算法得到的哈希值，会有不同的<code>key</code>得到相同的哈希值的情况，这种情况叫做<strong>哈希碰撞</strong>。加上我们<code>HashMap</code>的<code>table</code>数组一开始初始化容量只有16，当容量不够时将会扩容，即便扩容，大部分实际情况下<code>table</code>的大小也远远达不到32位这个数量级。当32位的哈希值映射到<code>table</code>小小的容量的范围时，会发生不同的哈希值映射到<code>table</code>相同的下标的情况，更加加剧了不同的<code>key</code>对应<code>table</code>同一个下标的情况发生，于是出现了上文说的需要将新的<code>Node</code>插入到链表尾部的操作。</p>
+<p>哈希碰撞发生比较频繁时，即不同<code>key</code>值映射到数组同一个下标的情况非常多时，会导致了数组<code>table</code>中不断插入的<code>Entry</code>分布不均匀，数组中一些位置是空的，一些位置的bin链表长度非常长。这样的话每次插入和查找的时间就完全做不到$O(1)$了，我们只有尽可能让这种情况发生次数减少，让<code>Entry</code>在<code>table</code>中均匀分布，让<code>HashMap</code>的操作时间接近$O(1)$。</p>
+<h2 id="哈希散列为下标"><a href="#哈希散列为下标" class="headerlink" title="哈希散列为下标"></a>哈希散列为下标</h2><p>为了将32位的哈希值映射到数组容量的大小中，并让这些哈希值的映射尽可能地在<code>table</code>的<code>0</code>到<code>length-1</code>间分布均匀，我们想到的最简单的方法就是将得到的<code>key</code>哈希值对<code>table</code>的长度<code>length</code>求模，这样32位的哈希值就映射在了<code>0</code>到<code>length-1</code>的范围中。</p>
+<p>这样解决了大范围映射到小范围的问题，但依然没有解决如何让哈希映射到下标更加均匀。阅读源码，我们发现源码中做了将哈希值的高16位和低16位进行异或运算的操作，之后再去求模。</p>
+<p>我们可以这样理解，当<code>table</code>容量不够大，远远比哈希值的32位小的时候，我们对哈希值取<code>table</code>长度的模，哈希值的高位往往对这个结果没有影响。</p>
+<p>举例以下两个哈希值取16的模：</p>
+<p><code>1111 1111 1111 1111 1111 1111 1111 0101​</code></p>
+<p><code>0000 0000 0000 0000 0000 0000 0000 0101</code>​</p>
+<p>虽然这两个值只有低4位相同，高28位完全不同，可它们取16的模结果却完全一样，因为影响这个结果只有低4位，因为16换成二进制的最高位数为只有5位。当我们将高16位与低16位做异或操作时，</p>
+<p>上面第一个数的低4位成了：<code>1111 ^ 0101</code> 为 <code>0101</code></p>
+<p>上面第而个数的低4位成了：<code>0000 ^ 0101</code> 为 <code>1010</code></p>
+<p>这时候他们取模16的结果将不一样了。这种做法本质上是将低位变成高位的信息特征与低位信息特征的融合。让低位的数据同时有了高位和原本低位的信息特征，为之后映射到数组<code>table</code>下标增加了均匀性。</p>
+<p>做完异或操作后将得到的新的哈希值对数组长度取模即可得到数组<code>table</code>的下标。</p>
+<p>为了优化取模的效率，在<code>HashMap</code>源码里面<code>table</code>的长度规定为<code>2</code>的整数幂，将取模操作转换成了位操作，因为当<code>length</code>为<code>2</code>的整数幂时，<code>hash % length</code>可以变换成<code>hash &amp; ( length -1 )</code>。位操作比取模操作更快。</p>
+<p>我们重头看一遍下标是如何获得，并且让大量的<code>key</code>更均匀的映射到<code>table</code>下标范围的：</p>
+<ol>
+<li><p><code>key</code>调用本地方法<code>hashCode()</code>得到自身的<code>int</code>类型哈希值。</p>
+</li>
+<li><p>将这个32位的哈希值高16位和低16位做异或操作得到新哈希值<code>hash</code>。</p>
+</li>
+<li><p>将新哈希值<code>hash</code>取<code>table</code>长度<code>length</code>的模，并优化成位运算<code>hash &amp; ( length -1 )</code>。</p>
+</li>
+</ol>
+<p>最后求得的模，即位操作的结果就是下标。</p>
+<h2 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h2><p>当<code>HashMap</code>第一次存入键值对时，会执行一次方法<code>resize()</code>，<code>table</code>的容量，扩容临界值才被初始化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="number">0.75f</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">newCap = DEFAULT_INITIAL_CAPACITY;</span><br><span class="line">newThr = (<span class="keyword">int</span>)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">threshold = newThr;</span><br></pre></td></tr></table></figure>
+
+<p>可见初始容量为16（1&lt;&lt;4），threshold为触发扩容操作的临界值，初始值为12（0.75*16），即当前容量的0.75。</p>
+<p>每次存入键值对时，若包含键值对的<code>Node</code>添加在<code>table</code>的空位置中而不是某位置所在的<code>Node</code>链表尾部，<code>table</code>数组的长度<code>size</code>加1后，进行检查，若<code>size</code>大于临界值<code>threshold</code>，执行方法<code>resize()</code>。也就是说**<code>HashMap</code>的扩容条件是数组<code>table</code>长度<code>szie</code>超过了容量的0.75**。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (++size &gt; threshold)</span><br><span class="line">    resize();</span><br></pre></td></tr></table></figure>
+
+<p>在<code>resize()</code>中，<code>table</code>的容量进行了翻倍，同样临界值<code>threshold</code>也翻倍，此时仍然是容量的0.75。</p>
+<p>接下来是非常重要的部分，我们新设置了一个容量为翻倍后的数组，遍历旧数组中的每一个<code>Node</code>，将其重新映射（散列）到新数组中。</p>
+<p>首先遍历数组，当数组中的元素为空时跳过</p>
+<p>当数组中的元素为单个<code>Node</code>时，重新用位操作来快速根据新容量的大小求模的到新数组的下标，直接将<code>Node</code>放入。</p>
+<p>当数组中的元素为红黑树时 （后面补充）</p>
+<p>当数组中的元素为<code>Node</code>的链表时，遍历链表求每一个<code>Node</code>在新数组中的下标。由于我们的扩容是翻倍扩容，新数组的容量为旧数组的2倍，所以新数组中每一个<code>Node</code>的位置（下标）必然是它在旧数组中的原位置或者原位置加上增加容量的偏移，换句话说，旧数组中的<code>Node</code>搬新数组，要么下标不变，要么往后移动一个增加的容量大小的距离。例如当旧数组的原容量为16时有哈希值分别为9,25,41,57的四个<code>Node</code>，把这四个<code>Node</code>搬去容量翻倍为32的新数组时，哈希值为9的<code>Node</code>原地不动，因为它求模32后依然下标为9，和旧容量16时求模结果一样；哈希值为25的在原数组中求模为9，跟哈希值为9的<code>Node</code>同属一个bin的链表中，但在新数组中求模为25，于是在新数组中搬去了下标为25（9+16）的位置，与它本来原位置9偏移了一个扩容的大小16（原数组的容量）；接着看哈希值为41的<code>Node</code>，它在旧数组和新数组中的求模都为9，所以是呆在原位置不需要移动；57与25同理。我们发现，像哈希值9,25,41,57在16容量搬去32容量的例子下，我们只需要判断它们被32求模了之后再求模16的结果是不是为0，也就是判断它们被32求模了之后的值是否“溢出”16？或者说比16大还是小？如果“溢出”16，则需要搬位置，往后位移16，否则原地不动。所以这样看来，我们不必对链表中每一个<code>Node</code>的哈希值去求模取得新下标，我们只需要判断它是否是呆在原地还是往后位移一个增加容量的距离即可。源码中判断“是否溢出16”用了效率比较高的做法，直接去判断哈希值的二进制在第5低位上是不是1即可，第5位即为16的最高位（二进制10000），如果这个位上为1，证明被32求模的结果大于等于16，如果为0则小于16。最终，我们只需要在操作上将哈希值和旧容量（最高位为1其他位都为0，如16的二进制10000）的值做与运算，判断结果是否为0。下一步来说，我们当前是在遍历一个链表，我们把需要位移的<code>Node</code>拿出来组成新链表，放去位移的位置，剩下原地不动的<code>Node</code>重新接成一个链表，留在原地。这样处理的明显好处是链表中<code>Node</code>之间的前后关系没有发生变化。</p>
+<p><img src="https://assets.liangziye.online/image/HashMap2.png"></p>
+<p><img src="https://assets.liangziye.online/image/HashMap3.png"></p>
+<p><img src="https://assets.liangziye.online/image/HashMap4.png"></p>
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"}];</script>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -297,7 +593,7 @@
 
 
 
-<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"}];</script>
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"}];</script>
       
     </div>
 
@@ -328,7 +624,7 @@
 
 <div class="copyright">
   &copy; 2021 – 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

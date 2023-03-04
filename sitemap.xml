@@ -2,12 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://liangziye.online/2819248679/</loc>
+    <loc>https://liangziye.online/125787111/</loc>
     
-    <lastmod>2022-05-18T16:02:24.456Z</lastmod>
+    <lastmod>2023-03-04T18:50:04.596Z</lastmod>
     
-    <date>1652709960000</date>
-    <title>iptv抓包 | Liangziye</title>
+    <date>1677952426000</date>
+    <title>抓取调试中C#项目发出的网络请求 | Liangziye</title>
+    
+    <desc></desc>
+  </url>
+  
+  <url>
+    <loc>https://liangziye.online/3255947641/</loc>
+    
+    <lastmod>2022-07-06T07:56:51.106Z</lastmod>
+    
+    <date>1657094128079</date>
+    <title>关于dnsmasq的一次query却forwarded了两次这件事 | Liangziye</title>
+    
+    <desc></desc>
+  </url>
+  
+  <url>
+    <loc>https://liangziye.online/2389161658/</loc>
+    
+    <lastmod>2022-07-06T07:00:26.994Z</lastmod>
+    
+    <date>1657090721000</date>
+    <title>openwrt开启dnsmasq日志 | Liangziye</title>
     
     <desc></desc>
   </url>

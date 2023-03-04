@@ -19,27 +19,27 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"liangziye.online","root":"/","images":"/images","scheme":"Pisces","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="前情提要：  AVL树的旋转  [AVL树]   插入插入和二叉搜索树不一样的是，需要再数据被放入后回溯结点，向上更新每一个结点的平衡因子，判断是否有子树不平衡，找到最小不平衡子树，用上篇中讨论的旋转方式去让树回归平衡。 if(typeof hexoRelatedKeywordPost !&#x3D;&#x3D; &quot;object&quot;) hexoRelatedKeywordPost &#x3D; {};hexoRelatedKey">
+<meta name="description" content="开了dnsmasq的日志之后，发现一次query下面却跟了两个forwarded 1234Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx&#x2F;60201 query[A] clientservices.googleapis.com from 192.168.x.xxxJul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AVL树的实现">
-<meta property="og:url" content="https://liangziye.online/2920448857/index.html">
+<meta property="og:title" content="关于dnsmasq的一次query却forwarded了两次这件事">
+<meta property="og:url" content="https://liangziye.online/3255947641/index.html">
 <meta property="og:site_name" content="Liangziye">
-<meta property="og:description" content="前情提要：  AVL树的旋转  [AVL树]   插入插入和二叉搜索树不一样的是，需要再数据被放入后回溯结点，向上更新每一个结点的平衡因子，判断是否有子树不平衡，找到最小不平衡子树，用上篇中讨论的旋转方式去让树回归平衡。 if(typeof hexoRelatedKeywordPost !&#x3D;&#x3D; &quot;object&quot;) hexoRelatedKeywordPost &#x3D; {};hexoRelatedKey">
+<meta property="og:description" content="开了dnsmasq的日志之后，发现一次query下面却跟了两个forwarded 1234Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx&#x2F;60201 query[A] clientservices.googleapis.com from 192.168.x.xxxJul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-07-20T15:40:02.000Z">
-<meta property="article:modified_time" content="2021-08-03T16:11:49.000Z">
+<meta property="article:published_time" content="2022-07-06T07:55:28.079Z">
+<meta property="article:modified_time" content="2022-07-06T07:56:51.106Z">
 <meta property="article:author" content="Liangziye">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://liangziye.online/2920448857/">
+<link rel="canonical" href="https://liangziye.online/3255947641/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://liangziye.online/2920448857/","path":"2920448857/","title":"AVL树的实现"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://liangziye.online/3255947641/","path":"3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>AVL树的实现 | Liangziye</title>
+<title>关于dnsmasq的一次query却forwarded了两次这件事 | Liangziye</title>
   
 
 
@@ -131,7 +131,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <div class="sidebar-inner sidebar-overview-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -144,7 +144,6 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%85%A5"><span class="nav-number">1.</span> <span class="nav-text">插入</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -211,7 +210,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://liangziye.online/2920448857/">
+    <link itemprop="mainEntityOfPage" href="https://liangziye.online/3255947641/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -224,7 +223,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          AVL树的实现
+          关于dnsmasq的一次query却forwarded了两次这件事
         </h1>
 
         <div class="post-meta-container">
@@ -234,16 +233,10 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2021-07-20 23:40:02" itemprop="dateCreated datePublished" datetime="2021-07-20T23:40:02+08:00">2021-07-20</time>
+      <time title="创建时间：2022-07-06 15:55:28 / 修改时间：15:56:51" itemprop="dateCreated datePublished" datetime="2022-07-06T15:55:28+08:00">2022-07-06</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-04 00:11:49" itemprop="dateModified" datetime="2021-08-04T00:11:49+08:00">2021-08-04</time>
-      </span>
 
   
 </div>
@@ -255,15 +248,20 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>前情提要：</p>
-<ul>
-<li><p><a href="https://liangziye.online/138867439/">AVL树的旋转</a></p>
-</li>
-<li><p>[<a href="https://liangziye.online/2536969901/">AVL树</a>]</p>
-</li>
-</ul>
-<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入和二叉搜索树不一样的是，需要再数据被放入后回溯结点，向上更新每一个结点的<a href="">平衡因子</a>，判断是否有子树不平衡，找到最小不平衡子树，用<a href="">上篇</a>中讨论的旋转方式去让树回归平衡。</p>
-<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"},{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"}];</script>
+        <p><a href="/2389161658">开了dnsmasq的日志</a>之后，发现一次query下面却跟了两个forwarded</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 query[A] clientservices.googleapis.com from 192.168.x.xxx</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 forwarded clientservices.googleapis.com to 223.5.5.5</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 forwarded clientservices.googleapis.com to 223.5.5.5</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 reply clientservices.googleapis.com is 120.253.255.98</span><br></pre></td></tr></table></figure>
+
+<p>我第一反应跟我用两条宽带有关，于是把其中一条宽带的DNS改成<code>114.114.114</code>以区分，果然，两次forwarded，一次223.5.5.5一次114.114.114</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 query[A] www.google.com from 192.168.x.xxx</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 forwarded www.google.com to 223.5.5.5</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 forwarded www.google.com to 114.114.114.114</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.2.135/58192 reply www.google.com is 142.251.43.4</span><br></pre></td></tr></table></figure>
+
+<p>不知道为什么dnsmasq要每一条宽带都请求一次，可能是在负载均衡的规则中进了balanced。</p>
+<p>于是去负载均衡里面加上了两条DNS的规则，让tcp/udp协议的目标端口为53的流量都优先走其中一条宽带，发现并不管用。</p>
+<p>去看看dnsmasq的解析文件<code>/tmp/resolv.conf.d/resolv.conf.auto</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Interface wan</span><br><span class="line">nameserver 223.5.5.5</span><br><span class="line"># Interface wan1</span><br><span class="line">nameserver 114.114.114.114</span><br></pre></td></tr></table></figure>
+
+<p>突然明白了，我之前勾选了“使用 all-servers 并发查询”，这样每个网络接口里面自定义的DNS服务器都会查一次，但只用最快得到的结果。我取消了并发查询之后，一次query只有一个forwarded。</p>
+<p>其实问题出在<code>resolv.conf</code>，两个网络接口用相同的nameserver，<code>resolv.conf</code>会加上两条相同的nameserver，而不是相同的nameserver会自动去重。</p>
+<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"}];</script>
     </div>
 
     
@@ -276,13 +274,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/138867439/" rel="prev" title="AVL树的旋转">
-                  <i class="fa fa-chevron-left"></i> AVL树的旋转
+                <a href="/2389161658/" rel="prev" title="openwrt开启dnsmasq日志">
+                  <i class="fa fa-chevron-left"></i> openwrt开启dnsmasq日志
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/1/" rel="next" title="">
-                   <i class="fa fa-chevron-right"></i>
+                <a href="/125787111/" rel="next" title="抓取调试中C#项目发出的网络请求">
+                  抓取调试中C#项目发出的网络请求 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -338,7 +336,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"CyberRim","repo":"cyberrim.github.io","client_id":"971707ebf89b3543b252","client_secret":"355c18f296fccbb4b0e2ddc0830dea1d7ea7cfc2","admin_user":"CyberRim","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"bcc6be238b5322d34ac3c66252393d35"}</script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"CyberRim","repo":"cyberrim.github.io","client_id":"971707ebf89b3543b252","client_secret":"355c18f296fccbb4b0e2ddc0830dea1d7ea7cfc2","admin_user":"CyberRim","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"0256eff0b4246f2b78afe20d779d5814"}</script>
 <script src="/js/third-party/comments/gitalk.js"></script>
 
 <!-- hexo injector body_end start --><script>
