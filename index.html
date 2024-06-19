@@ -155,7 +155,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -168,7 +168,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -207,6 +207,88 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://liangziye.online/3468276863/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Liangziye">
+      <meta itemprop="description" content="深入浅出不如不进不出">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liangziye">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/3468276863/" class="post-title-link" itemprop="url">node-gyp安装</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-06-19 23:57:05" itemprop="dateCreated datePublished" datetime="2024-06-19T23:57:05+08:00">2024-06-19</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="当前环境"><a href="#当前环境" class="headerlink" title="当前环境"></a>当前环境</h2><ul>
+<li>win10</li>
+<li>npm v10.7.0</li>
+<li>node v18.20.3</li>
+</ul>
+<h2 id="安装chocolatey"><a href="#安装chocolatey" class="headerlink" title="安装chocolatey"></a>安装chocolatey</h2><p>powershell管理员安装：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-ExecutionPolicy</span> Bypass <span class="literal">-Scope</span> <span class="keyword">Process</span> <span class="literal">-Force</span>; [<span class="type">System.Net.ServicePointManager</span>]::SecurityProtocol = [<span class="type">System.Net.ServicePointManager</span>]::SecurityProtocol <span class="operator">-bor</span> <span class="number">3072</span>; <span class="built_in">iex</span> ((<span class="built_in">New-Object</span> System.Net.WebClient).DownloadString(<span class="string">&#x27;https://community.chocolatey.org/install.ps1&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<p>耐心等待，过程涉及到下载，需要一定耗时。</p>
+<p><a target="_blank" rel="noopener" href="https://chocolatey.org/install#individual">详见官网</a></p>
+<h2 id="安装环境相关"><a href="#安装环境相关" class="headerlink" title="安装环境相关"></a>安装环境相关</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install python visualstudio2022<span class="literal">-workload</span><span class="literal">-vctools</span> <span class="literal">-y</span></span><br></pre></td></tr></table></figure>
+
+<p>[详见node-gpy README](<a target="_blank" rel="noopener" href="https://github.com/nodejs/node-gyp#on-windows">nodejs/node-gyp: Node.js native addon build tool (github.com)</a>)</p>
+<h2 id="npm安装node-gyp"><a href="#npm安装node-gyp" class="headerlink" title="npm安装node-gyp"></a>npm安装node-gyp</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g node-gyp</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://liangziye.online/125787111/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -232,7 +314,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2023-03-05 01:53:46 / 修改时间：02:50:04" itemprop="dateCreated datePublished" datetime="2023-03-05T01:53:46+08:00">2023-03-05</time>
+      <time title="创建时间：2023-03-05 01:53:46 / 修改时间：02:52:35" itemprop="dateCreated datePublished" datetime="2023-03-05T01:53:46+08:00">2023-03-05</time>
     </span>
 
   
@@ -260,7 +342,7 @@
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a target="_blank" rel="noopener" href="http://blog.yoqi.me/crowley/15975.html">wireshark https抓包</a></p>
 <p><a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/introducing-visual-studios-network-tool/">Introducing Visual Studio’s Network tool</a></p>
 <p><a target="_blank" rel="noopener" href="https://docs.telerik.com/fiddler/configure-fiddler/tasks/configuredotnetapp#configure-net-core-applications">Configure .NET Core Applications</a></p>
-<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"}];</script>
+
       
     </div>
 
@@ -337,7 +419,7 @@
 
 <p>突然明白了，我之前勾选了“使用 all-servers 并发查询”，这样每个网络接口里面自定义的DNS服务器都会查一次，但只用最快得到的结果。我取消了并发查询之后，一次query只有一个forwarded。</p>
 <p>其实问题出在<code>resolv.conf</code>，两个网络接口用相同的nameserver，<code>resolv.conf</code>会加上两条相同的nameserver，而不是相同的nameserver会自动去重。</p>
-<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"}];</script>
+
       
     </div>
 
@@ -411,7 +493,7 @@
 <p>要开关的话还是在luci开关，只把日志位置写在<code>/etc/dnsmasq.conf</code>就好了。也可以直接在<code>/etc/config/dhcp</code>加上<code> option logqueries &#39;1&#39;</code>，这里就是luci的配置文件，加上之后luci的记录查询日志的框框会自己勾上。</p>
 <p>当然在<code>/etc/dnsmasq.conf</code>加上<code>log-queries</code>也可以直接开启日志，但这样的坏处是跟luci不同步了，加上之后，虽然luci的记录查询日志的框框没勾上，但却开启了日志。</p>
 <p>最后，不要去改运行配置。</p>
-<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"}];</script>
+
       
     </div>
 
@@ -581,7 +663,7 @@
 <li><p>实例化<code>Buffer</code>的构造函数已经废弃，实例可以靠静态方法<code>from</code>获得，与上面一样，当参数是可迭代的对象或者其他<code>Buffer</code>实例时，会复制一份数据，当参数是<code>ArrayBuffer</code>的实例时，直接指向它，同时可以控制长度和偏移。</p>
 </li>
 <li><p><code>Buffer</code>有内存池机制，当实例化<code>Buffer</code>时如果参数不是<code>ArrayBuffer</code>时，会检查<code>Buffer</code>实例的大小，如果小于内存池的一半则将现有的内存池分配给它，否则新建一个内存池。</p>
-<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"}];</script></li>
+</li>
 </ul>
 
       
@@ -721,7 +803,7 @@
 <blockquote>
 <p>在我失去第一颗牙齿的那天，<br>四年级上到一半，<br>我会沿着缝隙伸出舌头，<br>我以前的牙齿在哪里，<br>我记得我哭着回家，<br>并把它展示给我妈妈，<br>她告诉我，一颗崭新的牙齿，<br>会在我的口香糖里长大，<br>过一会儿，差距就不再奇怪了，<br>我不会注意到牙齿掉了，<br>我现在错过的唯一原因，<br>是因为它存在了那么久，<br>然后在几周内缓慢但肯定地，<br>缝隙里长出了一颗新牙，<br>现在它让我想知道，<br>如果人也像牙齿</p>
 </blockquote>
-<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"}];</script>
+
       
     </div>
 
@@ -813,7 +895,7 @@
 <p>RL型</p>
 <p>RL型对结点tr右旋转换成RR型：</p>
 <p>最后再对结点t左旋：</p>
-<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"},{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"}];</script>
+
       
     </div>
 
@@ -891,7 +973,7 @@
 </li>
 </ul>
 <h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入和二叉搜索树不一样的是，需要再数据被放入后回溯结点，向上更新每一个结点的<a href="">平衡因子</a>，判断是否有子树不平衡，找到最小不平衡子树，用<a href="">上篇</a>中讨论的旋转方式去让树回归平衡。</p>
-<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"},{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"}];</script>
+
       
     </div>
 
@@ -1008,7 +1090,7 @@
 <p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC15.png"></p>
 <p>最后再对结点t左旋：</p>
 <p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC16.png"></p>
-<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"},{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"}];</script>
+
       
     </div>
 
@@ -1091,92 +1173,7 @@
 <p><img src="https://assets.liangziye.online/image/AVL%E6%A0%911.png"></p>
 <p>所以在AVL树中，我们必须使用一些办法使得树搜着数据的插入也能保持着平衡条件。这时候我们可以使用一种方法，在每次插入新数据时都去检查这棵树是否平衡，如果不平衡我们将调整一下不平衡的结点，给它们互换下位置，重新让二叉搜索树平衡起来，满足AVL树的条件。</p>
 <h2 id="最小不平衡子树"><a href="#最小不平衡子树" class="headerlink" title="最小不平衡子树"></a>最小不平衡子树</h2><p>这里先分析一下，我们是每一次做插入操作就去检查一次平衡，若不平衡就调整到平衡，所以我们每次插入前，AVL树都是平衡的，满足AVL树条件的。若现在开始插入操作，插入后导致了不平衡，那从插入节点往父节点一直向上找，找到第一个平衡因子的绝对值大于1的结点，以这个结点为根的子树，我们称为最小不平衡子树。不平衡子树的根结点是一个离插入结点最近的，平衡因子绝对值大于1的结点。这个子树是不平衡的，如果恢复平衡，我们就要从这个子树入手。</p>
-<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/2750358315/","title":"二叉树的平衡"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"},{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"}];</script>
-      
-    </div>
 
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://liangziye.online/2750358315/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Liangziye">
-      <meta itemprop="description" content="深入浅出不如不进不出">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liangziye">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2750358315/" class="post-title-link" itemprop="url">二叉树的平衡</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-07-19 21:12:29" itemprop="dateCreated datePublished" datetime="2021-07-19T21:12:29+08:00">2021-07-19</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-04 00:12:18" itemprop="dateModified" datetime="2021-08-04T00:12:18+08:00">2021-08-04</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/datas-tructure/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><a href="https://liangziye.online/218212257/">上一篇</a>写到二叉搜索树，它平均都是对数的时间复杂度都很优秀。现在考虑一种情况，我们将一组上升序列[1,2,3,……,98,88,100]一共100个值作为结点形成一个新的二叉搜索树，我们插入的第一个结点键为1，最后一个结点的键位100。</p>
-<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A11.png"></p>
-<p>插入完之后我们发现这根本就是一个链表，对于这个二叉搜索树来说，插入查找和删除操作的时间复杂度都不是对数了，因为它是一个普通的链表。我们插入的数据一直都是升序的，对于二叉搜索树的插入方法来看，最终的结果只能是这样的一个链表，完全丧失了二叉搜索树的特性。虽然这个例子很极端，但是说明了一个问题，插入的数据越有序，我们得到的二叉搜索树就越接近链表，时间复杂度就离对数越来越远，查找效率越来越差。</p>
-<p>这里就引入了一个问题，怎么样来衡量一个二叉树/二叉搜索树接近链表的程度？更普通来讲，二叉树有左子树和右子树，当二叉树的左右子树高度相差越大时，它就越接近链表，极端情况，当遍历的每一个结点的左右子树，其中一个子树的高度为0时，也就是只存在其中一个子树时，它就完全退化成了链表。所以这个问题变成了怎么样来表示一个二叉树左右子树高度差？显而易见，我们用一个结点的左子树高度减去右子树的高度，得到一个值，这个值越小，右子树比左子树越高，反之这个值越大，左子树比右子树越高，当这个值为0时，这个结点的左右子树达到了平衡。这个值我们称为这个结点的平衡因子，它就能衡量这个树是否平衡。下面我拿<a href="https://liangziye.online/218212257/#%E6%8F%92%E5%85%A5">上一篇二叉搜索树</a>的二叉树例子看看各个结点的平衡因子。</p>
-<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A12.png"></p>
-<p>可以看到除了结点4是不平衡的，左子树高度为1，右子树没有所以高度为0，它的平衡因子为1。再说说上面从1插到100的二叉树，根结点1的平衡因子为-100，因为左子树高度为0，右子树高度为100。</p>
-<script>if(typeof hexoRelatedKeywordPost !== "object") hexoRelatedKeywordPost = {};hexoRelatedKeywordPost.relatedPosts = [{"permalink":"https://liangziye.online/218212257/","title":"二叉树及二叉搜索树"},{"permalink":"https://liangziye.online/2536969901/","title":"AVL树"},{"permalink":"https://liangziye.online/1/","title":""},{"permalink":"https://liangziye.online/138867439/","title":"AVL树的旋转"},{"permalink":"https://liangziye.online/2920448857/","title":"AVL树的实现"},{"permalink":"https://liangziye.online/1029785637/","title":"HashMap"},{"permalink":"https://liangziye.online/703273030/","title":"No1.两数之和"},{"permalink":"https://liangziye.online/2819248679/","title":"iptv抓包"},{"permalink":"https://liangziye.online/undefined/","title":"WebAssembly"},{"permalink":"https://liangziye.online/undefined/","title":"Buffer和TypedArray"},{"permalink":"https://liangziye.online/125787111/","title":"抓取调试中C#项目发出的网络请求"},{"permalink":"https://liangziye.online/1426945054/","title":"奇怪的广播"},{"permalink":"https://liangziye.online/3255947641/","title":"关于dnsmasq的一次query却forwarded了两次这件事"},{"permalink":"https://liangziye.online/2389161658/","title":"openwrt开启dnsmasq日志"},{"permalink":"https://liangziye.online/3902632945/","title":"Buffer和TypedArray"}];</script>
       
     </div>
 
@@ -1207,7 +1204,7 @@
 
 <div class="copyright">
   &copy; 2021 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
