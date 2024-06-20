@@ -17,19 +17,6 @@
       </tags>
   </entry>
   <entry>
-    <title>AVL树的实现</title>
-    <url>/2920448857/</url>
-    <content><![CDATA[<p>前情提要：</p>
-<ul>
-<li><p><a href="https://liangziye.online/138867439/">AVL树的旋转</a></p>
-</li>
-<li><p>[<a href="https://liangziye.online/2536969901/">AVL树</a>]</p>
-</li>
-</ul>
-<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入和二叉搜索树不一样的是，需要再数据被放入后回溯结点，向上更新每一个结点的<a href="">平衡因子</a>，判断是否有子树不平衡，找到最小不平衡子树，用<a href="">上篇</a>中讨论的旋转方式去让树回归平衡。</p>
-]]></content>
-  </entry>
-  <entry>
     <title>AVL树的旋转</title>
     <url>/138867439/</url>
     <content><![CDATA[<h2 id="特定例子"><a href="#特定例子" class="headerlink" title="特定例子"></a>特定例子</h2><p>现在我们开始解决<a href="https://liangziye.online/2536969901/">AVL树</a>中提到最小不平衡子树，使AVL树重新恢复平衡状态。</p>
@@ -80,110 +67,16 @@
       </tags>
   </entry>
   <entry>
-    <title>Buffer和TypedArray</title>
-    <url>/3902632945/</url>
-    <content><![CDATA[<p>不想写await/sync，又不想嵌套括号，于是偷懒用了sync-request，两行就完成了GET请求，但是返回的结果对象，内部有三个字段，headers是对象，url是字符串，唯独body是一串二进制不能直接阅读，需要处理的数据。主要很奇怪的是在编辑器上console出来，控制台显示这是一个uint8Array，调试显示的也是一个uint8Array，但在终端补全时候提示却是一个Buffer。instanceof这两个都是true，unit8Array和Buffer是一个东西吗?</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> request = <span class="built_in">require</span>(<span class="string">&#x27;sync-request&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> url = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> body = request(<span class="string">&#x27;GET&#x27;</span>, url).body;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(body <span class="keyword">instanceof</span> Buffer);</span><br><span class="line"><span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(body <span class="keyword">instanceof</span> <span class="built_in">Uint8Array</span>);</span><br><span class="line"><span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Buffer和Uint8Array的继承关系："><a href="#Buffer和Uint8Array的继承关系：" class="headerlink" title="Buffer和Uint8Array的继承关系："></a>Buffer和Uint8Array的继承关系：</h3> <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> buffer = <span class="keyword">new</span> Buffer(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(buffer <span class="keyword">instanceof</span> <span class="built_in">Uint8Array</span>);</span><br><span class="line"><span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-
-<p>buffer继承于Uint8Array</p>
-<h3 id="Buffer-Uint8Array与ArrayBuffer的关系"><a href="#Buffer-Uint8Array与ArrayBuffer的关系" class="headerlink" title="Buffer Uint8Array与ArrayBuffer的关系"></a>Buffer Uint8Array与ArrayBuffer的关系</h3><p><code>ArrayBuffer</code>是一段字节，一段二进制数据，可以看做是内存上的一片格子，实质上是内存上一片连续空间的引用，它就代表了这一片连续的空间。<code>ArrayBuffer</code>不能更改长度容量，也不能直接操作它读取上面的数据。</p>
-<p>为了操作它，读写上面的数据，我们需要<code>Buffer</code> <code>Uint8Array</code>这些东西，我们称它们为视图（view） ，可以想象<code>Uint8Array</code>覆盖在<code>ArrayBuffer</code>这一片连续内存之上，我们透过这一层视图来操作内存上的数据。</p>
-<p>除了<code>Uint8Array</code>以外，ArrayBuffer的视图还有<code>Uint16Array</code>，<code>Uint32Array</code>诸如此类，看命名就可以得知，它们的区别只有bit大小不同，<code>Uint8Array</code>是8bit，1个byte，后两者分别是2个byte和4个byte，这个byte的区别是它们分别用多大的“尺寸”去“解释”<code>ArrayBuffer</code>，它们视图就像翻译机，我们偷着覆盖在上面这层翻译机翻译出下面的数据，<code>Uint8Array</code>是以每1个byte为单位作为一个元素，而<code>Uint16Array</code>是以每2个byte为单位作为一个元素，<code>Uint32Array</code>则是4个byte作为一个单位。他们统称为<code>TypedArray</code>。</p>
-<p>如<code>1111 1111 1111 1111 1111 1111 1111 1111</code>这段数据，</p>
-<p><code>Uint8Array</code>解释为<code>[255,255,255,255]</code>（十进制）</p>
-<p><code>Uint16Array</code>解释为<code>[65535,65535]</code>（十进制）</p>
-<p><code>Uint32Array</code>解释为<code>[33554431]</code>（十进制）</p>
-<p>而Buffer继承自Uint8Array，自然也是1个字节为一个单位</p>
-<p>这类视图有一个统称TypedArray，它们的方法都相同也比较简单，类似于数组的处理。</p>
-<h3 id="ArrayBuffer的实例化"><a href="#ArrayBuffer的实例化" class="headerlink" title="ArrayBuffer的实例化"></a>ArrayBuffer的实例化</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(length);</span><br></pre></td></tr></table></figure>
-
-<p><code>ArrayBuffer</code>的构造函数只接受一个length参数，实例化出一个有着byte长度为length的内存块的<code>ArrayBuffer</code>实例，当实例化后，这片内存全为0。</p>
-<p>注意，没有用数组或者其它buffer作为参数的构造方法，<code>ArrayBuffer</code>本身意义上就是一块连续内存上二进制数据的引用，而现成的数组或者其它buffer内部本身也指向了一块二进制数据。</p>
-<h3 id="TypedArray的实例化"><a href="#TypedArray的实例化" class="headerlink" title="TypedArray的实例化"></a>TypedArray的实例化</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> TypedArray(buffer [, byteOffset [, length]]);</span><br></pre></td></tr></table></figure>
-
-<p>如果说<code>TypedArray</code>这种视图只是一层在<code>ArrayBuffer</code>之上的操作工具，那严格来说它本身是没有数据的，先从<code>ArrayBuffer</code>的实例开始， <code>buffer</code>可以是一个<code>ArrayBuffer</code>的实例，这样实例化出来的<code>TypedArray</code>实例将指向这个<code>ArrayBuffer</code>实例</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> arrayBuffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">const</span> view = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(arrayBuffer);</span><br><span class="line"><span class="built_in">console</span>.log(arrayBuffer === view.buffer);</span><br><span class="line"><span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-
-<p><code>buffer</code>是<code>TypedArray</code>的一个属性，它是视图对象所对应的内存区域，也就是此实例所指向的<code>ArrayBuffer</code>实例。</p>
-<p>再来看看可选参数，byteoffset代表的是<code>TypedArray</code>实例指向<code>ArrayBuffer</code>实例的偏移量，单位是byte，默认为0，length代表的是<code>TypedArray</code>实例覆盖<code>ArrayBuffer</code>实例的长度，这个默认不是<code>ArrayBuffer</code>实例的长度，默认是<code>ArrayBuffer</code>实例的长度减去byteoffset，如果byteoffset为<code>ArrayBuffer</code>实例的长度，那length就为0。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> arrayBuffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">const</span> view = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(arrayBuffer,<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">view[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line">view[<span class="number">1</span>]=<span class="number">0xff</span>;</span><br><span class="line">view[<span class="number">3</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(view);</span><br><span class="line"><span class="comment">//[ 255, 255 ]</span></span><br><span class="line"><span class="built_in">console</span>.log(arrayBuffer);</span><br><span class="line"><span class="comment">//&lt;00 ff ff 00&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>可见，实例<code>view</code>操作的是<code>arrayBuffer</code>的第一第二个字节。view[3]如果打印出来是<code>undefined</code>。</p>
-<p><code>arrayBuffer</code>为<code>ArrayBuffer</code>对象的实例，它是内存上真实存在的一段空间的引用，一串二进制数据看，这样<code>uint8Array</code>就成为了这一段内存空间引用的视图、操作工具。</p>
-<p>现在来试一试，如果接受的参数不是<code>ArrayBuffer</code>实例，而是一个可迭代的数组对象，那实例化出来的<code>TypedArray</code>所指的<code>ArrayBuffer</code>实例是什么，跟传入的数组这个参数有什么关系</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> view = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(array);</span><br><span class="line">view[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(view.buffer);</span><br><span class="line"><span class="comment">//&lt;ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(array);</span><br><span class="line"><span class="comment">//[ 0, 0, 0, 0 ]</span></span><br></pre></td></tr></table></figure>
-
-<p>很明显，它复制了一份数据，新建了一个<code>ArrayBuffer</code>实例，而<code>view</code>对象指向的就是这个新建的<code>ArrayBuffer</code>实例，视图对象跟数组已经没有关系了。也就是说除了直接给<code>ArrayBuffer</code>实例作为参数是直接指向，不然都是复制一份新的数据（因为数组内部没有指向的<code>ArrayBuffer</code>）。</p>
-<p>包括参数为其他<code>TypedArray</code>也是如此，也是复制，而且这个构造函数没有可选偏移量跟长度。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> TypedArray(typedArray);	</span><br></pre></td></tr></table></figure>
-
-<p>多个视图可以同时指向的<code>ArrayBuffer</code>相同。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> arrayBuffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">const</span> uint8Array1 = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(arrayBuffer);</span><br><span class="line"><span class="keyword">const</span> uint8Array2 = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(arrayBuffer);</span><br><span class="line"><span class="built_in">console</span>.log(uint8Array1 === uint8Array2);</span><br><span class="line"><span class="comment">//false</span></span><br><span class="line"><span class="built_in">console</span>.log(uint8Array1[<span class="number">0</span>]);</span><br><span class="line"><span class="comment">//0</span></span><br><span class="line"><span class="built_in">console</span>.log(uint8Array2[<span class="number">0</span>]);</span><br><span class="line"><span class="comment">//0</span></span><br><span class="line">uint8Array1[<span class="number">0</span>]++;</span><br><span class="line"><span class="built_in">console</span>.log(uint8Array1[<span class="number">0</span>]);</span><br><span class="line"><span class="comment">//1</span></span><br><span class="line"><span class="built_in">console</span>.log(uint8Array2[<span class="number">0</span>]);</span><br><span class="line"><span class="comment">//1</span></span><br></pre></td></tr></table></figure>
-
-<p>那问题来了，我有一个旧的视图，我现在希望实例化一个新的视图，我希望这两个视图都指向同一片内存数据，又改怎么做呢？直接用旧视图作为构造参数去实例化当然是不行的，那样只会在内存上复制一份新的数据。由于直接使用<code>ArrayBuffer</code>的对象，即用这一块内存数据的引用去实例化视图，才使得视图直接指向这块内存，不会复制新的数据，那我们取出旧视图的代表了内存引用的<code>ArrayBuffer</code>对象，用它去实例化新视图不就可以了吗？</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> view1 = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>([<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]);</span><br><span class="line"><span class="keyword">const</span> arrayBuffer = view1.buffer;</span><br><span class="line"><span class="keyword">const</span> view2 = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(arrayBuffer);</span><br><span class="line">view1[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(view1);</span><br><span class="line"><span class="comment">//[ 255, 0, 0 ]</span></span><br><span class="line"><span class="built_in">console</span>.log(view2);</span><br><span class="line"><span class="comment">//[ 255, 0, 0 ]   </span></span><br></pre></td></tr></table></figure>
-
-<p>除了传入<code>ArrayBuffer</code>实例和<code>TypedArray</code>实例，还可以传入一个number值作为构造参数。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> TypedArray(length);</span><br></pre></td></tr></table></figure>
-
-<p>也可以使用默认构造方法,内部同样会创建一个<code>ArrayBuffer</code>实例并指向它，但其长度为0。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> view = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>();</span><br><span class="line"><span class="built_in">console</span>.log(view.buffer.byteLength);</span><br><span class="line"><span class="comment">//0</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="from"><a href="#from" class="headerlink" title="from"></a>from</h4><p><code>TypedArray.from()</code>可以获得一个新实例</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">TypedArray.from(source[, mapFn[, thisArg]])</span><br></pre></td></tr></table></figure>
-
-<p>但问题是这个<code>source</code>只能是其他的<code>TypedArray</code>或者可迭代的对象比如数组，也就是不能是<code>ArrayBuffer</code>实例。如果硬要传递进去，只会创建一个新的长度为0<code>ArrayBuffer</code>实例</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> arrayBuffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">const</span> view = <span class="built_in">Uint8Array</span>.from(arrayBuffer);</span><br><span class="line"><span class="built_in">console</span>.log(view.buffer.byteLength);</span><br><span class="line"><span class="comment">//0</span></span><br><span class="line"><span class="built_in">console</span>.log(view.buffer==arrayBuffer);</span><br><span class="line"><span class="comment">//false</span></span><br></pre></td></tr></table></figure>
-
-<p>当参数是数组或者其他<code>TypedArray</code>时，是跟构造方法是一样的，复制一份内容。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line"><span class="keyword">const</span> view = <span class="built_in">Uint8Array</span>.from(array);</span><br><span class="line">view[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(view);</span><br><span class="line"><span class="comment">//[ 255, 0, 0, 0 ]</span></span><br><span class="line"><span class="built_in">console</span>.log(array);</span><br><span class="line"><span class="comment">//[ 0, 0, 0, 0 ]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> array1 = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line"><span class="keyword">const</span> view1 = <span class="built_in">Uint8Array</span>.from(array1);</span><br><span class="line"><span class="keyword">const</span> view2 = <span class="built_in">Uint8Array</span>.from(view1);</span><br><span class="line">view1[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(view1);</span><br><span class="line"><span class="comment">//[ 255, 0, 0, 0 ]</span></span><br><span class="line"><span class="built_in">console</span>.log(view2);</span><br><span class="line"><span class="comment">//[ 0, 0, 0, 0 ]</span></span><br></pre></td></tr></table></figure>
-
-<p>由此可见<code>from</code>方法只能复制，不能共用一段内存数据</p>
-<p>可选参数mapFn是个函数，可以类比于数组的map，可以处理每一个元素；thisArg是mapFn的this参数</p>
-<h3 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h3><h4 id="from-1"><a href="#from-1" class="headerlink" title="from"></a>from</h4><p>那Node的<code>Buffer</code>继承自<code>Uint8Array</code>，大部分跟<code>Unit8Array</code>一致，其中有一些不同的点，比如<strong>构造函数<code>Buffer()</code>已经废弃了</strong>，要获得一个<code>Buffer</code>实例需要用到<code>Buffer</code>的静态方法<code>from</code>。</p>
-<p><code>from</code>可以传入数组和<code>Buffer</code>实例，没有可选参数，跟<code>TypedArray</code>的构造方法<code>new TypedArray(array)</code>和<code>new TypedArray(buffer)</code>也是一致的，会复制一份数据。</p>
-<p>它接受参数为<code>ArrayBuffer</code>实例时，有两个可选参数，byteoffset和length。这里的参数跟<code>TypedArray</code>的构造方法<code>new TypedArray(buffer [, byteOffset [, length]])</code>也是一致的，实例化的行为上也一样，都是直接使用传入<code>ArrayBuffer</code>实例，不会再复制一份数据。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">Buffer.from(array)</span><br><span class="line">Buffer.from(buffer)</span><br><span class="line">Buffer.from(arrayBuffer[, byteOffset[, length]])</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> buffer = Buffer.from(array);</span><br><span class="line">buffer[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(buffer);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(array);</span><br><span class="line"><span class="comment">//[ 0, 0, 0, 0 ]</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> buffer1 = Buffer.from(array);</span><br><span class="line"><span class="keyword">const</span> buffer2 = Buffer.from(buffer1);</span><br><span class="line">buffer1[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(buffer1);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(buffer2);</span><br><span class="line"><span class="comment">//&lt;Buffer 00 00 00 00&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> arrayBuffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">const</span> buffer = Buffer.from(arrayBuffer);</span><br><span class="line">buffer[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(buffer);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(arrayBuffer);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Buffer内存池"><a href="#Buffer内存池" class="headerlink" title="Buffer内存池"></a>Buffer内存池</h3><p><code>Buffer</code>用<code>Buffer.from()</code>这个静态方法来获取实例化，跟<code>TypedArray</code>直接用构造方法相比，看起来确实一样，但其实会遇到一点问题：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> view1 = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(array);</span><br><span class="line"><span class="keyword">const</span> view2 = Buffer.from(view1);</span><br><span class="line">view1[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(view1);</span><br><span class="line"><span class="comment">//[ 255, 0, 0, 0 ]</span></span><br><span class="line"><span class="built_in">console</span>.log(view2);</span><br><span class="line"><span class="comment">//&lt;Buffer 00 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(view1.buffer===view2.buffer);</span><br><span class="line"><span class="comment">//false</span></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> buffer1 = Buffer.from(array);</span><br><span class="line"><span class="keyword">const</span> buffer2 = Buffer.from(buffer1);</span><br><span class="line">buffer1[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(buffer1);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(buffer2);</span><br><span class="line"><span class="comment">//&lt;Buffer 00 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(buffer1.buffer===buffer2.buffer);</span><br><span class="line"><span class="comment">//true 注意看这里打印出来是true</span></span><br></pre></td></tr></table></figure>
-
-<p><code>buffer1</code>与<code>buffer2</code>竟然是同一个<code>ArrayBuffer</code>实例。可是<code>buffer1</code>修改了数据在<code>buffer2</code>却是没有变化的。</p>
-<p>证明了<code>buffer1</code>与<code>buffer2</code>指向的是同一个<code>ArrayBuffer</code>实例，却是不同的位置，也就是说它们是有偏移量的。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//接着上面的代码</span></span><br><span class="line"><span class="built_in">console</span>.log(view1.byteOffset);</span><br><span class="line"><span class="comment">//0</span></span><br><span class="line"><span class="built_in">console</span>.log(view1.byteLength);</span><br><span class="line"><span class="comment">//4</span></span><br><span class="line"><span class="built_in">console</span>.log(view2.byteOffset);</span><br><span class="line"><span class="comment">//616</span></span><br><span class="line"><span class="built_in">console</span>.log(view2.byteLength);</span><br><span class="line"><span class="comment">//4</span></span><br></pre></td></tr></table></figure>
-
-<p><code>view2</code>的起始位置是从<code>ArrayBuffer</code>实例的第616位开始的。</p>
-<p>这里插一下队看看<code>Buffer</code>的另两个方法</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">Buffer.alloc(size[, fill[, encoding]])</span><br><span class="line">Buffer.allocUnsafe(size)</span><br></pre></td></tr></table></figure>
-
-<p>这两个静态方法实例化出size大小的<code>Buffer</code>实例，它们的一个重要区别是<code>allocUnsafe</code>会在利用<code>Buffer</code>模块的内存池。模块预先分配了一个内存池，大小可以通过属性<code>Buffer.poolsize</code>得到。整个池有一个<code>ArrayBuffer</code>引用，当调用<code>allocUnsafe</code>调用时，检查size大小，如果size小于<code>Buffer.poolsize</code>的一半，直接将现成的内存池，也就是现成的<code>ArrayBuffer</code>引用分配给即将实例化的<code>Buffer</code>，否则，会新开一个内存池，当然，内存池不够大了也会开一个新的，并且下一次<code>allocUnsafe</code>的时候检查的就是这个新的池了。</p>
-<p>除了<code>allocUnsafe(size)</code>，还有<code>from(array)``from(string)``from(buffer)</code>都是会用到这个机制，所以上面<code>buffer11</code>和<code>buffer2</code>经过检查后size都小于池子大小的一半，分配到的内存的引用都是同一个，只不过他们指向的都不是同一片区域，因为他们的偏移量不同，但是它们确实是在同一个<code>ArrayBuffer</code>里面。</p>
-<p>所以利用这个机制我们也很容易可以将两个<code>Buffer</code>实例完全操作一样的内存区域。只要偏移量也相同长度也相同即可。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> buffer1 = Buffer.from(array);</span><br><span class="line"><span class="keyword">const</span> buffer2 = Buffer.from(buffer1.buffer,buffer1.byteOffset,buffer1.byteLength);</span><br><span class="line">buffer1[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(buffer1);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(buffer2);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(buffer1.buffer===buffer2.buffer);</span><br><span class="line"><span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li><p><code>ArrayBuffer</code>是内存上一片连续数据的引用，它不能操作数据。</p>
+    <title>AVL树的实现</title>
+    <url>/2920448857/</url>
+    <content><![CDATA[<p>前情提要：</p>
+<ul>
+<li><p><a href="https://liangziye.online/138867439/">AVL树的旋转</a></p>
 </li>
-<li><p><code>Buffer</code>和<code>TypedArray</code>有继承关系，<code>TypedArray</code>是<code>ArrayBuffer</code>的视图，用于操作二进制数据</p>
-</li>
-<li><p>实例化<code>TypedArray</code>靠它的构造函数，参数为可迭代的对象、其他<code>TypedArray</code>实例时，会复制一份新的数据，当参数为<code>ArrayBuffer</code>实例时，直接指向这个实例，同时还可以通过两个可选参数控制对于<code>ArrayBuffer</code>实例的长度和偏移。获取实例还可以使用静态方法<code>from</code>，只能传可迭代的对象作为参数，但两个可选参数，用来处理每一个元素。</p>
-</li>
-<li><p>实例化<code>Buffer</code>的构造函数已经废弃，实例可以靠静态方法<code>from</code>获得，与上面一样，当参数是可迭代的对象或者其他<code>Buffer</code>实例时，会复制一份数据，当参数是<code>ArrayBuffer</code>的实例时，直接指向它，同时可以控制长度和偏移。</p>
-</li>
-<li><p><code>Buffer</code>有内存池机制，当实例化<code>Buffer</code>时如果参数不是<code>ArrayBuffer</code>时，会检查<code>Buffer</code>实例的大小，如果小于内存池的一半则将现有的内存池分配给它，否则新建一个内存池。</p>
+<li><p>[<a href="https://liangziye.online/2536969901/">AVL树</a>]</p>
 </li>
 </ul>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入和二叉搜索树不一样的是，需要再数据被放入后回溯结点，向上更新每一个结点的<a href="">平衡因子</a>，判断是否有子树不平衡，找到最小不平衡子树，用<a href="">上篇</a>中讨论的旋转方式去让树回归平衡。</p>
 ]]></content>
   </entry>
   <entry>
@@ -352,6 +245,113 @@
       </tags>
   </entry>
   <entry>
+    <title>Buffer和TypedArray</title>
+    <url>/3902632945/</url>
+    <content><![CDATA[<p>不想写await/sync，又不想嵌套括号，于是偷懒用了sync-request，两行就完成了GET请求，但是返回的结果对象，内部有三个字段，headers是对象，url是字符串，唯独body是一串二进制不能直接阅读，需要处理的数据。主要很奇怪的是在编辑器上console出来，控制台显示这是一个uint8Array，调试显示的也是一个uint8Array，但在终端补全时候提示却是一个Buffer。instanceof这两个都是true，unit8Array和Buffer是一个东西吗?</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> request = <span class="built_in">require</span>(<span class="string">&#x27;sync-request&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> url = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> body = request(<span class="string">&#x27;GET&#x27;</span>, url).body;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(body <span class="keyword">instanceof</span> Buffer);</span><br><span class="line"><span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(body <span class="keyword">instanceof</span> <span class="built_in">Uint8Array</span>);</span><br><span class="line"><span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Buffer和Uint8Array的继承关系："><a href="#Buffer和Uint8Array的继承关系：" class="headerlink" title="Buffer和Uint8Array的继承关系："></a>Buffer和Uint8Array的继承关系：</h3> <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> buffer = <span class="keyword">new</span> Buffer(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(buffer <span class="keyword">instanceof</span> <span class="built_in">Uint8Array</span>);</span><br><span class="line"><span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<p>buffer继承于Uint8Array</p>
+<h3 id="Buffer-Uint8Array与ArrayBuffer的关系"><a href="#Buffer-Uint8Array与ArrayBuffer的关系" class="headerlink" title="Buffer Uint8Array与ArrayBuffer的关系"></a>Buffer Uint8Array与ArrayBuffer的关系</h3><p><code>ArrayBuffer</code>是一段字节，一段二进制数据，可以看做是内存上的一片格子，实质上是内存上一片连续空间的引用，它就代表了这一片连续的空间。<code>ArrayBuffer</code>不能更改长度容量，也不能直接操作它读取上面的数据。</p>
+<p>为了操作它，读写上面的数据，我们需要<code>Buffer</code> <code>Uint8Array</code>这些东西，我们称它们为视图（view） ，可以想象<code>Uint8Array</code>覆盖在<code>ArrayBuffer</code>这一片连续内存之上，我们透过这一层视图来操作内存上的数据。</p>
+<p>除了<code>Uint8Array</code>以外，ArrayBuffer的视图还有<code>Uint16Array</code>，<code>Uint32Array</code>诸如此类，看命名就可以得知，它们的区别只有bit大小不同，<code>Uint8Array</code>是8bit，1个byte，后两者分别是2个byte和4个byte，这个byte的区别是它们分别用多大的“尺寸”去“解释”<code>ArrayBuffer</code>，它们视图就像翻译机，我们偷着覆盖在上面这层翻译机翻译出下面的数据，<code>Uint8Array</code>是以每1个byte为单位作为一个元素，而<code>Uint16Array</code>是以每2个byte为单位作为一个元素，<code>Uint32Array</code>则是4个byte作为一个单位。他们统称为<code>TypedArray</code>。</p>
+<p>如<code>1111 1111 1111 1111 1111 1111 1111 1111</code>这段数据，</p>
+<p><code>Uint8Array</code>解释为<code>[255,255,255,255]</code>（十进制）</p>
+<p><code>Uint16Array</code>解释为<code>[65535,65535]</code>（十进制）</p>
+<p><code>Uint32Array</code>解释为<code>[33554431]</code>（十进制）</p>
+<p>而Buffer继承自Uint8Array，自然也是1个字节为一个单位</p>
+<p>这类视图有一个统称TypedArray，它们的方法都相同也比较简单，类似于数组的处理。</p>
+<h3 id="ArrayBuffer的实例化"><a href="#ArrayBuffer的实例化" class="headerlink" title="ArrayBuffer的实例化"></a>ArrayBuffer的实例化</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(length);</span><br></pre></td></tr></table></figure>
+
+<p><code>ArrayBuffer</code>的构造函数只接受一个length参数，实例化出一个有着byte长度为length的内存块的<code>ArrayBuffer</code>实例，当实例化后，这片内存全为0。</p>
+<p>注意，没有用数组或者其它buffer作为参数的构造方法，<code>ArrayBuffer</code>本身意义上就是一块连续内存上二进制数据的引用，而现成的数组或者其它buffer内部本身也指向了一块二进制数据。</p>
+<h3 id="TypedArray的实例化"><a href="#TypedArray的实例化" class="headerlink" title="TypedArray的实例化"></a>TypedArray的实例化</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> TypedArray(buffer [, byteOffset [, length]]);</span><br></pre></td></tr></table></figure>
+
+<p>如果说<code>TypedArray</code>这种视图只是一层在<code>ArrayBuffer</code>之上的操作工具，那严格来说它本身是没有数据的，先从<code>ArrayBuffer</code>的实例开始， <code>buffer</code>可以是一个<code>ArrayBuffer</code>的实例，这样实例化出来的<code>TypedArray</code>实例将指向这个<code>ArrayBuffer</code>实例</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> arrayBuffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">const</span> view = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(arrayBuffer);</span><br><span class="line"><span class="built_in">console</span>.log(arrayBuffer === view.buffer);</span><br><span class="line"><span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<p><code>buffer</code>是<code>TypedArray</code>的一个属性，它是视图对象所对应的内存区域，也就是此实例所指向的<code>ArrayBuffer</code>实例。</p>
+<p>再来看看可选参数，byteoffset代表的是<code>TypedArray</code>实例指向<code>ArrayBuffer</code>实例的偏移量，单位是byte，默认为0，length代表的是<code>TypedArray</code>实例覆盖<code>ArrayBuffer</code>实例的长度，这个默认不是<code>ArrayBuffer</code>实例的长度，默认是<code>ArrayBuffer</code>实例的长度减去byteoffset，如果byteoffset为<code>ArrayBuffer</code>实例的长度，那length就为0。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> arrayBuffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">const</span> view = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(arrayBuffer,<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">view[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line">view[<span class="number">1</span>]=<span class="number">0xff</span>;</span><br><span class="line">view[<span class="number">3</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(view);</span><br><span class="line"><span class="comment">//[ 255, 255 ]</span></span><br><span class="line"><span class="built_in">console</span>.log(arrayBuffer);</span><br><span class="line"><span class="comment">//&lt;00 ff ff 00&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>可见，实例<code>view</code>操作的是<code>arrayBuffer</code>的第一第二个字节。view[3]如果打印出来是<code>undefined</code>。</p>
+<p><code>arrayBuffer</code>为<code>ArrayBuffer</code>对象的实例，它是内存上真实存在的一段空间的引用，一串二进制数据看，这样<code>uint8Array</code>就成为了这一段内存空间引用的视图、操作工具。</p>
+<p>现在来试一试，如果接受的参数不是<code>ArrayBuffer</code>实例，而是一个可迭代的数组对象，那实例化出来的<code>TypedArray</code>所指的<code>ArrayBuffer</code>实例是什么，跟传入的数组这个参数有什么关系</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> view = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(array);</span><br><span class="line">view[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(view.buffer);</span><br><span class="line"><span class="comment">//&lt;ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(array);</span><br><span class="line"><span class="comment">//[ 0, 0, 0, 0 ]</span></span><br></pre></td></tr></table></figure>
+
+<p>很明显，它复制了一份数据，新建了一个<code>ArrayBuffer</code>实例，而<code>view</code>对象指向的就是这个新建的<code>ArrayBuffer</code>实例，视图对象跟数组已经没有关系了。也就是说除了直接给<code>ArrayBuffer</code>实例作为参数是直接指向，不然都是复制一份新的数据（因为数组内部没有指向的<code>ArrayBuffer</code>）。</p>
+<p>包括参数为其他<code>TypedArray</code>也是如此，也是复制，而且这个构造函数没有可选偏移量跟长度。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> TypedArray(typedArray);	</span><br></pre></td></tr></table></figure>
+
+<p>多个视图可以同时指向的<code>ArrayBuffer</code>相同。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> arrayBuffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">const</span> uint8Array1 = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(arrayBuffer);</span><br><span class="line"><span class="keyword">const</span> uint8Array2 = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(arrayBuffer);</span><br><span class="line"><span class="built_in">console</span>.log(uint8Array1 === uint8Array2);</span><br><span class="line"><span class="comment">//false</span></span><br><span class="line"><span class="built_in">console</span>.log(uint8Array1[<span class="number">0</span>]);</span><br><span class="line"><span class="comment">//0</span></span><br><span class="line"><span class="built_in">console</span>.log(uint8Array2[<span class="number">0</span>]);</span><br><span class="line"><span class="comment">//0</span></span><br><span class="line">uint8Array1[<span class="number">0</span>]++;</span><br><span class="line"><span class="built_in">console</span>.log(uint8Array1[<span class="number">0</span>]);</span><br><span class="line"><span class="comment">//1</span></span><br><span class="line"><span class="built_in">console</span>.log(uint8Array2[<span class="number">0</span>]);</span><br><span class="line"><span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+
+<p>那问题来了，我有一个旧的视图，我现在希望实例化一个新的视图，我希望这两个视图都指向同一片内存数据，又改怎么做呢？直接用旧视图作为构造参数去实例化当然是不行的，那样只会在内存上复制一份新的数据。由于直接使用<code>ArrayBuffer</code>的对象，即用这一块内存数据的引用去实例化视图，才使得视图直接指向这块内存，不会复制新的数据，那我们取出旧视图的代表了内存引用的<code>ArrayBuffer</code>对象，用它去实例化新视图不就可以了吗？</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> view1 = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>([<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]);</span><br><span class="line"><span class="keyword">const</span> arrayBuffer = view1.buffer;</span><br><span class="line"><span class="keyword">const</span> view2 = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(arrayBuffer);</span><br><span class="line">view1[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(view1);</span><br><span class="line"><span class="comment">//[ 255, 0, 0 ]</span></span><br><span class="line"><span class="built_in">console</span>.log(view2);</span><br><span class="line"><span class="comment">//[ 255, 0, 0 ]   </span></span><br></pre></td></tr></table></figure>
+
+<p>除了传入<code>ArrayBuffer</code>实例和<code>TypedArray</code>实例，还可以传入一个number值作为构造参数。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> TypedArray(length);</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用默认构造方法,内部同样会创建一个<code>ArrayBuffer</code>实例并指向它，但其长度为0。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> view = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>();</span><br><span class="line"><span class="built_in">console</span>.log(view.buffer.byteLength);</span><br><span class="line"><span class="comment">//0</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="from"><a href="#from" class="headerlink" title="from"></a>from</h4><p><code>TypedArray.from()</code>可以获得一个新实例</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">TypedArray.from(source[, mapFn[, thisArg]])</span><br></pre></td></tr></table></figure>
+
+<p>但问题是这个<code>source</code>只能是其他的<code>TypedArray</code>或者可迭代的对象比如数组，也就是不能是<code>ArrayBuffer</code>实例。如果硬要传递进去，只会创建一个新的长度为0<code>ArrayBuffer</code>实例</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> arrayBuffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">const</span> view = <span class="built_in">Uint8Array</span>.from(arrayBuffer);</span><br><span class="line"><span class="built_in">console</span>.log(view.buffer.byteLength);</span><br><span class="line"><span class="comment">//0</span></span><br><span class="line"><span class="built_in">console</span>.log(view.buffer==arrayBuffer);</span><br><span class="line"><span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p>当参数是数组或者其他<code>TypedArray</code>时，是跟构造方法是一样的，复制一份内容。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line"><span class="keyword">const</span> view = <span class="built_in">Uint8Array</span>.from(array);</span><br><span class="line">view[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(view);</span><br><span class="line"><span class="comment">//[ 255, 0, 0, 0 ]</span></span><br><span class="line"><span class="built_in">console</span>.log(array);</span><br><span class="line"><span class="comment">//[ 0, 0, 0, 0 ]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> array1 = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line"><span class="keyword">const</span> view1 = <span class="built_in">Uint8Array</span>.from(array1);</span><br><span class="line"><span class="keyword">const</span> view2 = <span class="built_in">Uint8Array</span>.from(view1);</span><br><span class="line">view1[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(view1);</span><br><span class="line"><span class="comment">//[ 255, 0, 0, 0 ]</span></span><br><span class="line"><span class="built_in">console</span>.log(view2);</span><br><span class="line"><span class="comment">//[ 0, 0, 0, 0 ]</span></span><br></pre></td></tr></table></figure>
+
+<p>由此可见<code>from</code>方法只能复制，不能共用一段内存数据</p>
+<p>可选参数mapFn是个函数，可以类比于数组的map，可以处理每一个元素；thisArg是mapFn的this参数</p>
+<h3 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h3><h4 id="from-1"><a href="#from-1" class="headerlink" title="from"></a>from</h4><p>那Node的<code>Buffer</code>继承自<code>Uint8Array</code>，大部分跟<code>Unit8Array</code>一致，其中有一些不同的点，比如<strong>构造函数<code>Buffer()</code>已经废弃了</strong>，要获得一个<code>Buffer</code>实例需要用到<code>Buffer</code>的静态方法<code>from</code>。</p>
+<p><code>from</code>可以传入数组和<code>Buffer</code>实例，没有可选参数，跟<code>TypedArray</code>的构造方法<code>new TypedArray(array)</code>和<code>new TypedArray(buffer)</code>也是一致的，会复制一份数据。</p>
+<p>它接受参数为<code>ArrayBuffer</code>实例时，有两个可选参数，byteoffset和length。这里的参数跟<code>TypedArray</code>的构造方法<code>new TypedArray(buffer [, byteOffset [, length]])</code>也是一致的，实例化的行为上也一样，都是直接使用传入<code>ArrayBuffer</code>实例，不会再复制一份数据。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">Buffer.from(array)</span><br><span class="line">Buffer.from(buffer)</span><br><span class="line">Buffer.from(arrayBuffer[, byteOffset[, length]])</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> buffer = Buffer.from(array);</span><br><span class="line">buffer[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(buffer);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(array);</span><br><span class="line"><span class="comment">//[ 0, 0, 0, 0 ]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> buffer1 = Buffer.from(array);</span><br><span class="line"><span class="keyword">const</span> buffer2 = Buffer.from(buffer1);</span><br><span class="line">buffer1[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(buffer1);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(buffer2);</span><br><span class="line"><span class="comment">//&lt;Buffer 00 00 00 00&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> arrayBuffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">const</span> buffer = Buffer.from(arrayBuffer);</span><br><span class="line">buffer[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(buffer);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(arrayBuffer);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Buffer内存池"><a href="#Buffer内存池" class="headerlink" title="Buffer内存池"></a>Buffer内存池</h3><p><code>Buffer</code>用<code>Buffer.from()</code>这个静态方法来获取实例化，跟<code>TypedArray</code>直接用构造方法相比，看起来确实一样，但其实会遇到一点问题：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> view1 = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(array);</span><br><span class="line"><span class="keyword">const</span> view2 = Buffer.from(view1);</span><br><span class="line">view1[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(view1);</span><br><span class="line"><span class="comment">//[ 255, 0, 0, 0 ]</span></span><br><span class="line"><span class="built_in">console</span>.log(view2);</span><br><span class="line"><span class="comment">//&lt;Buffer 00 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(view1.buffer===view2.buffer);</span><br><span class="line"><span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> buffer1 = Buffer.from(array);</span><br><span class="line"><span class="keyword">const</span> buffer2 = Buffer.from(buffer1);</span><br><span class="line">buffer1[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(buffer1);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(buffer2);</span><br><span class="line"><span class="comment">//&lt;Buffer 00 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(buffer1.buffer===buffer2.buffer);</span><br><span class="line"><span class="comment">//true 注意看这里打印出来是true</span></span><br></pre></td></tr></table></figure>
+
+<p><code>buffer1</code>与<code>buffer2</code>竟然是同一个<code>ArrayBuffer</code>实例。可是<code>buffer1</code>修改了数据在<code>buffer2</code>却是没有变化的。</p>
+<p>证明了<code>buffer1</code>与<code>buffer2</code>指向的是同一个<code>ArrayBuffer</code>实例，却是不同的位置，也就是说它们是有偏移量的。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//接着上面的代码</span></span><br><span class="line"><span class="built_in">console</span>.log(view1.byteOffset);</span><br><span class="line"><span class="comment">//0</span></span><br><span class="line"><span class="built_in">console</span>.log(view1.byteLength);</span><br><span class="line"><span class="comment">//4</span></span><br><span class="line"><span class="built_in">console</span>.log(view2.byteOffset);</span><br><span class="line"><span class="comment">//616</span></span><br><span class="line"><span class="built_in">console</span>.log(view2.byteLength);</span><br><span class="line"><span class="comment">//4</span></span><br></pre></td></tr></table></figure>
+
+<p><code>view2</code>的起始位置是从<code>ArrayBuffer</code>实例的第616位开始的。</p>
+<p>这里插一下队看看<code>Buffer</code>的另两个方法</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">Buffer.alloc(size[, fill[, encoding]])</span><br><span class="line">Buffer.allocUnsafe(size)</span><br></pre></td></tr></table></figure>
+
+<p>这两个静态方法实例化出size大小的<code>Buffer</code>实例，它们的一个重要区别是<code>allocUnsafe</code>会在利用<code>Buffer</code>模块的内存池。模块预先分配了一个内存池，大小可以通过属性<code>Buffer.poolsize</code>得到。整个池有一个<code>ArrayBuffer</code>引用，当调用<code>allocUnsafe</code>调用时，检查size大小，如果size小于<code>Buffer.poolsize</code>的一半，直接将现成的内存池，也就是现成的<code>ArrayBuffer</code>引用分配给即将实例化的<code>Buffer</code>，否则，会新开一个内存池，当然，内存池不够大了也会开一个新的，并且下一次<code>allocUnsafe</code>的时候检查的就是这个新的池了。</p>
+<p>除了<code>allocUnsafe(size)</code>，还有<code>from(array)``from(string)``from(buffer)</code>都是会用到这个机制，所以上面<code>buffer11</code>和<code>buffer2</code>经过检查后size都小于池子大小的一半，分配到的内存的引用都是同一个，只不过他们指向的都不是同一片区域，因为他们的偏移量不同，但是它们确实是在同一个<code>ArrayBuffer</code>里面。</p>
+<p>所以利用这个机制我们也很容易可以将两个<code>Buffer</code>实例完全操作一样的内存区域。只要偏移量也相同长度也相同即可。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> buffer1 = Buffer.from(array);</span><br><span class="line"><span class="keyword">const</span> buffer2 = Buffer.from(buffer1.buffer,buffer1.byteOffset,buffer1.byteLength);</span><br><span class="line">buffer1[<span class="number">0</span>]=<span class="number">0xff</span>;</span><br><span class="line"><span class="built_in">console</span>.log(buffer1);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(buffer2);</span><br><span class="line"><span class="comment">//&lt;Buffer ff 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(buffer1.buffer===buffer2.buffer);</span><br><span class="line"><span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><p><code>ArrayBuffer</code>是内存上一片连续数据的引用，它不能操作数据。</p>
+</li>
+<li><p><code>Buffer</code>和<code>TypedArray</code>有继承关系，<code>TypedArray</code>是<code>ArrayBuffer</code>的视图，用于操作二进制数据</p>
+</li>
+<li><p>实例化<code>TypedArray</code>靠它的构造函数，参数为可迭代的对象、其他<code>TypedArray</code>实例时，会复制一份新的数据，当参数为<code>ArrayBuffer</code>实例时，直接指向这个实例，同时还可以通过两个可选参数控制对于<code>ArrayBuffer</code>实例的长度和偏移。获取实例还可以使用静态方法<code>from</code>，只能传可迭代的对象作为参数，但两个可选参数，用来处理每一个元素。</p>
+</li>
+<li><p>实例化<code>Buffer</code>的构造函数已经废弃，实例可以靠静态方法<code>from</code>获得，与上面一样，当参数是可迭代的对象或者其他<code>Buffer</code>实例时，会复制一份数据，当参数是<code>ArrayBuffer</code>的实例时，直接指向它，同时可以控制长度和偏移。</p>
+</li>
+<li><p><code>Buffer</code>有内存池机制，当实例化<code>Buffer</code>时如果参数不是<code>ArrayBuffer</code>时，会检查<code>Buffer</code>实例的大小，如果小于内存池的一半则将现有的内存池分配给它，否则新建一个内存池。</p>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>node-gyp安装</title>
     <url>/3468276863/</url>
     <content><![CDATA[<h2 id="当前环境"><a href="#当前环境" class="headerlink" title="当前环境"></a>当前环境</h2><ul>
@@ -378,6 +378,34 @@
         <tag>node</tag>
         <tag>npm</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>chai版本问题</title>
+    <url>/2789604526/</url>
+    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>根目录<code>.mocharc.json</code></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;require&quot;</span>: <span class="string">&quot;ts-node/register&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;spec&quot;</span>: <span class="string">&quot;src/test/**/*.ts&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;extension&quot;</span>: [<span class="string">&quot;ts&quot;</span>],</span><br><span class="line">    <span class="attr">&quot;timeout&quot;</span>: <span class="number">5000</span>,</span><br><span class="line">    <span class="attr">&quot;reporter&quot;</span>: <span class="string">&quot;spec&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;slow&quot;</span>: <span class="number">300</span>,</span><br><span class="line">    <span class="attr">&quot;ui&quot;</span>: <span class="string">&quot;bdd&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;recursive&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根目录<code>package.json</code>部分</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;commonjs&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;test&quot;</span>: <span class="string">&quot;mocha&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;dependencies&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;@types/chai&quot;</span>: <span class="string">&quot;^4.3.16&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;@types/mocha&quot;</span>: <span class="string">&quot;^10.0.6&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;chai&quot;</span>: <span class="string">&quot;^4.4.1&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;mocha&quot;</span>: <span class="string">&quot;^10.4.0&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><p>运行<code>npm run test</code>报错</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Exception during run: TypeError [ERR_UNKNOWN_FILE_EXTENSION]: Unknown file extension &quot;.ts&quot; for ......................</span><br></pre></td></tr></table></figure>
+
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>chai当前5.x版本仅支持纯ESM，而当前项目type为commonjs，安装char的4.x版本即可</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm uninstall @types/chai chai</span><br><span class="line">npm cache clean --force</span><br><span class="line">npm install chai@4 @types/chai@4</span><br></pre></td></tr></table></figure>
+
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a href="https://github.com/chaijs/chai/issues/1568#issuecomment-1873883627">v5 - <code>Unknown file extension &quot;.ts&quot;</code> when running with mocha · Issue #1568 · chaijs/chai (github.com)</a></p>
+]]></content>
+      <tags>
+        <tag>node</tag>
+        <tag>npm</tag>
+        <tag>typescript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/0/</url>
+    <content><![CDATA[{}]]></content>
   </entry>
   <entry>
     <title>openwrt开启dnsmasq日志</title>
@@ -420,6 +448,23 @@
 <p>RL型对结点tr右旋转换成RR型：</p>
 <p>最后再对结点t左旋：</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>二叉树的平衡</title>
+    <url>/2750358315/</url>
+    <content><![CDATA[<p><a href="https://liangziye.online/218212257/">上一篇</a>写到二叉搜索树，它平均都是对数的时间复杂度都很优秀。现在考虑一种情况，我们将一组上升序列[1,2,3,……,98,88,100]一共100个值作为结点形成一个新的二叉搜索树，我们插入的第一个结点键为1，最后一个结点的键位100。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A11.png"></p>
+<p>插入完之后我们发现这根本就是一个链表，对于这个二叉搜索树来说，插入查找和删除操作的时间复杂度都不是对数了，因为它是一个普通的链表。我们插入的数据一直都是升序的，对于二叉搜索树的插入方法来看，最终的结果只能是这样的一个链表，完全丧失了二叉搜索树的特性。虽然这个例子很极端，但是说明了一个问题，插入的数据越有序，我们得到的二叉搜索树就越接近链表，时间复杂度就离对数越来越远，查找效率越来越差。</p>
+<p>这里就引入了一个问题，怎么样来衡量一个二叉树/二叉搜索树接近链表的程度？更普通来讲，二叉树有左子树和右子树，当二叉树的左右子树高度相差越大时，它就越接近链表，极端情况，当遍历的每一个结点的左右子树，其中一个子树的高度为0时，也就是只存在其中一个子树时，它就完全退化成了链表。所以这个问题变成了怎么样来表示一个二叉树左右子树高度差？显而易见，我们用一个结点的左子树高度减去右子树的高度，得到一个值，这个值越小，右子树比左子树越高，反之这个值越大，左子树比右子树越高，当这个值为0时，这个结点的左右子树达到了平衡。这个值我们称为这个结点的平衡因子，它就能衡量这个树是否平衡。下面我拿<a href="https://liangziye.online/218212257/#%E6%8F%92%E5%85%A5">上一篇二叉搜索树</a>的二叉树例子看看各个结点的平衡因子。</p>
+<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A12.png"></p>
+<p>可以看到除了结点4是不平衡的，左子树高度为1，右子树没有所以高度为0，它的平衡因子为1。再说说上面从1插到100的二叉树，根结点1的平衡因子为-100，因为左子树高度为0，右子树高度为100。</p>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>tree</tag>
+      </tags>
   </entry>
   <entry>
     <title>二叉树及二叉搜索树</title>
@@ -466,41 +511,6 @@
         <tag>tree</tag>
         <tag>BSTree</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>二叉树的平衡</title>
-    <url>/2750358315/</url>
-    <content><![CDATA[<p><a href="https://liangziye.online/218212257/">上一篇</a>写到二叉搜索树，它平均都是对数的时间复杂度都很优秀。现在考虑一种情况，我们将一组上升序列[1,2,3,……,98,88,100]一共100个值作为结点形成一个新的二叉搜索树，我们插入的第一个结点键为1，最后一个结点的键位100。</p>
-<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A11.png"></p>
-<p>插入完之后我们发现这根本就是一个链表，对于这个二叉搜索树来说，插入查找和删除操作的时间复杂度都不是对数了，因为它是一个普通的链表。我们插入的数据一直都是升序的，对于二叉搜索树的插入方法来看，最终的结果只能是这样的一个链表，完全丧失了二叉搜索树的特性。虽然这个例子很极端，但是说明了一个问题，插入的数据越有序，我们得到的二叉搜索树就越接近链表，时间复杂度就离对数越来越远，查找效率越来越差。</p>
-<p>这里就引入了一个问题，怎么样来衡量一个二叉树/二叉搜索树接近链表的程度？更普通来讲，二叉树有左子树和右子树，当二叉树的左右子树高度相差越大时，它就越接近链表，极端情况，当遍历的每一个结点的左右子树，其中一个子树的高度为0时，也就是只存在其中一个子树时，它就完全退化成了链表。所以这个问题变成了怎么样来表示一个二叉树左右子树高度差？显而易见，我们用一个结点的左子树高度减去右子树的高度，得到一个值，这个值越小，右子树比左子树越高，反之这个值越大，左子树比右子树越高，当这个值为0时，这个结点的左右子树达到了平衡。这个值我们称为这个结点的平衡因子，它就能衡量这个树是否平衡。下面我拿<a href="https://liangziye.online/218212257/#%E6%8F%92%E5%85%A5">上一篇二叉搜索树</a>的二叉树例子看看各个结点的平衡因子。</p>
-<p><img src="https://assets.liangziye.online/image/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B9%B3%E8%A1%A12.png"></p>
-<p>可以看到除了结点4是不平衡的，左子树高度为1，右子树没有所以高度为0，它的平衡因子为1。再说说上面从1插到100的二叉树，根结点1的平衡因子为-100，因为左子树高度为0，右子树高度为100。</p>
-]]></content>
-      <categories>
-        <category>数据结构</category>
-      </categories>
-      <tags>
-        <tag>tree</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于dnsmasq的一次query却forwarded了两次这件事</title>
-    <url>/3255947641/</url>
-    <content><![CDATA[<p><a href="/2389161658">开了dnsmasq的日志</a>之后，发现一次query下面却跟了两个forwarded</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 query[A] clientservices.googleapis.com from 192.168.x.xxx</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 forwarded clientservices.googleapis.com to 223.5.5.5</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 forwarded clientservices.googleapis.com to 223.5.5.5</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 reply clientservices.googleapis.com is 120.253.255.98</span><br></pre></td></tr></table></figure>
-
-<p>我第一反应跟我用两条宽带有关，于是把其中一条宽带的DNS改成<code>114.114.114</code>以区分，果然，两次forwarded，一次223.5.5.5一次114.114.114</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 query[A] www.google.com from 192.168.x.xxx</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 forwarded www.google.com to 223.5.5.5</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 forwarded www.google.com to 114.114.114.114</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.2.135/58192 reply www.google.com is 142.251.43.4</span><br></pre></td></tr></table></figure>
-
-<p>不知道为什么dnsmasq要每一条宽带都请求一次，可能是在负载均衡的规则中进了balanced。</p>
-<p>于是去负载均衡里面加上了两条DNS的规则，让tcp/udp协议的目标端口为53的流量都优先走其中一条宽带，发现并不管用。</p>
-<p>去看看dnsmasq的解析文件<code>/tmp/resolv.conf.d/resolv.conf.auto</code></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Interface wan</span><br><span class="line">nameserver 223.5.5.5</span><br><span class="line"># Interface wan1</span><br><span class="line">nameserver 114.114.114.114</span><br></pre></td></tr></table></figure>
-
-<p>突然明白了，我之前勾选了“使用 all-servers 并发查询”，这样每个网络接口里面自定义的DNS服务器都会查一次，但只用最快得到的结果。我取消了并发查询之后，一次query只有一个forwarded。</p>
-<p>其实问题出在<code>resolv.conf</code>，两个网络接口用相同的nameserver，<code>resolv.conf</code>会加上两条相同的nameserver，而不是相同的nameserver会自动去重。</p>
-]]></content>
   </entry>
   <entry>
     <title>奇怪的广播</title>
@@ -579,6 +589,24 @@
 <blockquote>
 <p>在我失去第一颗牙齿的那天，<br>四年级上到一半，<br>我会沿着缝隙伸出舌头，<br>我以前的牙齿在哪里，<br>我记得我哭着回家，<br>并把它展示给我妈妈，<br>她告诉我，一颗崭新的牙齿，<br>会在我的口香糖里长大，<br>过一会儿，差距就不再奇怪了，<br>我不会注意到牙齿掉了，<br>我现在错过的唯一原因，<br>是因为它存在了那么久，<br>然后在几周内缓慢但肯定地，<br>缝隙里长出了一颗新牙，<br>现在它让我想知道，<br>如果人也像牙齿</p>
 </blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>关于dnsmasq的一次query却forwarded了两次这件事</title>
+    <url>/3255947641/</url>
+    <content><![CDATA[<p><a href="/2389161658">开了dnsmasq的日志</a>之后，发现一次query下面却跟了两个forwarded</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 query[A] clientservices.googleapis.com from 192.168.x.xxx</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 forwarded clientservices.googleapis.com to 223.5.5.5</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 forwarded clientservices.googleapis.com to 223.5.5.5</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 reply clientservices.googleapis.com is 120.253.255.98</span><br></pre></td></tr></table></figure>
+
+<p>我第一反应跟我用两条宽带有关，于是把其中一条宽带的DNS改成<code>114.114.114</code>以区分，果然，两次forwarded，一次223.5.5.5一次114.114.114</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 query[A] www.google.com from 192.168.x.xxx</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 forwarded www.google.com to 223.5.5.5</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 forwarded www.google.com to 114.114.114.114</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.2.135/58192 reply www.google.com is 142.251.43.4</span><br></pre></td></tr></table></figure>
+
+<p>不知道为什么dnsmasq要每一条宽带都请求一次，可能是在负载均衡的规则中进了balanced。</p>
+<p>于是去负载均衡里面加上了两条DNS的规则，让tcp/udp协议的目标端口为53的流量都优先走其中一条宽带，发现并不管用。</p>
+<p>去看看dnsmasq的解析文件<code>/tmp/resolv.conf.d/resolv.conf.auto</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Interface wan</span><br><span class="line">nameserver 223.5.5.5</span><br><span class="line"># Interface wan1</span><br><span class="line">nameserver 114.114.114.114</span><br></pre></td></tr></table></figure>
+
+<p>突然明白了，我之前勾选了“使用 all-servers 并发查询”，这样每个网络接口里面自定义的DNS服务器都会查一次，但只用最快得到的结果。我取消了并发查询之后，一次query只有一个forwarded。</p>
+<p>其实问题出在<code>resolv.conf</code>，两个网络接口用相同的nameserver，<code>resolv.conf</code>会加上两条相同的nameserver，而不是相同的nameserver会自动去重。</p>
 ]]></content>
   </entry>
   <entry>
