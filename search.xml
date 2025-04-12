@@ -348,6 +348,9 @@
 </blockquote>
 <p>在AC控制器管理页面新增模板，设置好WIFI的各个参数，再把模板下发给所有AP路由器即可，接着选择所有AP路由器修改密码，对每台AP单独命名。至此，集客AC部署设置完成。</p>
 ]]></content>
+      <categories>
+        <category>Homelab</category>
+      </categories>
   </entry>
   <entry>
     <title>HashMap</title>
