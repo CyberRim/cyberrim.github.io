@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>AVL树的实现</title>
+    <url>/2920448857/</url>
+    <content><![CDATA[<p>前情提要：</p>
+<ul>
+<li><p><a href="https://liangziye.online/138867439/">AVL树的旋转</a></p>
+</li>
+<li><p>[<a href="https://liangziye.online/2536969901/">AVL树</a>]</p>
+</li>
+</ul>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入和二叉搜索树不一样的是，需要再数据被放入后回溯结点，向上更新每一个结点的<a href="">平衡因子</a>，判断是否有子树不平衡，找到最小不平衡子树，用<a href="">上篇</a>中讨论的旋转方式去让树回归平衡。</p>
+]]></content>
+  </entry>
+  <entry>
     <title>AVL树</title>
     <url>/2536969901/</url>
     <content><![CDATA[<h2 id="严格平衡的二叉搜索树"><a href="#严格平衡的二叉搜索树" class="headerlink" title="严格平衡的二叉搜索树"></a>严格平衡的二叉搜索树</h2><p>接<a href="https://liangziye.online/2750358315/">上篇二叉树的平衡</a>，我们知道若平衡因子的绝对值越大，这个二叉搜索树就越不平衡，性能就越差，我们面对一些来源未知的数据时，随着不断的插入，一些子树可能会陷入严重不平衡的状态，造成二叉搜索树的效率降低。如果我们规定这样一种二叉搜索树，如果它能达到我们要求的一定平衡条件，那就能保证它的效率不会过于低，这样的二叉搜索树我们叫做平衡二叉树，它有着二叉搜索树的所有性质，你也可以叫它平衡二叉搜索树，平衡二叉树就是满足一些平衡条件的二叉搜索树。当我们设定平衡二叉树的平衡条件为树中的每一个结点的平衡因子的绝对值都不超过1时，我们就得到了AVL树。所以AVL树是平衡条件严格的平衡二叉树，树中每一个结点的平衡因子绝对值都是1或者是0，也就是每一个结点的左右子树高度差最多为1。<a href="https://liangziye.online/218212257/#%E6%8F%92%E5%85%A5">这篇二叉搜索树</a>中的二叉搜索树例子，它就是一个AVL树。</p>
@@ -15,19 +28,6 @@
         <tag>tree</tag>
         <tag>AVLTree</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>AVL树的实现</title>
-    <url>/2920448857/</url>
-    <content><![CDATA[<p>前情提要：</p>
-<ul>
-<li><p><a href="https://liangziye.online/138867439/">AVL树的旋转</a></p>
-</li>
-<li><p>[<a href="https://liangziye.online/2536969901/">AVL树</a>]</p>
-</li>
-</ul>
-<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入和二叉搜索树不一样的是，需要再数据被放入后回溯结点，向上更新每一个结点的<a href="">平衡因子</a>，判断是否有子树不平衡，找到最小不平衡子树，用<a href="">上篇</a>中讨论的旋转方式去让树回归平衡。</p>
-]]></content>
   </entry>
   <entry>
     <title>Buffer和TypedArray</title>
@@ -352,6 +352,57 @@
       </tags>
   </entry>
   <entry>
+    <title>node-gyp安装</title>
+    <url>/3468276863/</url>
+    <content><![CDATA[<h2 id="当前环境"><a href="#当前环境" class="headerlink" title="当前环境"></a>当前环境</h2><ul>
+<li>win10</li>
+<li>npm v10.7.0</li>
+<li>node v18.20.3</li>
+</ul>
+<h2 id="安装chocolatey"><a href="#安装chocolatey" class="headerlink" title="安装chocolatey"></a>安装chocolatey</h2><p>powershell管理员安装：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Set-ExecutionPolicy</span> Bypass <span class="literal">-Scope</span> <span class="keyword">Process</span> <span class="literal">-Force</span>; [<span class="type">System.Net.ServicePointManager</span>]::SecurityProtocol = [<span class="type">System.Net.ServicePointManager</span>]::SecurityProtocol <span class="operator">-bor</span> <span class="number">3072</span>; <span class="built_in">iex</span> ((<span class="built_in">New-Object</span> System.Net.WebClient).DownloadString(<span class="string">&#x27;https://community.chocolatey.org/install.ps1&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<p>耐心等待，过程涉及到下载，需要一定耗时。</p>
+<p><a href="https://chocolatey.org/install#individual">详见官网</a></p>
+<h2 id="安装环境相关"><a href="#安装环境相关" class="headerlink" title="安装环境相关"></a>安装环境相关</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">choco install python visualstudio2022<span class="literal">-workload</span><span class="literal">-vctools</span> <span class="literal">-y</span></span><br></pre></td></tr></table></figure>
+
+<p><a href="https://github.com/nodejs/node-gyp#on-windows">详见node-gpy README</a></p>
+<h2 id="npm安装node-gyp"><a href="#npm安装node-gyp" class="headerlink" title="npm安装node-gyp"></a>npm安装node-gyp</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g node-gyp</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>node</tag>
+        <tag>npm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>chai版本问题</title>
+    <url>/2789604526/</url>
+    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>根目录<code>.mocharc.json</code></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;require&quot;</span>: <span class="string">&quot;ts-node/register&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;spec&quot;</span>: <span class="string">&quot;src/test/**/*.ts&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;extension&quot;</span>: [<span class="string">&quot;ts&quot;</span>],</span><br><span class="line">    <span class="attr">&quot;timeout&quot;</span>: <span class="number">5000</span>,</span><br><span class="line">    <span class="attr">&quot;reporter&quot;</span>: <span class="string">&quot;spec&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;slow&quot;</span>: <span class="number">300</span>,</span><br><span class="line">    <span class="attr">&quot;ui&quot;</span>: <span class="string">&quot;bdd&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;recursive&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根目录<code>package.json</code>部分</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;commonjs&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;test&quot;</span>: <span class="string">&quot;mocha&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;dependencies&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;@types/chai&quot;</span>: <span class="string">&quot;^4.3.16&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;@types/mocha&quot;</span>: <span class="string">&quot;^10.0.6&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;chai&quot;</span>: <span class="string">&quot;^4.4.1&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;mocha&quot;</span>: <span class="string">&quot;^10.4.0&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><p>运行<code>npm run test</code>报错</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Exception during run: TypeError [ERR_UNKNOWN_FILE_EXTENSION]: Unknown file extension &quot;.ts&quot; for ......................</span><br></pre></td></tr></table></figure>
+
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>chai当前5.x版本仅支持纯ESM，而当前项目type为commonjs，安装char的4.x版本即可</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm uninstall @types/chai chai</span><br><span class="line">npm cache clean --force</span><br><span class="line">npm install chai@4 @types/chai@4</span><br></pre></td></tr></table></figure>
+
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a href="https://github.com/chaijs/chai/issues/1568#issuecomment-1873883627">v5 - <code>Unknown file extension &quot;.ts&quot;</code> when running with mocha · Issue #1568 · chaijs/chai (github.com)</a></p>
+]]></content>
+      <tags>
+        <tag>node</tag>
+        <tag>npm</tag>
+        <tag>typescript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title></title>
     <url>/1/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文记录了从无到有将CR6608从官方固件刷成集客AP，并在局域网中安装集客软AC的完整过程，仅仅是本人自身实践的回顾和对刷机原理的总结，因环境存在差异，刷机有风险，如需使用请谨慎参照本文，不可照搬。另外，CR660X的刷机到现在已经非常普遍非常简单了，所有资料所有知识都来自于各个博客和论坛相关帖子，文中的操作全都可以通过搜索引擎搜索得到。</p>
@@ -515,99 +566,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>chai版本问题</title>
-    <url>/2789604526/</url>
-    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>根目录<code>.mocharc.json</code></p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;require&quot;</span>: <span class="string">&quot;ts-node/register&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;spec&quot;</span>: <span class="string">&quot;src/test/**/*.ts&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;extension&quot;</span>: [<span class="string">&quot;ts&quot;</span>],</span><br><span class="line">    <span class="attr">&quot;timeout&quot;</span>: <span class="number">5000</span>,</span><br><span class="line">    <span class="attr">&quot;reporter&quot;</span>: <span class="string">&quot;spec&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;slow&quot;</span>: <span class="number">300</span>,</span><br><span class="line">    <span class="attr">&quot;ui&quot;</span>: <span class="string">&quot;bdd&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;recursive&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>根目录<code>package.json</code>部分</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;commonjs&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;test&quot;</span>: <span class="string">&quot;mocha&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;dependencies&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;@types/chai&quot;</span>: <span class="string">&quot;^4.3.16&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;@types/mocha&quot;</span>: <span class="string">&quot;^10.0.6&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;chai&quot;</span>: <span class="string">&quot;^4.4.1&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;mocha&quot;</span>: <span class="string">&quot;^10.4.0&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><p>运行<code>npm run test</code>报错</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Exception during run: TypeError [ERR_UNKNOWN_FILE_EXTENSION]: Unknown file extension &quot;.ts&quot; for ......................</span><br></pre></td></tr></table></figure>
-
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>chai当前5.x版本仅支持纯ESM，而当前项目type为commonjs，安装char的4.x版本即可</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm uninstall @types/chai chai</span><br><span class="line">npm cache clean --force</span><br><span class="line">npm install chai@4 @types/chai@4</span><br></pre></td></tr></table></figure>
-
-<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a href="https://github.com/chaijs/chai/issues/1568#issuecomment-1873883627">v5 - <code>Unknown file extension &quot;.ts&quot;</code> when running with mocha · Issue #1568 · chaijs/chai (github.com)</a></p>
-]]></content>
-      <tags>
-        <tag>node</tag>
-        <tag>npm</tag>
-        <tag>typescript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>node-gyp安装</title>
-    <url>/3468276863/</url>
-    <content><![CDATA[<h2 id="当前环境"><a href="#当前环境" class="headerlink" title="当前环境"></a>当前环境</h2><ul>
-<li>win10</li>
-<li>npm v10.7.0</li>
-<li>node v18.20.3</li>
-</ul>
-<h2 id="安装chocolatey"><a href="#安装chocolatey" class="headerlink" title="安装chocolatey"></a>安装chocolatey</h2><p>powershell管理员安装：</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Set-ExecutionPolicy</span> Bypass <span class="literal">-Scope</span> <span class="keyword">Process</span> <span class="literal">-Force</span>; [<span class="type">System.Net.ServicePointManager</span>]::SecurityProtocol = [<span class="type">System.Net.ServicePointManager</span>]::SecurityProtocol <span class="operator">-bor</span> <span class="number">3072</span>; <span class="built_in">iex</span> ((<span class="built_in">New-Object</span> System.Net.WebClient).DownloadString(<span class="string">&#x27;https://community.chocolatey.org/install.ps1&#x27;</span>))</span><br></pre></td></tr></table></figure>
-
-<p>耐心等待，过程涉及到下载，需要一定耗时。</p>
-<p><a href="https://chocolatey.org/install#individual">详见官网</a></p>
-<h2 id="安装环境相关"><a href="#安装环境相关" class="headerlink" title="安装环境相关"></a>安装环境相关</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">choco install python visualstudio2022<span class="literal">-workload</span><span class="literal">-vctools</span> <span class="literal">-y</span></span><br></pre></td></tr></table></figure>
-
-<p><a href="https://github.com/nodejs/node-gyp#on-windows">详见node-gpy README</a></p>
-<h2 id="npm安装node-gyp"><a href="#npm安装node-gyp" class="headerlink" title="npm安装node-gyp"></a>npm安装node-gyp</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g node-gyp</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>node</tag>
-        <tag>npm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>openwrt开启dnsmasq日志</title>
-    <url>/2389161658/</url>
-    <content><![CDATA[<p>在openwrt的luci可以直接开启dnsmasq的日志：</p>
-<p>网络-&gt;DHCP/DNS-&gt;基本请求-&gt;记录查询日志 勾上</p>
-<p>下面小字写着“将收到的 DNS 请求写入系统日志”，可是我没发现系统日志有dns查询记录</p>
-<p>去看了一下配置文件<code>/etc/dnsmasq.conf</code>，除了一行<code>log-facility=/dev/null</code>就全是注释，很明显主要配置不在这里</p>
-<p>又去这个<code>/etc/config/dhcp</code>配置文件看了一下，看<code>config dnsmasq</code>的部分，有关日志的也只有<code> option logqueries &#39;1&#39;</code>，这样看来，日志确实是开了，但是却不知道在哪</p>
-<p>搜了一下dnsmasq的运行配置在<code>/var/etc/dnsmasq.conf.cfgxxxxxx</code>,也没有看到相关的日志位置</p>
-<p>经过一番搜索，发现上面<code>/etc/dnsmasq.conf</code>的<code>log-facility</code>就是配置日志的目录,改了之后<code>/etc/init.d/dnsmasq restart</code>重启dnsmasq，搞定。</p>
-<p>要开关的话还是在luci开关，只把日志位置写在<code>/etc/dnsmasq.conf</code>就好了。也可以直接在<code>/etc/config/dhcp</code>加上<code> option logqueries &#39;1&#39;</code>，这里就是luci的配置文件，加上之后luci的记录查询日志的框框会自己勾上。</p>
-<p>当然在<code>/etc/dnsmasq.conf</code>加上<code>log-queries</code>也可以直接开启日志，但这样的坏处是跟luci不同步了，加上之后，虽然luci的记录查询日志的框框没勾上，但却开启了日志。</p>
-<p>最后，不要去改运行配置。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/1/</url>
-    <content><![CDATA[<p>现在我们开始解决AVL树中提到最小不平衡子树，使AVL树重新恢复平衡状态。</p>
-<p>下图先举例一个最简单的平衡的AVL树在经过插入操作后变得不平衡的例子</p>
-<p>如图所示插入结点5后，父结点7的平衡因子变为1,再往上的父节点10变为2，这个结点10就是我们要找的最小不平衡子树的根结点。我们把最小不平衡子树拿出来单独讨论。</p>
-<p>这是最简单的情况，最小不平衡子树的根结点为结点10，新插入结点5是根结点10的左子结点的左子结点，这种情况我们成为LL型（左左型）。在LL型中，根结点10比它的左子结点大，它的左子结点也比新插入的结点大，我们可以把这三个结点的位置转一转，把结点10转到结点7的右下方，也就是从结点7的父节点变成了结点7的右子结点，而结点7自己成了根结点</p>
-<p>现在以结点7为根结点的子树平衡了，整个树也就重新达到AVL的平衡条件了。我们旋转的对象是根结点10，根据它的旋转方向我们称这种旋转为右旋。所以LL型我们只需要一次右旋就能重新回归平衡。因为结点10和结点7之间的大小关系，所以结点10既能做结点7的父结点，也能做结点7的右子结点，右旋操作就是将操作结点从父结点变为右子结点。</p>
-<p>这个LL型过于简单，再举个LL型的最小子树例子，下面这个例子的子树高度比上面那个例子要高，但同样只需要一次右旋就能回到平衡状态。</p>
-<p>完全对称的，我们也有RR型（右右型），所以对称地我们需要一次左旋来让RR型回归平衡，我现在把LL型的例子变成RR型，再看看示意图，完全是对称的操作。右旋操作就是将操作结点从父结点变为左子结点。</p>
-<p>例子举完了，现在该分析一下所有可能存在的情况了。如下图，设想现在有一个子树的根结点t，子树处于平衡状态，它的左子树我们先记做ltree，右子树我们记做rtree。左子树和右子树中的结点数未知，但是它们的高度差因为平衡所以一定不大于1。现在我们插入一个新的结点n，假定我们插入新的结点之后，树将不再平衡，并且这个以结点t为根的子树是整个树的最小不平衡子树。那只有两种插入情况，一种是插入在左子树上，左子树比右子树高2，一种是插在右子树上，右子树比左子树高2，我们把比较矮的一边子树的高度记做h，则另一边比较高的子树的高度为h+2。当然h必须h≥0。可以想象到这两种情况是对称的，那他们解决平衡的操作也是对称的。</p>
-<p>我们现在拿情况1出来分析，把ltree又分为它的根结点tl和tl的左子树lltree和右子树lrtree，同样有两种情况，结点n要么是接在lltree上要么是接在lrtree上，根据上面的讨论，高度如下图所示，同时我也标注好了平衡因子。</p>
-<p>注意！以上的讨论都是建立在结点t构成的子树为最小不平衡子树下。因为这个子树为最小不平衡子树，所以必然的，情况1-1中lltree和lrtree还有rtree三个子树的高度都相等都是h，情况1-2中rltree和rrtree还有ltree三个子树的高度也相等也都是h。h要满足h≥0。反过来说lltree和lrtree还有rtree（或是rltree和rrtree还有ltree）它们的高度不可能不相等，如果不相等那结点t构成的子树就不是最小不平衡子树，记住我们所讨论的情况都是建立在结点t是最小不平衡子树的根结点上的。</p>
-<p>对于情况1-1我们可以继续分类讨论出情况1-1-1和1-1-2……但这样套娃已经完全没有必要了，因为我们现在就能针对情况1-1做出普适性的回归平衡方法。</p>
-<p>现在我们针对情况1-1来看，发现上文中右旋的两个例子就是情况1-1，情况1-1即是LL型。当lltree和lrtree还有rtree的高度为0时，就是上文右旋的第一个例子，而这三个子树高度为1时，就是上文右旋中第二个例子。可以继续推导的是，lltree和lrtree还有rtree的高度h只要满足h≥0，这种最小不平衡子树都是LL型，能都通过对根结点t一次右旋重新回归平衡，如下图。</p>
-<p>接下来讨论情况1-2，我们发现这不再是LL型了，我们无法通过一次右旋来解决问题，如下图：</p>
-<p>我们需要继续分析讨论情况1-2，分类讨论结点n插入的更准确的位置。我们把lrtree这个子树细分成结点tlr和其左右子树lrltree和lrrtree。我们对情况1-2分别得到以下两种情况1-2-a和1-2-b。1-2-a是结点n插在lrltree上，1-2-b是结点n插在lrrtree上。</p>
-<p>经过分析我们发现，虽然我们不能通过一次右旋来回归平衡，但是我们发现如果对情况1-2-a和1-2-b中的结点tl进行一次左旋，我们将把情况1-2-a和1-2-b转变了LL型，如下图</p>
-<p>情况1-2-a和1-2-b进行了左旋之后，得到的LL型是有区别的，情况1-2-a左旋结果的结点tlr的平衡因子为2，最小不平衡子树变成了以结点tlr为根的最小不平衡子树，不是结点t。而情况1-2-b左旋结果的结点tlr的平衡因子为1，所以依然是以结点t为根结点的最小不平衡子树。对于情况1-2-a左旋结果，它的最小不平衡子树变了，虽然也是LL型，但是我们能对结点tlr做一次右旋让它回归平衡吗？答案是不能，这样又变回情况情况1-2-a了，左右旋本身就是互为反操作。那这样的话，我们依旧是把情况1-2-a左旋结果的最小不平衡子树当做没有变动，根结点依旧是结点t，所以对于情况1-2-a左旋结果和情况1-2-b左旋结果，这两个都是根为结点t的LL型，我们对结点t做一次右旋即可回归平衡。如下图。</p>
-<p>情况1-2细分的两种情况现在就已经解决了不平衡问题，方法都是先对结点tl做一次左旋，再对结点t做一次右旋，我们把情况1-2称作LR型。所以LR型的最小不平衡子树，我们先对根结点t的左子节点tl做左旋转换成LL型后，再对结点t做右旋，即可平衡。但LR型里面也是有区别的，虽然都是对结点一样的操作，可重新平衡之后结点t和结点tl的平衡因子是不一样的，在实现上要注意处理这个问题。</p>
-<p>至此，其实我们已经解决掉AVL树的一半旋转方法了。LL型对根结点t做一次右旋，LR型对根结点t的左子节点tl做一次左旋再对结点t做一次右旋。对称地，我们可以得知，把LL型和LR型镜像翻转过来我们得到RR型，和RL型，重新平衡的操作也是对称的，对于RR型应当对根结点t做一次左旋，对于RL型应当对根结点t的右子结点tr做一次右旋，再对结点t做一次左旋。于是我们对于所有的不平衡情况都给出了平衡的旋转方法。下面示意图表示一下RR和RL的过程，就不从头分析一遍了。</p>
-<p>RR型：</p>
-<p>RL型</p>
-<p>RL型对结点tr右旋转换成RR型：</p>
-<p>最后再对结点t左旋：</p>
-]]></content>
-  </entry>
-  <entry>
     <title>二叉树及二叉搜索树</title>
     <url>/218212257/</url>
     <content><![CDATA[<h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><p>首先我们来看一个普通的链表，头节点指向下一个结点，下一个结点再指向下一个结点，直到尾部最后一个结点。这个单向链表的一个特征：除了最后一个结点外，每一个结点都指向下一个结点。</p>
@@ -654,6 +612,33 @@
       </tags>
   </entry>
   <entry>
+    <title></title>
+    <url>/1/</url>
+    <content><![CDATA[<p>现在我们开始解决AVL树中提到最小不平衡子树，使AVL树重新恢复平衡状态。</p>
+<p>下图先举例一个最简单的平衡的AVL树在经过插入操作后变得不平衡的例子</p>
+<p>如图所示插入结点5后，父结点7的平衡因子变为1,再往上的父节点10变为2，这个结点10就是我们要找的最小不平衡子树的根结点。我们把最小不平衡子树拿出来单独讨论。</p>
+<p>这是最简单的情况，最小不平衡子树的根结点为结点10，新插入结点5是根结点10的左子结点的左子结点，这种情况我们成为LL型（左左型）。在LL型中，根结点10比它的左子结点大，它的左子结点也比新插入的结点大，我们可以把这三个结点的位置转一转，把结点10转到结点7的右下方，也就是从结点7的父节点变成了结点7的右子结点，而结点7自己成了根结点</p>
+<p>现在以结点7为根结点的子树平衡了，整个树也就重新达到AVL的平衡条件了。我们旋转的对象是根结点10，根据它的旋转方向我们称这种旋转为右旋。所以LL型我们只需要一次右旋就能重新回归平衡。因为结点10和结点7之间的大小关系，所以结点10既能做结点7的父结点，也能做结点7的右子结点，右旋操作就是将操作结点从父结点变为右子结点。</p>
+<p>这个LL型过于简单，再举个LL型的最小子树例子，下面这个例子的子树高度比上面那个例子要高，但同样只需要一次右旋就能回到平衡状态。</p>
+<p>完全对称的，我们也有RR型（右右型），所以对称地我们需要一次左旋来让RR型回归平衡，我现在把LL型的例子变成RR型，再看看示意图，完全是对称的操作。右旋操作就是将操作结点从父结点变为左子结点。</p>
+<p>例子举完了，现在该分析一下所有可能存在的情况了。如下图，设想现在有一个子树的根结点t，子树处于平衡状态，它的左子树我们先记做ltree，右子树我们记做rtree。左子树和右子树中的结点数未知，但是它们的高度差因为平衡所以一定不大于1。现在我们插入一个新的结点n，假定我们插入新的结点之后，树将不再平衡，并且这个以结点t为根的子树是整个树的最小不平衡子树。那只有两种插入情况，一种是插入在左子树上，左子树比右子树高2，一种是插在右子树上，右子树比左子树高2，我们把比较矮的一边子树的高度记做h，则另一边比较高的子树的高度为h+2。当然h必须h≥0。可以想象到这两种情况是对称的，那他们解决平衡的操作也是对称的。</p>
+<p>我们现在拿情况1出来分析，把ltree又分为它的根结点tl和tl的左子树lltree和右子树lrtree，同样有两种情况，结点n要么是接在lltree上要么是接在lrtree上，根据上面的讨论，高度如下图所示，同时我也标注好了平衡因子。</p>
+<p>注意！以上的讨论都是建立在结点t构成的子树为最小不平衡子树下。因为这个子树为最小不平衡子树，所以必然的，情况1-1中lltree和lrtree还有rtree三个子树的高度都相等都是h，情况1-2中rltree和rrtree还有ltree三个子树的高度也相等也都是h。h要满足h≥0。反过来说lltree和lrtree还有rtree（或是rltree和rrtree还有ltree）它们的高度不可能不相等，如果不相等那结点t构成的子树就不是最小不平衡子树，记住我们所讨论的情况都是建立在结点t是最小不平衡子树的根结点上的。</p>
+<p>对于情况1-1我们可以继续分类讨论出情况1-1-1和1-1-2……但这样套娃已经完全没有必要了，因为我们现在就能针对情况1-1做出普适性的回归平衡方法。</p>
+<p>现在我们针对情况1-1来看，发现上文中右旋的两个例子就是情况1-1，情况1-1即是LL型。当lltree和lrtree还有rtree的高度为0时，就是上文右旋的第一个例子，而这三个子树高度为1时，就是上文右旋中第二个例子。可以继续推导的是，lltree和lrtree还有rtree的高度h只要满足h≥0，这种最小不平衡子树都是LL型，能都通过对根结点t一次右旋重新回归平衡，如下图。</p>
+<p>接下来讨论情况1-2，我们发现这不再是LL型了，我们无法通过一次右旋来解决问题，如下图：</p>
+<p>我们需要继续分析讨论情况1-2，分类讨论结点n插入的更准确的位置。我们把lrtree这个子树细分成结点tlr和其左右子树lrltree和lrrtree。我们对情况1-2分别得到以下两种情况1-2-a和1-2-b。1-2-a是结点n插在lrltree上，1-2-b是结点n插在lrrtree上。</p>
+<p>经过分析我们发现，虽然我们不能通过一次右旋来回归平衡，但是我们发现如果对情况1-2-a和1-2-b中的结点tl进行一次左旋，我们将把情况1-2-a和1-2-b转变了LL型，如下图</p>
+<p>情况1-2-a和1-2-b进行了左旋之后，得到的LL型是有区别的，情况1-2-a左旋结果的结点tlr的平衡因子为2，最小不平衡子树变成了以结点tlr为根的最小不平衡子树，不是结点t。而情况1-2-b左旋结果的结点tlr的平衡因子为1，所以依然是以结点t为根结点的最小不平衡子树。对于情况1-2-a左旋结果，它的最小不平衡子树变了，虽然也是LL型，但是我们能对结点tlr做一次右旋让它回归平衡吗？答案是不能，这样又变回情况情况1-2-a了，左右旋本身就是互为反操作。那这样的话，我们依旧是把情况1-2-a左旋结果的最小不平衡子树当做没有变动，根结点依旧是结点t，所以对于情况1-2-a左旋结果和情况1-2-b左旋结果，这两个都是根为结点t的LL型，我们对结点t做一次右旋即可回归平衡。如下图。</p>
+<p>情况1-2细分的两种情况现在就已经解决了不平衡问题，方法都是先对结点tl做一次左旋，再对结点t做一次右旋，我们把情况1-2称作LR型。所以LR型的最小不平衡子树，我们先对根结点t的左子节点tl做左旋转换成LL型后，再对结点t做右旋，即可平衡。但LR型里面也是有区别的，虽然都是对结点一样的操作，可重新平衡之后结点t和结点tl的平衡因子是不一样的，在实现上要注意处理这个问题。</p>
+<p>至此，其实我们已经解决掉AVL树的一半旋转方法了。LL型对根结点t做一次右旋，LR型对根结点t的左子节点tl做一次左旋再对结点t做一次右旋。对称地，我们可以得知，把LL型和LR型镜像翻转过来我们得到RR型，和RL型，重新平衡的操作也是对称的，对于RR型应当对根结点t做一次左旋，对于RL型应当对根结点t的右子结点tr做一次右旋，再对结点t做一次左旋。于是我们对于所有的不平衡情况都给出了平衡的旋转方法。下面示意图表示一下RR和RL的过程，就不从头分析一遍了。</p>
+<p>RR型：</p>
+<p>RL型</p>
+<p>RL型对结点tr右旋转换成RR型：</p>
+<p>最后再对结点t左旋：</p>
+]]></content>
+  </entry>
+  <entry>
     <title>二叉树的平衡</title>
     <url>/2750358315/</url>
     <content><![CDATA[<p><a href="https://liangziye.online/218212257/">上一篇</a>写到二叉搜索树，它平均都是对数的时间复杂度都很优秀。现在考虑一种情况，我们将一组上升序列[1,2,3,……,98,88,100]一共100个值作为结点形成一个新的二叉搜索树，我们插入的第一个结点键为1，最后一个结点的键位100。</p>
@@ -669,24 +654,6 @@
       <tags>
         <tag>tree</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>关于dnsmasq的一次query却forwarded了两次这件事</title>
-    <url>/3255947641/</url>
-    <content><![CDATA[<p><a href="/2389161658">开了dnsmasq的日志</a>之后，发现一次query下面却跟了两个forwarded</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 query[A] clientservices.googleapis.com from 192.168.x.xxx</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 forwarded clientservices.googleapis.com to 223.5.5.5</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 forwarded clientservices.googleapis.com to 223.5.5.5</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 reply clientservices.googleapis.com is 120.253.255.98</span><br></pre></td></tr></table></figure>
-
-<p>我第一反应跟我用两条宽带有关，于是把其中一条宽带的DNS改成<code>114.114.114</code>以区分，果然，两次forwarded，一次223.5.5.5一次114.114.114</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 query[A] www.google.com from 192.168.x.xxx</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 forwarded www.google.com to 223.5.5.5</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 forwarded www.google.com to 114.114.114.114</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.2.135/58192 reply www.google.com is 142.251.43.4</span><br></pre></td></tr></table></figure>
-
-<p>不知道为什么dnsmasq要每一条宽带都请求一次，可能是在负载均衡的规则中进了balanced。</p>
-<p>于是去负载均衡里面加上了两条DNS的规则，让tcp/udp协议的目标端口为53的流量都优先走其中一条宽带，发现并不管用。</p>
-<p>去看看dnsmasq的解析文件<code>/tmp/resolv.conf.d/resolv.conf.auto</code></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Interface wan</span><br><span class="line">nameserver 223.5.5.5</span><br><span class="line"># Interface wan1</span><br><span class="line">nameserver 114.114.114.114</span><br></pre></td></tr></table></figure>
-
-<p>突然明白了，我之前勾选了“使用 all-servers 并发查询”，这样每个网络接口里面自定义的DNS服务器都会查一次，但只用最快得到的结果。我取消了并发查询之后，一次query只有一个forwarded。</p>
-<p>其实问题出在<code>resolv.conf</code>，两个网络接口用相同的nameserver，<code>resolv.conf</code>会加上两条相同的nameserver，而不是相同的nameserver会自动去重。</p>
-]]></content>
   </entry>
   <entry>
     <title>奇怪的广播</title>
@@ -789,5 +756,38 @@
       <tags>
         <tag>debug</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>关于dnsmasq的一次query却forwarded了两次这件事</title>
+    <url>/3255947641/</url>
+    <content><![CDATA[<p><a href="/2389161658">开了dnsmasq的日志</a>之后，发现一次query下面却跟了两个forwarded</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 query[A] clientservices.googleapis.com from 192.168.x.xxx</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 forwarded clientservices.googleapis.com to 223.5.5.5</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 forwarded clientservices.googleapis.com to 223.5.5.5</span><br><span class="line">Jul  6 13:03:12 dnsmasq[14543]: 1 192.168.x.xxx/60201 reply clientservices.googleapis.com is 120.253.255.98</span><br></pre></td></tr></table></figure>
+
+<p>我第一反应跟我用两条宽带有关，于是把其中一条宽带的DNS改成<code>114.114.114</code>以区分，果然，两次forwarded，一次223.5.5.5一次114.114.114</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 query[A] www.google.com from 192.168.x.xxx</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 forwarded www.google.com to 223.5.5.5</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.x.xxx/58192 forwarded www.google.com to 114.114.114.114</span><br><span class="line">Jul  6 13:29:45 dnsmasq[780]: 1 192.168.2.135/58192 reply www.google.com is 142.251.43.4</span><br></pre></td></tr></table></figure>
+
+<p>不知道为什么dnsmasq要每一条宽带都请求一次，可能是在负载均衡的规则中进了balanced。</p>
+<p>于是去负载均衡里面加上了两条DNS的规则，让tcp/udp协议的目标端口为53的流量都优先走其中一条宽带，发现并不管用。</p>
+<p>去看看dnsmasq的解析文件<code>/tmp/resolv.conf.d/resolv.conf.auto</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Interface wan</span><br><span class="line">nameserver 223.5.5.5</span><br><span class="line"># Interface wan1</span><br><span class="line">nameserver 114.114.114.114</span><br></pre></td></tr></table></figure>
+
+<p>突然明白了，我之前勾选了“使用 all-servers 并发查询”，这样每个网络接口里面自定义的DNS服务器都会查一次，但只用最快得到的结果。我取消了并发查询之后，一次query只有一个forwarded。</p>
+<p>其实问题出在<code>resolv.conf</code>，两个网络接口用相同的nameserver，<code>resolv.conf</code>会加上两条相同的nameserver，而不是相同的nameserver会自动去重。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>openwrt开启dnsmasq日志</title>
+    <url>/2389161658/</url>
+    <content><![CDATA[<p>在openwrt的luci可以直接开启dnsmasq的日志：</p>
+<p>网络-&gt;DHCP/DNS-&gt;基本请求-&gt;记录查询日志 勾上</p>
+<p>下面小字写着“将收到的 DNS 请求写入系统日志”，可是我没发现系统日志有dns查询记录</p>
+<p>去看了一下配置文件<code>/etc/dnsmasq.conf</code>，除了一行<code>log-facility=/dev/null</code>就全是注释，很明显主要配置不在这里</p>
+<p>又去这个<code>/etc/config/dhcp</code>配置文件看了一下，看<code>config dnsmasq</code>的部分，有关日志的也只有<code> option logqueries &#39;1&#39;</code>，这样看来，日志确实是开了，但是却不知道在哪</p>
+<p>搜了一下dnsmasq的运行配置在<code>/var/etc/dnsmasq.conf.cfgxxxxxx</code>,也没有看到相关的日志位置</p>
+<p>经过一番搜索，发现上面<code>/etc/dnsmasq.conf</code>的<code>log-facility</code>就是配置日志的目录,改了之后<code>/etc/init.d/dnsmasq restart</code>重启dnsmasq，搞定。</p>
+<p>要开关的话还是在luci开关，只把日志位置写在<code>/etc/dnsmasq.conf</code>就好了。也可以直接在<code>/etc/config/dhcp</code>加上<code> option logqueries &#39;1&#39;</code>，这里就是luci的配置文件，加上之后luci的记录查询日志的框框会自己勾上。</p>
+<p>当然在<code>/etc/dnsmasq.conf</code>加上<code>log-queries</code>也可以直接开启日志，但这样的坏处是跟luci不同步了，加上之后，虽然luci的记录查询日志的框框没勾上，但却开启了日志。</p>
+<p>最后，不要去改运行配置。</p>
+]]></content>
   </entry>
 </search>
