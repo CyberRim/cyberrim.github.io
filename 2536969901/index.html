@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
 
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/xiaobowenhao.jpg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/xiaobowenhao.jpg">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/xiaobowenhao.jpg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
 <link rel="stylesheet" href="/css/main.css">
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"liangziye.online","root":"/","images":"/images","scheme":"Pisces","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="严格平衡的二叉搜索树接上篇二叉树的平衡，我们知道若平衡因子的绝对值越大，这个二叉搜索树就越不平衡，性能就越差，我们面对一些来源未知的数据时，随着不断的插入，一些子树可能会陷入严重不平衡的状态，造成二叉搜索树的效率降低。如果我们规定这样一种二叉搜索树，如果它能达到我们要求的一定平衡条件，那就能保证它的效率不会过于低，这样的二叉搜索树我们叫做平衡二叉树，它有着二叉搜索树的所有性质，你也可以叫它平衡二叉">
+<script class="next-config" data-name="main" type="application/json">{"hostname":"liangziye.online","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"بحث...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="严格平衡的二叉搜索树接上篇二叉树的平衡，我们知道若平衡因子的绝对值越大，这个二叉搜索树就越不平衡，性能就越差，我们面对一些来源未知的数据时，随着不断的插入，一些子树可能会陷入严重不平衡的状态，造成二叉搜索树的效率降低。如果我们规定这样一种二叉搜索树，如果它能达到我们要求的一定平衡条件，那就能保证它的效率不会过于低，这样的二叉搜索树我们叫做平衡二叉树，它有着二叉搜索树的所有性质，你也可以叫它平衡二叉">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AVL树">
 <meta property="og:url" content="https://liangziye.online/2536969901/index.html">
@@ -39,7 +39,6 @@
 <link rel="canonical" href="https://liangziye.online/2536969901/">
 
 
-
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://liangziye.online/2536969901/","path":"2536969901/","title":"AVL树"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
@@ -49,22 +48,40 @@
 
 
 
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
   <div class="headband"></div>
 
   <main class="main">
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
+    <div class="toggle" aria-label="تشغيل شريط التصفح" role="button">
     </div>
   </div>
 
@@ -72,76 +89,36 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Liangziye</h1>
+      <p class="site-title">Liangziye</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">深入浅出不如不进不出</p>
   </div>
 
   <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
+    <div class="toggle popup-trigger" aria-label="بحث" role="button">
     </div>
   </div>
 </div>
 
 
 
-<nav class="site-nav">
-  <ul class="main-menu menu">
-        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
-        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
-  </ul>
-</nav>
 
 
 
-  <div class="search-pop-overlay">
-    <div class="popup search-popup"><div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close" role="button">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div class="search-result-container no-result">
-  <div class="search-result-icon">
-    <i class="fa fa-spinner fa-pulse fa-5x"></i>
-  </div>
-</div>
 
-    </div>
-  </div>
-
-</div>
+</header>
         
   
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-
   <aside class="sidebar">
 
     <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
-          文章目录
+          المحتويات
         </li>
         <li class="sidebar-nav-overview">
-          站点概览
+          عام
         </li>
       </ul>
 
@@ -153,56 +130,40 @@
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
-          <div class="site-overview">
-            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Liangziye</p>
   <div class="site-description" itemprop="description">深入浅出不如不进不出</div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
+<div class="site-state-wrap animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
+        <a href="/archives/">
           <span class="site-state-item-count">16</span>
-          <span class="site-state-item-name">日志</span>
+          <span class="site-state-item-name">المقالات</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
+          <a href="/categories/">
         <span class="site-state-item-count">2</span>
-        <span class="site-state-item-name">分类</span></a>
+        <span class="site-state-item-name">التصنيفات</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
+          <a href="/tags/">
         <span class="site-state-item-count">11</span>
-        <span class="site-state-item-name">标签</span></a>
+        <span class="site-state-item-name">الوسوم</span></a>
       </div>
   </nav>
 </div>
 
-
-
-          </div>
         </div>
       </div>
     </div>
-  </aside>
-  <div class="sidebar-dimmer"></div>
-
-
-    </header>
 
     
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+  </aside>
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
 
+    </div>
 
     <div class="main-inner post posts-expand">
 
@@ -220,11 +181,16 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Liangziye">
-      <meta itemprop="description" content="深入浅出不如不进不出">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Liangziye">
+      <meta itemprop="description" content="深入浅出不如不进不出">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="AVL树 | Liangziye">
+      <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -237,22 +203,22 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">发表于</span>
+      <span class="post-meta-item-text">نُشر في</span>
 
-      <time title="创建时间：2021-07-19 22:19:34" itemprop="dateCreated datePublished" datetime="2021-07-19T22:19:34+08:00">2021-07-19</time>
+      <time title="أُنشأ: 2021-07-19 22:19:34" itemprop="dateCreated datePublished" datetime="2021-07-19T22:19:34+08:00">2021-07-19</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-04 00:11:39" itemprop="dateModified" datetime="2021-08-04T00:11:39+08:00">2021-08-04</time>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
       </span>
+      <span class="post-meta-item-text">عُدل في</span>
+      <time title="عُدل: 2021-08-04 00:11:39" itemprop="dateModified" datetime="2021-08-04T00:11:39+08:00">2021-08-04</time>
+    </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">分类于</span>
+      <span class="post-meta-item-text">في</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/datas-tructure/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
         </span>
@@ -267,8 +233,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
-        <h2 id="严格平衡的二叉搜索树"><a href="#严格平衡的二叉搜索树" class="headerlink" title="严格平衡的二叉搜索树"></a>严格平衡的二叉搜索树</h2><p>接<a href="https://liangziye.online/2750358315/">上篇二叉树的平衡</a>，我们知道若平衡因子的绝对值越大，这个二叉搜索树就越不平衡，性能就越差，我们面对一些来源未知的数据时，随着不断的插入，一些子树可能会陷入严重不平衡的状态，造成二叉搜索树的效率降低。如果我们规定这样一种二叉搜索树，如果它能达到我们要求的一定平衡条件，那就能保证它的效率不会过于低，这样的二叉搜索树我们叫做平衡二叉树，它有着二叉搜索树的所有性质，你也可以叫它平衡二叉搜索树，平衡二叉树就是满足一些平衡条件的二叉搜索树。当我们设定平衡二叉树的平衡条件为树中的每一个结点的平衡因子的绝对值都不超过1时，我们就得到了AVL树。所以AVL树是平衡条件严格的平衡二叉树，树中每一个结点的平衡因子绝对值都是1或者是0，也就是每一个结点的左右子树高度差最多为1。<a href="https://liangziye.online/218212257/#%E6%8F%92%E5%85%A5">这篇二叉搜索树</a>中的二叉搜索树例子，它就是一个AVL树。</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="严格平衡的二叉搜索树"><a href="#严格平衡的二叉搜索树" class="headerlink" title="严格平衡的二叉搜索树"></a>严格平衡的二叉搜索树</h2><p>接<a href="https://liangziye.online/2750358315/">上篇二叉树的平衡</a>，我们知道若平衡因子的绝对值越大，这个二叉搜索树就越不平衡，性能就越差，我们面对一些来源未知的数据时，随着不断的插入，一些子树可能会陷入严重不平衡的状态，造成二叉搜索树的效率降低。如果我们规定这样一种二叉搜索树，如果它能达到我们要求的一定平衡条件，那就能保证它的效率不会过于低，这样的二叉搜索树我们叫做平衡二叉树，它有着二叉搜索树的所有性质，你也可以叫它平衡二叉搜索树，平衡二叉树就是满足一些平衡条件的二叉搜索树。当我们设定平衡二叉树的平衡条件为树中的每一个结点的平衡因子的绝对值都不超过1时，我们就得到了AVL树。所以AVL树是平衡条件严格的平衡二叉树，树中每一个结点的平衡因子绝对值都是1或者是0，也就是每一个结点的左右子树高度差最多为1。<a href="https://liangziye.online/218212257/#%E6%8F%92%E5%85%A5">这篇二叉搜索树</a>中的二叉搜索树例子，它就是一个AVL树。</p>
 <p><img src="https://assets.liangziye.online/image/AVL%E6%A0%911.png"></p>
 <p>所以在AVL树中，我们必须使用一些办法使得树搜着数据的插入也能保持着平衡条件。这时候我们可以使用一种方法，在每次插入新数据时都去检查这棵树是否平衡，如果不平衡我们将调整一下不平衡的结点，给它们互换下位置，重新让二叉搜索树平衡起来，满足AVL树的条件。</p>
 <h2 id="最小不平衡子树"><a href="#最小不平衡子树" class="headerlink" title="最小不平衡子树"></a>最小不平衡子树</h2><p>这里先分析一下，我们是每一次做插入操作就去检查一次平衡，若不平衡就调整到平衡，所以我们每次插入前，AVL树都是平衡的，满足AVL树条件的。若现在开始插入操作，插入后导致了不平衡，那从插入节点往父节点一直向上找，找到第一个平衡因子的绝对值大于1的结点，以这个结点为根的子树，我们称为最小不平衡子树。不平衡子树的根结点是一个离插入结点最近的，平衡因子绝对值大于1的结点。这个子树是不平衡的，如果恢复平衡，我们就要从这个子树入手。</p>
@@ -290,12 +255,12 @@
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2750358315/" rel="prev" title="二叉树的平衡">
-                  <i class="fa fa-chevron-left"></i> 二叉树的平衡
+                  <i class="fa fa-angle-left"></i> 二叉树的平衡
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/138867439/" rel="next" title="AVL树的旋转">
-                  AVL树的旋转 <i class="fa fa-chevron-right"></i>
+                  AVL树的旋转 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -308,51 +273,41 @@
 
 
 
-    <div class="comments gitalk-container"></div>
 </div>
   </main>
 
   <footer class="footer">
     <div class="footer-inner">
 
-
-<div class="copyright">
-  &copy; 2021 – 
-  <span itemprop="copyrightYear">2024</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Liangziye</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Liangziye</span>
+  </div>
+  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
 
     </div>
   </footer>
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
 
-  
-<script src="/js/third-party/search/local-search.js"></script>
-
-
-
-
-  
-
-
-
-
-  
-
-  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
-<script src="/js/third-party/math/mathjax.js"></script>
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
-
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"CyberRim","repo":"cyberrim.github.io","client_id":"971707ebf89b3543b252","client_secret":"355c18f296fccbb4b0e2ddc0830dea1d7ea7cfc2","admin_user":"CyberRim","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"5031c87b3b8f6e450db80cfe773fd8bc"}</script>
-<script src="/js/third-party/comments/gitalk.js"></script>
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
 
 </body>
 </html>

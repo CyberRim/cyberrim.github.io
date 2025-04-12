@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
 
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/xiaobowenhao.jpg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/xiaobowenhao.jpg">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/xiaobowenhao.jpg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
 <link rel="stylesheet" href="/css/main.css">
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"liangziye.online","root":"/","images":"/images","scheme":"Pisces","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="场景在win10 VS2022上试了一下调试Prowlarr和FlareSolverr，想搞懂为什么docker上跑着的这两容器在某一两个pt站上不能成功过CF的5秒盾，需要抓下包确认下请求头是否设置无误。 尝试想从VS里面直接抓包，一些旧版VS在性能查看器那里是有关于网络的，从某个版本开始也移除了这个功能，没有网络了。 打开了wireshark从网卡当然可以抓到所有包，但请求都是https，用改">
+<script class="next-config" data-name="main" type="application/json">{"hostname":"liangziye.online","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"بحث...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="场景在win10 VS2022上试了一下调试Prowlarr和FlareSolverr，想搞懂为什么docker上跑着的这两容器在某一两个pt站上不能成功过CF的5秒盾，需要抓下包确认下请求头是否设置无误。 尝试想从VS里面直接抓包，一些旧版VS在性能查看器那里是有关于网络的，从某个版本开始也移除了这个功能，没有网络了。 打开了wireshark从网卡当然可以抓到所有包，但请求都是https，用改">
 <meta property="og:type" content="article">
 <meta property="og:title" content="抓取调试中C#项目发出的网络请求">
 <meta property="og:url" content="https://liangziye.online/125787111/index.html">
@@ -36,7 +36,6 @@
 <link rel="canonical" href="https://liangziye.online/125787111/">
 
 
-
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://liangziye.online/125787111/","path":"125787111/","title":"抓取调试中C#项目发出的网络请求"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
@@ -46,22 +45,40 @@
 
 
 
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
   <div class="headband"></div>
 
   <main class="main">
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
+    <div class="toggle" aria-label="تشغيل شريط التصفح" role="button">
     </div>
   </div>
 
@@ -69,76 +86,36 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Liangziye</h1>
+      <p class="site-title">Liangziye</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">深入浅出不如不进不出</p>
   </div>
 
   <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
+    <div class="toggle popup-trigger" aria-label="بحث" role="button">
     </div>
   </div>
 </div>
 
 
 
-<nav class="site-nav">
-  <ul class="main-menu menu">
-        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
-        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
-  </ul>
-</nav>
 
 
 
-  <div class="search-pop-overlay">
-    <div class="popup search-popup"><div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close" role="button">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div class="search-result-container no-result">
-  <div class="search-result-icon">
-    <i class="fa fa-spinner fa-pulse fa-5x"></i>
-  </div>
-</div>
 
-    </div>
-  </div>
-
-</div>
+</header>
         
   
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-
   <aside class="sidebar">
 
     <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
-          文章目录
+          المحتويات
         </li>
         <li class="sidebar-nav-overview">
-          站点概览
+          عام
         </li>
       </ul>
 
@@ -150,56 +127,40 @@
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
-          <div class="site-overview">
-            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Liangziye</p>
   <div class="site-description" itemprop="description">深入浅出不如不进不出</div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
+<div class="site-state-wrap animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
+        <a href="/archives/">
           <span class="site-state-item-count">16</span>
-          <span class="site-state-item-name">日志</span>
+          <span class="site-state-item-name">المقالات</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
+          <a href="/categories/">
         <span class="site-state-item-count">2</span>
-        <span class="site-state-item-name">分类</span></a>
+        <span class="site-state-item-name">التصنيفات</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
+          <a href="/tags/">
         <span class="site-state-item-count">11</span>
-        <span class="site-state-item-name">标签</span></a>
+        <span class="site-state-item-name">الوسوم</span></a>
       </div>
   </nav>
 </div>
 
-
-
-          </div>
         </div>
       </div>
     </div>
-  </aside>
-  <div class="sidebar-dimmer"></div>
-
-
-    </header>
 
     
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+  </aside>
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
 
+    </div>
 
     <div class="main-inner post posts-expand">
 
@@ -217,11 +178,16 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Liangziye">
-      <meta itemprop="description" content="深入浅出不如不进不出">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Liangziye">
+      <meta itemprop="description" content="深入浅出不如不进不出">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="抓取调试中C#项目发出的网络请求 | Liangziye">
+      <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -234,10 +200,10 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">发表于</span>
+      <span class="post-meta-item-text">نُشر في</span>
       
 
-      <time title="创建时间：2023-03-05 01:53:46 / 修改时间：02:52:35" itemprop="dateCreated datePublished" datetime="2023-03-05T01:53:46+08:00">2023-03-05</time>
+      <time title="أُنشأ: 2023-03-05 01:53:46 / عُدل: 02:52:35" itemprop="dateCreated datePublished" datetime="2023-03-05T01:53:46+08:00">2023-03-05</time>
     </span>
 
   
@@ -249,8 +215,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
-        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>在win10 VS2022上试了一下调试<a target="_blank" rel="noopener" href="https://github.com/Prowlarr/Prowlarr">Prowlarr</a>和<a target="_blank" rel="noopener" href="https://github.com/FlareSolverr/FlareSolverr">FlareSolverr</a>，想搞懂为什么docker上跑着的这两容器在某一两个pt站上不能成功过CF的5秒盾，需要抓下包确认下请求头是否设置无误。</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>在win10 VS2022上试了一下调试<a target="_blank" rel="noopener" href="https://github.com/Prowlarr/Prowlarr">Prowlarr</a>和<a target="_blank" rel="noopener" href="https://github.com/FlareSolverr/FlareSolverr">FlareSolverr</a>，想搞懂为什么docker上跑着的这两容器在某一两个pt站上不能成功过CF的5秒盾，需要抓下包确认下请求头是否设置无误。</p>
 <h2 id="尝试"><a href="#尝试" class="headerlink" title="尝试"></a>尝试</h2><p>想从VS里面直接抓包，一些旧版VS在性能查看器那里是有关于网络的，从某个版本开始也移除了这个功能，没有网络了。</p>
 <p>打开了wireshark从网卡当然可以抓到所有包，但请求都是https，用改环境变量让chrome记录ssllog接着wireshark去读它然后解密的方法，只适用于浏览器，对IDE调试没用。想走一样的思路让IDE去记录调试中网络连接的私钥，也没能搜到相关的内容。</p>
 <p>于是我打开了fiddler，fiddler是代理中间人的模式，肯定能解https，可是调试时却发现没能抓到任何一个VS的包，浏览器的包倒是能抓到，原因是vs发出的网络请求没从fiddler代理的8888端口经过。</p>
@@ -282,12 +247,12 @@
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/3255947641/" rel="prev" title="关于dnsmasq的一次query却forwarded了两次这件事">
-                  <i class="fa fa-chevron-left"></i> 关于dnsmasq的一次query却forwarded了两次这件事
+                  <i class="fa fa-angle-left"></i> 关于dnsmasq的一次query却forwarded了两次这件事
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/3468276863/" rel="next" title="node-gyp安装">
-                  node-gyp安装 <i class="fa fa-chevron-right"></i>
+                  node-gyp安装 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -300,51 +265,41 @@
 
 
 
-    <div class="comments gitalk-container"></div>
 </div>
   </main>
 
   <footer class="footer">
     <div class="footer-inner">
 
-
-<div class="copyright">
-  &copy; 2021 – 
-  <span itemprop="copyrightYear">2024</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Liangziye</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Liangziye</span>
+  </div>
+  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
 
     </div>
   </footer>
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
 
-  
-<script src="/js/third-party/search/local-search.js"></script>
-
-
-
-
-  
-
-
-
-
-  
-
-  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
-<script src="/js/third-party/math/mathjax.js"></script>
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
-
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"CyberRim","repo":"cyberrim.github.io","client_id":"971707ebf89b3543b252","client_secret":"355c18f296fccbb4b0e2ddc0830dea1d7ea7cfc2","admin_user":"CyberRim","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"cc9b74b59c61f150b8cd7aeea44a3eec"}</script>
-<script src="/js/third-party/comments/gitalk.js"></script>
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
 
 </body>
 </html>
