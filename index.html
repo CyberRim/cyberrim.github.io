@@ -155,7 +155,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -207,6 +207,105 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://liangziye.online/4066254035/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Liangziye">
+      <meta itemprop="description" content="深入浅出不如不进不出">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liangziye">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/4066254035/" class="post-title-link" itemprop="url">bash中的花括号扩展</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-05-17 00:12:16" itemprop="dateCreated datePublished" datetime="2025-05-17T00:12:16+08:00">2025-05-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/shell/" itemprop="url" rel="index"><span itemprop="name">shell</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="触发扩展条件"><a href="#触发扩展条件" class="headerlink" title="触发扩展条件"></a>触发扩展条件</h2><p>检测到一对花括号<code>&#123;&#125;</code>，并在此内至少存在一个逗号<code>,</code>,或者存在一个有效的序列表达式<code>&#123;x..y[..incr]&#125;</code>，花括号和逗号未被反斜杠<code>\</code>转义和未被单引号<code>&#39;</code>双引号<code>&quot;</code>包围，这时满足条件，触发花括号扩展<code>Brace Expansion</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> a&#123;1,2&#125;b     <span class="comment">#扩展</span></span><br><span class="line"><span class="built_in">echo</span> a&#123;1..2..1&#125;b <span class="comment">#扩展</span></span><br><span class="line"><span class="built_in">echo</span> a\&#123;1,2<span class="string">&#x27;&#125;&#x27;</span>b  <span class="comment">#没有一对花括号，不扩展</span></span><br><span class="line"><span class="built_in">echo</span> a&#123;1\,2&#125;b    <span class="comment">#没有逗号，不扩展</span></span><br><span class="line"><span class="built_in">echo</span> a&#123;x..2..1&#125;b <span class="comment">#序列表达式无效，不扩展</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment"># a1b a2b</span></span><br><span class="line"><span class="comment"># a1b a2b</span></span><br><span class="line"><span class="comment"># a&#123;1,2&#125;b</span></span><br><span class="line"><span class="comment"># a&#123;1,2&#125;b</span></span><br><span class="line"><span class="comment"># a&#123;x..2..1&#125;b</span></span><br></pre></td></tr></table></figure>
+
+<p>扩展条件有比较特殊的情况，首先，参数扩展模式为<code>$&#123;&#125;</code>同样有花括号，所以字符串<code>$&#123;</code>不认为是有效的<code>&#123;</code>，不满足触发条件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> -- 2    <span class="comment">#将参数$1的值设为2</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;1,2&#125;</span> <span class="comment">#$&#123;1,2&#125;不会触发花括号扩展。但也不会报错，原因是在花括号扩展结束之后触发了参数扩展中的小写转换，$1值会去匹配字符2，匹配成功会将其转换为小写，当然2没有小写，即使$1值是2也不会报错，扩展结果就为2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment"># 2</span></span><br></pre></td></tr></table></figure>
+
+<p>其次特殊的情况，扩展不会发生在参数<code>parameter</code>赋值中</p>
+<blockquote>
+<p>A variable may be assigned to by a statement of the form</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name=[value]</span><br></pre></td></tr></table></figure>
+
+<p>If value is not given, the variable is assigned the null string. All values undergo tilde expansion, parameter and variable expansion, command substitution, arithmetic expansion, and quote removal</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameters">Bash Reference Manual</a>在参数的部分中提到的扩展是没有花括号扩展的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">str=a&#123;1,2&#125;b <span class="comment">#str的值就为a&#123;1,2&#125;b</span></span><br><span class="line"><span class="built_in">echo</span> a&#123;1,2&#125;b</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$str</span>   <span class="comment">#即使在变量中也不会花括号扩展，因为花括号扩展在参数扩展之前</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment"># a1b a2b</span></span><br><span class="line"><span class="comment"># a&#123;1,2&#125;b</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="扩展行为"><a href="#扩展行为" class="headerlink" title="扩展行为"></a>扩展行为</h2><p>逗号情况中，会将逗号视作分隔符，扩展为花括号中被分割的每一项，如果逗号在首位也是会分割的，分割得到空值。扩展的顺序为花括号内顺序，不会主动进行排序。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> a&#123;1,2&#125;b</span><br><span class="line"><span class="built_in">echo</span> a&#123;,1,2,&#125;b</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出：</span></span><br><span class="line"><span class="comment"># a1b a2b</span></span><br><span class="line"><span class="comment"># ab a1b a2b ab</span></span><br><span class="line"><span class="comment"># a1b a2b a3b a4b a5b a6b</span></span><br><span class="line"><span class="comment"># a1b a2b a3b a4b a5b a6b</span></span><br><span class="line"><span class="comment"># a1b a3b a5b</span></span><br><span class="line"><span class="comment"># a1b a4b</span></span><br><span class="line"><span class="comment"># a1b a5b</span></span><br><span class="line"><span class="comment"># acb adb aeb afb</span></span><br><span class="line"><span class="comment"># acb aeb </span></span><br></pre></td></tr></table></figure>
+
+<p><code>&#123;x..y[..incr]&#125;</code>为序列表达式，<code>xy</code>可为整数或者字母，可选值<code>incr</code>为整数作用与<code>xy</code>之间的增量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> a&#123;1..6&#125;b</span><br><span class="line"><span class="built_in">echo</span> a&#123;1..6..1&#125;b</span><br><span class="line"><span class="built_in">echo</span> a&#123;1..6..2&#125;b</span><br><span class="line"><span class="built_in">echo</span> a&#123;1..6..3&#125;b</span><br><span class="line"><span class="built_in">echo</span> a&#123;1..6..4&#125;b</span><br><span class="line"><span class="built_in">echo</span> a&#123;c..f&#125;b</span><br><span class="line"><span class="built_in">echo</span> a&#123;c..f..2&#125;b</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出：</span></span><br><span class="line"><span class="comment"># a1b a2b a3b a4b a5b a6b</span></span><br><span class="line"><span class="comment"># a1b a2b a3b a4b a5b a6b</span></span><br><span class="line"><span class="comment"># a1b a3b a5b</span></span><br><span class="line"><span class="comment"># a1b a4b</span></span><br><span class="line"><span class="comment"># a1b a5b</span></span><br><span class="line"><span class="comment"># acb adb aeb afb</span></span><br><span class="line"><span class="comment"># acb aeb</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="扩展中的特殊符号"><a href="#扩展中的特殊符号" class="headerlink" title="扩展中的特殊符号"></a>扩展中的特殊符号</h2><p>如果花括号内逗号分割的是带反斜杠转义或者单双括号包围起来的元字符<code>metacharater</code>，那么就当字面意义上的字符对待，保留字<code>reserved words</code>同理</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> &#123;\|,\&amp;,\;,\(,\),\ ,$<span class="string">&#x27;\t&#x27;</span>,$<span class="string">&#x27;\n&#x27;</span>,<span class="string">&#x27;&lt;&#x27;</span>,\&gt;&#125;</span><br><span class="line"><span class="built_in">echo</span> &#123;<span class="keyword">while</span>,<span class="keyword">for</span>,[,],!&#125; <span class="comment">#保留字</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment"># | &amp; ; ( )</span></span><br><span class="line"><span class="comment">#  &lt; &gt;</span></span><br><span class="line"><span class="comment"># while for [ ] !</span></span><br></pre></td></tr></table></figure>
+
+<p>由于<code>$</code>不是元字符，只要后面不跟<code>&#123;</code>它在花括号扩展中只是一个字面意义上的普通字符</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="string">&#x27;Im a&#x27;</span></span><br><span class="line">b=<span class="string">&#x27;Im b&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> &#123;<span class="variable">$a</span>,<span class="variable">$b</span>,Im\ $,Im\ \$\ too&#125; <span class="comment">#花括号扩展为$a,$b,Im $,Im \$ too，再之后被参数扩展为各个值</span></span><br><span class="line">&#123;<span class="built_in">echo</span>,<span class="variable">$a</span>&#125;                      <span class="comment">#花括号扩展为echo $a</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment"># Im a Im b Im $ Im $ too</span></span><br><span class="line"><span class="comment"># Im a</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://liangziye.online/882395283/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -232,7 +331,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-05-14 23:22:34 / 修改时间：23:42:28" itemprop="dateCreated datePublished" datetime="2025-05-14T23:22:34+08:00">2025-05-14</time>
+      <time title="创建时间：2025-05-14 23:22:34 / 修改时间：23:43:08" itemprop="dateCreated datePublished" datetime="2025-05-14T23:22:34+08:00">2025-05-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1208,84 +1307,6 @@
 <blockquote>
 <p>在我失去第一颗牙齿的那天，<br>四年级上到一半，<br>我会沿着缝隙伸出舌头，<br>我以前的牙齿在哪里，<br>我记得我哭着回家，<br>并把它展示给我妈妈，<br>她告诉我，一颗崭新的牙齿，<br>会在我的口香糖里长大，<br>过一会儿，差距就不再奇怪了，<br>我不会注意到牙齿掉了，<br>我现在错过的唯一原因，<br>是因为它存在了那么久，<br>然后在几周内缓慢但肯定地，<br>缝隙里长出了一颗新牙，<br>现在它让我想知道，<br>如果人也像牙齿</p>
 </blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://liangziye.online/2920448857/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Liangziye">
-      <meta itemprop="description" content="深入浅出不如不进不出">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liangziye">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2920448857/" class="post-title-link" itemprop="url">AVL树的实现</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-07-20 23:40:02" itemprop="dateCreated datePublished" datetime="2021-07-20T23:40:02+08:00">2021-07-20</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-04 00:11:49" itemprop="dateModified" datetime="2021-08-04T00:11:49+08:00">2021-08-04</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>前情提要：</p>
-<ul>
-<li><p><a href="https://liangziye.online/138867439/">AVL树的旋转</a></p>
-</li>
-<li><p>[<a href="https://liangziye.online/2536969901/">AVL树</a>]</p>
-</li>
-</ul>
-<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入和二叉搜索树不一样的是，需要再数据被放入后回溯结点，向上更新每一个结点的<a href="">平衡因子</a>，判断是否有子树不平衡，找到最小不平衡子树，用<a href="">上篇</a>中讨论的旋转方式去让树回归平衡。</p>
 
       
     </div>
