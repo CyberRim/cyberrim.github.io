@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/xiaobowenhao.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/xiaobowenhao.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/xiaobowenhao.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"liangziye.online","root":"/","images":"/images","scheme":"Pisces","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="扩展触发条件如果一个token以波浪线~开头，以第一个没有被转义或者引用的斜杠&#x2F;或token的末尾结束，且中途的字符都没有被引用，那这一段称为波浪线前缀tilde prefix，在波浪线前缀中不包含波浪线和斜杠的部分在波浪线扩展中被称之为登录名login name 12345678~     #登录名为空~root #登录名为root~foo  #登录名为foo~foo&#x2F;tmp # 登录名为foo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bash中的波浪线扩展">
+<meta property="og:url" content="https://liangziye.online/3025559267/index.html">
+<meta property="og:site_name" content="Liangziye">
+<meta property="og:description" content="扩展触发条件如果一个token以波浪线~开头，以第一个没有被转义或者引用的斜杠&#x2F;或token的末尾结束，且中途的字符都没有被引用，那这一段称为波浪线前缀tilde prefix，在波浪线前缀中不包含波浪线和斜杠的部分在波浪线扩展中被称之为登录名login name 12345678~     #登录名为空~root #登录名为root~foo  #登录名为foo~foo&#x2F;tmp # 登录名为foo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-05-17T07:46:23.000Z">
+<meta property="article:modified_time" content="2025-05-17T13:47:55.634Z">
+<meta property="article:author" content="Liangziye">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://liangziye.online/3025559267/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://liangziye.online/3025559267/","path":"3025559267/","title":"bash中的波浪线扩展"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>bash中的波浪线扩展 | Liangziye</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Liangziye</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">深入浅出不如不进不出</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6"><span class="nav-text">扩展触发条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E8%A1%8C%E4%B8%BA"><span class="nav-text">扩展行为</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Liangziye</p>
+  <div class="site-description" itemprop="description">深入浅出不如不进不出</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liangziye.online/3025559267/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Liangziye">
+      <meta itemprop="description" content="深入浅出不如不进不出">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liangziye">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          bash中的波浪线扩展
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-05-17 15:46:23 / 修改时间：21:47:55" itemprop="dateCreated datePublished" datetime="2025-05-17T15:46:23+08:00">2025-05-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/shell/" itemprop="url" rel="index"><span itemprop="name">shell</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="扩展触发条件"><a href="#扩展触发条件" class="headerlink" title="扩展触发条件"></a>扩展触发条件</h2><p>如果一个<code>token</code>以波浪线<code>~</code>开头，以第一个没有被转义或者引用的斜杠<code>/</code>或<code>token</code>的末尾结束，且中途的字符都没有被引用，那这一段称为波浪线前缀<code>tilde prefix</code>，在波浪线前缀中不包含波浪线和斜杠的部分在波浪线扩展中被称之为登录名<code>login name</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">~     <span class="comment">#登录名为空</span></span><br><span class="line">~root <span class="comment">#登录名为root</span></span><br><span class="line">~foo  <span class="comment">#登录名为foo</span></span><br><span class="line">~foo/tmp <span class="comment"># 登录名为foo</span></span><br><span class="line">~foo/<span class="string">&#x27;t&#x27;</span>mp <span class="comment">#登录名为foo</span></span><br><span class="line">a~foo <span class="comment">#不扩展，token没有以波浪线开头</span></span><br><span class="line">~\foo <span class="comment">#不扩展，因反斜杠不存在波浪线前缀</span></span><br><span class="line">~f<span class="string">&#x27;o&#x27;</span>o <span class="comment">#不扩展，因引用不存在波浪线前缀</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="扩展行为"><a href="#扩展行为" class="headerlink" title="扩展行为"></a>扩展行为</h2><p>波浪线前缀会被扩展为登录名所在用户的家目录，如果登录名为空则扩展为当下shell的<code>$HOME</code>即当下用户的家目录。如果登录名所代表的用户不存在，则波浪线前缀保持不变</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> ~root/tmp</span><br><span class="line"><span class="built_in">echo</span> ~foo/tmp <span class="comment">#没有foo用户</span></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment"># /root/tmp</span></span><br><span class="line"><span class="comment"># ~foo/tmp</span></span><br></pre></td></tr></table></figure>
+
+<p>如果登录名为<code>+</code>，波浪线前缀会被扩展为<code>$PWD</code>，如果登录名为<code>-</code>，波浪线前缀会被扩展为<code>$OLDPWD</code>，<code>$OLDPWD</code>没有被设置则波浪线前缀保持不变。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> ~- <span class="comment">#此时shell的$OLDPWD未被设置</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line"><span class="built_in">echo</span> ~+</span><br><span class="line"><span class="built_in">echo</span> ~-</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment"># ~-</span></span><br><span class="line"><span class="comment"># /tmp</span></span><br><span class="line"><span class="comment"># /root</span></span><br></pre></td></tr></table></figure>
+
+<p>如果登录名为<code>+N</code>或<code>N</code>，波浪线前缀会被扩展为从目录栈<code>DIRSTACK</code>从栈顶往下第<code>N</code>个目录值，如果登录名为<code>-N</code>则为从栈底往上第<code>N</code>个目录值，<code>N</code>从0开始，如果这个目录值不存在，则波浪线前缀保持不变</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">mkdir dir&#123;0..2&#125; 2&gt;/dev/null</span><br><span class="line"><span class="keyword">while</span> [ $? -eq 0 ]; <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">popd</span> 2&gt;&amp;1 2&gt;/dev/null</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="keyword">for</span> dir_name <span class="keyword">in</span> dir&#123;0..2&#125;; <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">cd</span> <span class="variable">$dir_name</span></span><br><span class="line">    <span class="built_in">pushd</span> ../ 2&gt;&amp;1 &gt;/dev/null</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%s\n&quot;</span> <span class="string">&quot;<span class="variable">$&#123;DIRSTACK[@]&#125;</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%s\n&quot;</span> ~&#123;0..3&#125;</span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%s\n&quot;</span> ~+&#123;0..3&#125;</span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%s\n&quot;</span> ~-&#123;0..3&#125;</span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%s\n&quot;</span> ~+4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment"># /tmp</span></span><br><span class="line"><span class="comment"># /tmp/dir2</span></span><br><span class="line"><span class="comment"># /tmp/dir1</span></span><br><span class="line"><span class="comment"># /tmp/dir0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># /tmp</span></span><br><span class="line"><span class="comment"># /tmp/dir2</span></span><br><span class="line"><span class="comment"># /tmp/dir1</span></span><br><span class="line"><span class="comment"># /tmp/dir0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># /tmp</span></span><br><span class="line"><span class="comment"># /tmp/dir2</span></span><br><span class="line"><span class="comment"># /tmp/dir1</span></span><br><span class="line"><span class="comment"># /tmp/dir0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># /tmp/dir0</span></span><br><span class="line"><span class="comment"># /tmp/dir1</span></span><br><span class="line"><span class="comment"># /tmp/dir2</span></span><br><span class="line"><span class="comment"># /tmp</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ~+4</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/4066254035/" rel="prev" title="bash中的花括号扩展">
+                  <i class="fa fa-chevron-left"></i> bash中的花括号扩展
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/4196292078/" rel="next" title="bash测试条件中的正则表达式必须不带引号">
+                  bash测试条件中的正则表达式必须不带引号 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liangziye</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"CyberRim","repo":"cyberrim.github.io","client_id":"971707ebf89b3543b252","client_secret":"355c18f296fccbb4b0e2ddc0830dea1d7ea7cfc2","admin_user":"CyberRim","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"029db3bf8d8e10afc07214e79f9c3200"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
